@@ -1,0 +1,2 @@
+module Receiver::UsersHelper
+end

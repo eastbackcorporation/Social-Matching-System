@@ -1,0 +1,24 @@
+<div class="block">
+  <div class="content">
+    <h2 class="title"><%= @admin_user.login %>の詳細情報</h2>
+    <div class="inner">
+      <p id="notice"><%= notice %></p>
+
+      <table class="table">
+        <tr>
+          <th>ユーザーID:</th>
+          <td><%= @admin_user.login %></td>
+        </tr>
+        <tr>
+          <th>Mailアドレス:</th>
+          <td><%= @admin_user.email %></td>
+        </tr>
+
+      </table>
+
+
+      <%= link_to '編集', edit_admin_user_path(@admin_user) %> |
+      <%= link_to '戻る', admin_users_path %>
+    </div>
+  </div>
+</div>
