@@ -50,6 +50,32 @@ class Admin::UsersController < ApplicationController
     end
   end
 
+  def update
+    @admin_user = User.find(params[:id])
+    @admin_user.update_attributes(
+      :login=>params[:login],
+      :email=>params[:email],
+      :password=>params[:password],
+      :password_confirmation=>params[:password_confirmation]
+      )
+    @admin_user.roles.delete_all
+    if params[:role] =="admin"
+      @admin_user.roles<<Role.admin
+    elsif params[:role] == "sender"
+      @admin_user.roles<<Role.sender
+    elsif params[:role] == "receiver"
+      @admin_user.roles<<Role.receiver
+    end
+    if @admin_user.save
+      flash[:notice] = 'ユーザを新規作成しました。'
+      #redirect_to [:admin, @admin_user]
+
+      render :show
+    else
+      flash[:notice] ='ユーザ新規登録しっぱい！'
+      render :new
+    end
+  end
   # =ユーザーの削除
   # TODO: 実レコードの強制削除。関連レコードが全てアソシエーションに沿って正しく
   #       削除されているかどうか確認のこと。
