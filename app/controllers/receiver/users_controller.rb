@@ -1,4 +1,5 @@
 class Receiver::UsersController < ApplicationController
+  before_filter :require_user
   before_filter :check_receiver
 
   def index
