@@ -45,17 +45,6 @@ class Admin::UsersController < ApplicationController
     end
   end
 
-   private
 
-  # 管理者アクセスチェック
-  def check_admin
-    if current_user.roles.admin
-      return true
-    elsif current_user.roles.sender
-      redirect_to sender_users_url
-    elsif current_user.roles.receiver
-      redirect_to receiver_users_url
-    end
-  end
 
 end

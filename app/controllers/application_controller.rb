@@ -47,4 +47,39 @@ class ApplicationController < ActionController::Base
       redirect_to(session[:return_to] || default)
       session[:return_to] = nil
     end
+
+    #TODO下はアクセス制限チェック用だが、訂正必要かも
+    # 管理者アクセスチェック
+    def check_admin
+      if current_user.roles.admin
+        return true
+      elsif current_user.roles.sender
+        redirect_to sender_users_url
+      elsif current_user.roles.receiver
+        redirect_to receiver_users_url
+      end
+    end
+
+    #senderチェック
+    def check_sender
+      if current_user.roles.sender
+        return true
+      elsif current_user.roles.admin
+        redirect_to admin_users_url
+      elsif current_user.roles.receiver
+        redirect_to receiver_users_url
+      end
+    end
+
+    #receiverチェック
+    def check_receiver
+      if current_user.roles.receiver
+        return true
+      elsif current_user.roles.admin
+        redirect_to admin_users_url
+      elsif current_user.roles.sender
+        redirect_to sender_users_url
+      end
+    end
+
 end
