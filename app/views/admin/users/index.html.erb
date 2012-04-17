@@ -14,8 +14,9 @@
         <tr>
           <td><%= user.login %></td>
           <td><%= user.email %></td>
-          <td><%= user.roles.name%></td>
+          <td><%= user.roles.first.name %></td>
           <td><%= link_to '詳細', [:admin, user] %></td>
+          <!-- 下は未実装 -->
           <td><%= link_to '編集', edit_admin_user_path(user) %></td>
           <td><%= link_to '削除', [:admin, user], :confirm => '削除しますか?', :method => :delete %></td>
         </tr>
