@@ -2,6 +2,7 @@
 #ロールの初期設定
 role=%W(admin sender receiver)
 
+
 Role.delete_all
 role.each do |e|
   Role.create(:name => e)

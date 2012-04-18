@@ -1,0 +1,32 @@
+<p id="notice"><%= notice %></p>
+
+<table>
+  <tr>
+    <td>ユーザ名</td>
+    <td><%= @address.user.login %></td>
+  </tr>
+  <tr>
+    <td>姓名</td>
+    <td><%= @address.user.family_name%> <%= @address.user.given_name%></td>
+  </tr>
+  <tr>
+    <td>郵便番号</td>
+    <td><%= @address.postal_code%></td>
+  </tr>
+  <tr>
+    <td>都道府県</td>
+    <td><%= @address.prefecture%></td>
+  </tr>
+  <tr>
+    <td>市区町村-町名・字</td>
+    <td><%= @address.address1 %></td>
+  </tr>
+  <tr>
+    <td>それ以降</td>
+    <td><%= @address.address2 %></td>
+  </tr>
+</table>
+
+
+<%= link_to 'Edit', edit_admin_address_path(@address) %> |
+<%= link_to 'Back', admin_addresses_path %>

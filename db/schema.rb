@@ -11,7 +11,17 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120416055203) do
+ActiveRecord::Schema.define(:version => 20120418024604) do
+
+  create_table "addresses", :force => true do |t|
+    t.integer  "user_id",     :null => false
+    t.string   "prefecture",  :null => false
+    t.string   "address1",    :null => false
+    t.string   "address2",    :null => false
+    t.string   "postal_code", :null => false
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
 
   create_table "roles", :force => true do |t|
     t.string   "name",       :null => false
@@ -32,6 +42,13 @@ ActiveRecord::Schema.define(:version => 20120416055203) do
     t.string   "persistence_token", :null => false
     t.datetime "created_at",        :null => false
     t.datetime "updated_at",        :null => false
+    t.string   "given_name"
+    t.string   "family_name"
+    t.string   "given_name_kana"
+    t.string   "family_name_kana"
+    t.string   "phone_number"
+    t.string   "sex"
+    t.date     "date_of_birth"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
