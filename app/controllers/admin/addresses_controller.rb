@@ -64,7 +64,7 @@ class Admin::AddressesController < ApplicationController
 
     respond_to do |format|
       if @address.update_attributes(params[:address])
-        format.html { redirect_to @address, notice: 'Address was successfully updated.' }
+        format.html { redirect_to [:admin,@address], notice: 'Address was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
@@ -80,7 +80,7 @@ class Admin::AddressesController < ApplicationController
     @address.destroy
 
     respond_to do |format|
-      format.html { redirect_to addresses_url }
+      format.html { redirect_to admin_addresses_url }
       format.json { head :no_content }
     end
   end
