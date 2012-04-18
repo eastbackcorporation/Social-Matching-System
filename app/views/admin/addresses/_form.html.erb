@@ -1,0 +1,43 @@
+<%= form_for([:admin,@address]) do |f| %>
+  <% if @address.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@address.errors.count, "error") %> prohibited this address from being saved:</h2>
+
+      <ul>
+      <% @address.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%users=User.all %>
+    <%users_name_id =[]%>
+    <%users.each do |u|%>
+    <%  users_name_id <<[u.login,u.id]  unless u.roles.admin %>
+    <% end %>
+    <%= f.label :user ,"ユーザ"%><br />
+    <%= f.select :user_id ,users_name_id %>
+    (ユーザはadmin以外から)
+  </div>
+  <div class="field">
+    <%= f.label :postal_code,"郵便番号" %><br />
+    <%= f.text_field :postal_code %>
+  </div>
+  <div class="field">
+    <%= f.label :prefecture ,"県"%><br />
+    <%= f.text_field :prefecture %>
+  </div>
+  <div class="field">
+    <%= f.label :address1 ,"市区町村 - 町名等"%><br />
+    <%= f.text_field :address1 %>
+  </div>
+  <div class="field">
+    <%= f.label :address2 ,"それ以降"%><br />
+    <%= f.text_field :address2 %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
