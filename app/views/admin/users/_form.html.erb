@@ -1,18 +1,38 @@
 <p>
-  <%= f.label :login %><br />
-  <%= f.text_field :login %>
+  <%= label_tag :login %><br />
+  <%= text_field_tag("login") %>
 </p>
 <p>
-  <%= f.label :email %><br />
-  <%= f.text_field :email %>
+  <%= label_tag :email %><br />
+  <%= text_field_tag("email") %>
 </p>
 <p>
-  <%= f.label :password ,f.object.new_record? ? nil : "Change password" %><br />
-  <%= f.password_field :password %>
+  <%= label_tag :password %><br />
+  <%= password_field_tag("password") %>
 </p>
 <p>
-  <%= f.label :password_confirmation %><br />
-  <%= f.password_field :password_confirmation %>
+  <%= label_tag :password_confirmation %><br />
+  <%= password_field_tag("password_confirmation")%>
 </p>
-
-
+<p>
+  <%= label_tag :role%>
+  <%roles=["admin","sender","receiver"]%>
+  <%= select_tag("role",options_for_select(roles))%>
+</p>
+<hr>
+<p>
+  <%= label_tag :family_name ,"姓/漢字"%>
+  <%= text_field_tag("family_name") %>
+  <%= label_tag :givem_name ,"名/漢字" %>
+  <%= text_field_tag("given_name") %>
+</p>
+<p>
+  <%= label_tag :family_name_kane ,"姓/カナ"%>
+  <%= text_field_tag("family_name_kana") %>
+  <%= label_tag :givem_name_kana ,"名/カナ" %>
+  <%= text_field_tag("given_name_kana") %>
+</p>
+<p>
+  <%= label_tag :sex,"性別"%>
+  <%= select_tag("sex", options_for_select(["男","女"], [:male,:female]))%>
+</p>

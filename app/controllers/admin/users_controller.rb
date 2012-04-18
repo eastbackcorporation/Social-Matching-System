@@ -30,7 +30,12 @@ class Admin::UsersController < ApplicationController
       :login=>params[:login],
       :email=>params[:email],
       :password=>params[:password],
-      :password_confirmation=>params[:password_confirmation]
+      :password_confirmation=>params[:password_confirmation],
+      :family_name=>params[:family_name],
+      :given_name=>params[:given_name],
+      :family_name_kana=>params[:family_name_kana],
+      :given_name_kana=>params[:given_name_kana],
+      :sex=>params[:sex]
       )
     if params[:role] =="admin"
       @admin_user.roles<<Role.admin
