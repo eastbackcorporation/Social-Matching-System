@@ -1,14 +1,42 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>SocialMatchingSystem</title>
-  <%= stylesheet_link_tag    "application", :media => "all" %>
-  <%= javascript_include_tag "application" %>
-  <%= csrf_meta_tags %>
-</head>
-<body>
-<%= render "shared/header" %>
-<%= yield %>
+	<head>
+		<title>SocialMatchingSystem</title>
+		<%= stylesheet_link_tag    "application", :media => "all" %>
+		<%= javascript_include_tag "application" %>
+		<%= csrf_meta_tags %>
+	</head>
+	<body>
 
-</body>
+		<div id="main_container">
+
+			<div class="header">
+				<div class="logo">
+					<a href="#">Social Matching System</a>
+				</div>
+
+				<div class="right_header">
+					<%= render "shared/header" %>
+				</div>
+			</div>
+
+			<div class="main_content">
+				<%= yield %>
+				<div class="clear"></div>
+			</div>
+
+			<div class="footer">
+
+				<div class="left_footer">
+					Social Matching System | Powered by <a href="http://eastback.co.jp">EastBack</a>
+				</div>
+				<div class="right_footer">
+					<a href="http://eastback.co.jp">logo</a>
+				</div>
+
+			</div>
+
+		</div>
+
+	</body>
 </html>

@@ -1,5 +1,3 @@
 <% if current_user %>
-<%= link_to "ログアウト",:logout %>
-<% else %>
-<%= link_to "ログイン",:login %>
+	ようこそ, <%= current_user.login %> | <%= link_to "ログアウト", :logout, :class=>"logout" %>
 <% end %>

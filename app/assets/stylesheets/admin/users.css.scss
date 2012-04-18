@@ -1,3 +1,69 @@
 // Place all the styles related to the admin/users controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+
+.center_content {
+  clear:both;
+}
+
+.left_content {
+  width:195px;
+  float:left;
+  padding:30px 0 0 20px;
+}
+
+.right_content {
+  width:625px;
+  float:left;
+  padding:30px 0 0 30px;
+}
+
+.sidebarmenu{
+  margin:0px 0;
+  padding:0;
+  width:195px;
+  
+  a {
+    color: #666;
+    display: block;
+    position: relative;
+    width:185px;
+    height:31px;
+    margin:0 0 5px 0;
+    line-height:31px;
+    padding:0px 0 0 10px;
+    text-decoration: none;
+    
+    &.menuitem {
+      &:hover {
+        
+      }      
+
+      &:visited,&:active {
+        
+      }      
+    }
+    
+    &.menuitem_green {
+      &:hover {
+        
+      }      
+
+      &:visited,&:active {
+        
+      }      
+    }
+    
+    &.menuitem_red {
+      &:hover {
+        
+      }      
+
+      &:visited,&:active {
+        
+      }      
+    }
+  }
+}
+

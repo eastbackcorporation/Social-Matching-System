@@ -1,0 +1,131 @@
+body {
+  font-family:Arial, Helvetica, sans-serif;
+  padding:0;
+  font-size:12px;
+  margin:0 auto;
+  color: #0e4354;
+}
+
+.clear {
+  clear:both;
+}
+
+a {
+  color:#256c89;
+}
+
+h2 {
+  font-size:18px;
+  color:#256c89;
+  font-weight:normal;
+  padding:0px 0 15px 0;
+  margin:0px;
+  clear:both;
+}
+
+h3 {
+  font-size:18px;
+  color:#256c89;
+  font-weight:normal;
+  padding:15px 0 5px 20px;
+  margin:0px;
+  float:left;
+  clear:both;
+}
+
+#main_container {
+  margin:0 auto;
+  width:900px;
+  padding:0px 0 0px 0;
+}
+
+.header {
+  width:900px;
+  height:100px;
+}
+
+.header_login {
+  width:600px;
+  margin:auto;
+}
+
+.logo {
+  float:left;
+  padding:35px 0 0 0;
+  
+  a {
+    text-decoration: none;
+    font-size: 1.2em;    
+  }
+}
+
+.right_header {
+  width:350px;
+  float:right;
+  text-align:right;
+  padding:40px 0 0 0;
+  
+  a {
+    margin:0 5px 0 5px;
+    text-decoration:none;
+    
+    &.logout {
+      background:url(asset-path('common/user_logout.png', image)) no-repeat right;
+      padding-right:18px;      
+    }
+  }
+}
+
+
+.main_content {
+  margin:0 auto;
+  width:900px;
+  height:auto;
+  padding:0px 0 50px 0;
+}
+
+.footer {
+  width:900px;
+  height:87px;
+}
+
+.footer_login {
+  width:600px;
+  margin:auto;
+}
+
+.left_footer {
+  float:left;
+  padding:25px 0 0 10px;
+  color:#a8549b;
+  font-size:11px;
+}
+
+.right_footer {
+  float:right;
+  padding:25px 10px 0 0;
+  
+  a {
+    text-decoration: none;
+    font-size: 1.2em;    
+  }
+}
+
+.left_footer_login {
+  float:left;
+  padding:15px 0 0 10px;
+  color:#a8549b;
+  font-size:11px;
+  
+  a {
+    color:#FFFFFF;
+    text-decoration:none;
+  }
+}
+
+.right_footer_login {
+  float:right;
+  padding:15px 10px 0 0;
+}
+
+
