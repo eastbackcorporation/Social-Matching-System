@@ -1,16 +1,13 @@
-<h1>-ログイン-</h1>
+<div class="wrapper">
+	<h2>ログイン</h2>
 
-<%= form_for @user_session do |f| %>
-  <p>
-    <%= f.label :login %><br />
-    <%= f.text_field :login %>
-  </p>
-  <p>
-    <%= f.label :password %><br />
-    <%= f.password_field :password %>
-  </p>
+	<%= form_for @user_session do |f| %>
+	<%= f.label :login %>
+	<%= f.text_field :login %>
 
-  <p>
-    <%= f.submit "ログイン" %>
-  </p>
-<% end %>
+	<%= f.label :password %>
+	<%= f.password_field :password %>
+
+	<%= f.submit "ログイン", :id=>"submit" %>
+	<% end %>
+</div>
