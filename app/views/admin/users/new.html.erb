@@ -1,7 +1,9 @@
 <h1>ユーザの作成</h1>
 
 
+
 <%= form_tag :action => "create" do %>
+  <%= flash[:notice] %>
   <%= render 'form'%>
   <%= submit_tag "作成" %>
 <% end %>

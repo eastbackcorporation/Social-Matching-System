@@ -1,0 +1,37 @@
+<h1>新規の依頼</h1>
+
+  <%= form_for([:sender,@massage]) do |f| %>
+  <%= flash[:notice]%>
+  <div>
+    <!-- ここにカテゴリ　-->
+    <% categories=[] %>
+    <% Category.all.each{ |e| categories<<[e.name,e.id]}%>
+    <%= f.label :category ,"カテゴリ"%>
+    <%= f.select :category_id ,categories %>
+  </div>
+  <div class="field">
+    <%= f.label :active_datetime ,"実施日時"%><br />
+    <%= f.datetime_select :active_datetime , :use_month_numbers => true,
+      :order => [ :year, :month, :day ],
+      :start_year => Time.current.year,
+      :end_year => Time.current.year+1%>
+  </div>
+  <div class="field">
+    <%= f.label :validated_datetime ,"有効期限日時"%><br />
+    <%= f.datetime_select :validated_datetime , :use_month_numbers => true,
+      :order => [ :year, :month, :day ],
+      :start_year => Time.current.year,
+      :end_year => Time.current.year+1%>
+  </div>
+  <div>
+    位置情報取得が未実装なため、開発段階のテストとして位置情報は手打ちする<br>
+    <%= f.label :latitude ,"緯度" %>  <%= f.text_field :latitude %>
+    <%= f.label :longitude ,"経度" %> <%= f.text_field :longitude %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
+
+
+<%= link_to '戻る', receiver_users_path %>

@@ -9,6 +9,9 @@ class User < ActiveRecord::Base
   acts_as_authentic
 
   has_and_belongs_to_many :roles
+  has_many :matching_users
   has_many :massages
+  ##pending
+  #has_many :massages ,:through => :matching_users
   has_one :address
 end

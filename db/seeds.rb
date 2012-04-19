@@ -1,17 +1,12 @@
-
-#ロールの初期設定
-role=%W(admin sender receiver)
-
-
-Role.delete_all
-role.each do |e|
-  Role.create(:name => e)
+# -*- coding: utf-8 -*-
+#rake db:setup
+begin
+  table_names = %w(roles users statuses categories)
+  table_names.each do |table_name|
+    path = Rails.root.join("db", "seeds", Rails.env, "#{table_name}.rb")
+    if File.exist?(path)
+      puts "Seeding #{table_name}..."
+      require(path)
+    end
+  end
 end
-
-#admin作成
-admin = User.create(:login => "admin",
-                          :email =>"sms@eastback.jp",
-                          :password => "admin",
-                          :password_confirmation => "admin")
-
-admin.roles<<Role.admin
