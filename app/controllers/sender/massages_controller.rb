@@ -13,7 +13,6 @@ class Sender::MassagesController < ApplicationController
   #新規依頼作成ページ表示
   def new
     @massage = Massage.new
-
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @massage }

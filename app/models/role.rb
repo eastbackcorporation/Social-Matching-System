@@ -3,7 +3,6 @@
 #ユーザの種類(ロール)用モデル
 class Role < ActiveRecord::Base
   attr_accessible :name
-
   has_and_belongs_to_many :users
 
    # 管理者ロールを返す
