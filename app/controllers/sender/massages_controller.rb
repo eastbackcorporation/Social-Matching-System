@@ -10,6 +10,11 @@ class Sender::MassagesController < ApplicationController
     @massages=Massage.where(:user_id=>current_user.id)
   end
 
+  #依頼情報詳細表示
+  def show
+    @massage=Massage.find(params[:id])
+  end
+
   #新規依頼作成ページ表示
   def new
     @massage = Massage.new
@@ -27,10 +32,10 @@ class Sender::MassagesController < ApplicationController
     respond_to do |format|
       if @massage.save
         self.matching
-        format.html { redirect_to [:sender,@massage], notice: 'Massage was successfully created.' }
+        format.html { redirect_to [:sender,@massage], notice: '依頼情報を送信しました' }
         format.json { render json: @massage, status: :created, location: @massage }
       else
-        format.html { render action: "new" }
+        format.html { render :new}
         format.json { render json: @massage.errors, status: :unprocessable_entity }
       end
     end
@@ -49,7 +54,8 @@ class Sender::MassagesController < ApplicationController
     @receivers=Role.find(3).users.first
     @matching_user=MatchingUser.new(:massage_id=>@massage.id,:receiver_id=>@receivers.id)
     if @matching_user.save
-
+      #メール送信
+      MatchingMailer.matching_email(@receivers).deliver
     end
     #@receivers.each do |r|
     #  @matching_user=MatchingUser.new(:massage_id=>@massage.id,:receiver_id=>r.id)

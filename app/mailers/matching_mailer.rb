@@ -12,6 +12,6 @@ class MatchingMailer < ActionMailer::Base
     @user = receiver
     @url = "http://example.com/login"
     mail(:to => receiver.email,
-         :subject => "Yuur Matching")
+         :subject => "Your Matching")
   end
 end
