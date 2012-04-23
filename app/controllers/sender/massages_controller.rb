@@ -32,7 +32,7 @@ class Sender::MassagesController < ApplicationController
     @massage.update_attributes(:status_id=>0)
     @massage.save
      #リファクタリングが必要
-    if self.matching(10000)
+    if self.matching(100)
       #リファクタリングが必要
       @massage.update_attributes(:status_id=>2)
     else
@@ -53,10 +53,11 @@ class Sender::MassagesController < ApplicationController
   def change_status
     @massage = Massage.find(params[:id])
     if @massage.update_attributes(:status_id=>params[:status])
-      render :index
+      flash[:notice]="ステータス変更しました"
+      redirect_to(sender_massages_url)
     else
       flash[:notice]="ステータス変更できませんでした"
-      render :index
+      redirect_to(sender_massages_url)
     end
   end
   # 依頼情報の削除
@@ -80,7 +81,7 @@ class Sender::MassagesController < ApplicationController
         @matching_user=MatchingUser.new(:massage_id=>@massage.id,:receiver_id=>rl.user_id)#,:distance=> dis.to_s)
         if @matching_user.save
           #メール送信
-          MatchingMailer.matching_email(rl.user).deliver
+          #MatchingMailer.matching_email(rl.user).deliver
           @matching_users<<@matching_user
         end
       end

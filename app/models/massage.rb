@@ -7,7 +7,8 @@ class Massage < ActiveRecord::Base
   belongs_to :user
   belongs_to :category
   belongs_to :status
-  has_many :matching_users
+  has_many :matching_users, :dependent => :destroy
+  has_many :user ,:through =>:matching_users
 
   validates :category_id ,:user_id,:status_id,:presence =>true
 

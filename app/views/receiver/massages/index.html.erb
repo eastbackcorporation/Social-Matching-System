@@ -17,10 +17,12 @@
           <td><%= massage.status.name %></td>
           <td><%= massage.created_at %></td>
           <td><%= massage.validated_datetime %></td>
-          <td><%= link_to '詳細', [:sender, massage] %></td>
-          <!-- 未実装 -->
-          <td>< 詳細は現在未実装 ></td>
-        </tr>
+          <% unless MatchingUser.where(:receiver_id=>current_user.id,:massage_id=>massage.id).first.reject_flg %>
+          <td><%= link_to '詳細', [:receiver, massage] %></td>
+          <% else %>
+            <td><strong>[お断り済み]</strong></td>
+          <% end %>
+          </tr>
       <% end %>
       </table>
 

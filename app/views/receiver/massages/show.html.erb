@@ -21,9 +21,8 @@
     <td>実施日</td>
     <td><%= @massage.active_datetime %></td>
   </tr>
-  <td><%= form_tag({:action => :change_status},{:method => :put}) do %>
-        <%= select_tag("status",options_for_select([["完了",4],["キャンセル",5]])) %>
-        <%= submit_tag("ステータス変更") %>
+  <td><%= form_tag({:action => :reject},{:method => :put}) do %>
+        <%= submit_tag("お断りする") %>
       <% end %>
   </td>
 </table>
