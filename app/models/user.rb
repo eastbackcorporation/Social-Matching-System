@@ -3,7 +3,6 @@
 #ユーザ用モデル
 #authlogicにより管理を提供
 class User < ActiveRecord::Base
-  # attr_accessible :title, :body
   attr_accessible :login, :password, :password_confirmation, :remember_me,:email,
                   :family_name, :given_name, :family_name_kana, :given_name_kana, :sex
   acts_as_authentic

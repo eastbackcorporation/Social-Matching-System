@@ -7,7 +7,9 @@ SocialMatchingSystem::Application.routes.draw do
 
   namespace :sender do
     resources :users
-    resources :massages
+    resources :massages do
+      put :change_status, :on => :member
+    end
   end
 
   namespace :receiver do

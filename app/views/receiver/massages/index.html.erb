@@ -19,14 +19,13 @@
           <td><%= massage.validated_datetime %></td>
           <td><%= link_to '詳細', [:sender, massage] %></td>
           <!-- 未実装 -->
-          <td><%= link_to '編集', edit_sender_massage_path(massage) %></td>
-          <td><%= link_to '削除', [:sender, massage], :confirm => '削除しますか?', :method => :delete %></td>
-          <td>< 編集は現在未実装 ></td>
+          <td>< 詳細は現在未実装 ></td>
         </tr>
       <% end %>
       </table>
 
-      <%= link_to '新規', new_sender_massage_path %>
+      <br />
+
     </div>
   </div>
 </div>

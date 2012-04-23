@@ -9,4 +9,6 @@ class Massage < ActiveRecord::Base
   belongs_to :status
   has_many :matching_users
 
+  validates :category_id ,:user_id,:status_id,:presence =>true
+
 end
