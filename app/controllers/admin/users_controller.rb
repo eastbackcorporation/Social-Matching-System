@@ -99,8 +99,6 @@ class Admin::UsersController < ApplicationController
   # TODO: 実レコードの強制削除。関連レコードが全てアソシエーションに沿って正しく
   #       削除されているかどうか確認のこと。
   def destroy
-    @admin_user = User.find(params[:id])
-    @admin_user.destroy
-    redirect_to(admin_users_url, :notice => 'ユーザー情報を削除しました。')
+    grid_del(User)
   end
 end
