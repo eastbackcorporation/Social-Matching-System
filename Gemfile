@@ -28,6 +28,10 @@ gem 'spine-rails'
 gem 'eco'
 gem 'spine.mobile-rails', :git => 'git://github.com/hiddenbek/spine.mobile-rails.git'
 
+# To use jqgrid-rails3
+gem 'will_paginate'
+
+
 
 group :test do
   gem 'factory_girl_rails','~>1.4.0'

@@ -3,6 +3,30 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 
+//Mixins
+@mixin yellow_button {
+  font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0.00, #e5e696), color-stop(1.00, #d1d35f));
+  background: -webkit-linear-gradient(top, #e5e696 0%, #d1d35f 100%);
+  background: -moz-linear-gradient(top, #e5e696 0%, #d1d35f 100%);
+  background: -o-linear-gradient(top, #e5e696 0%, #d1d35f 100%);
+  background: -ms-linear-gradient(top, #e5e696 0%, #d1d35f 100%);
+  background: linear-gradient(to bottom, #e5e696 0%, #d1d35f 100%);
+}
+
+@mixin green_button {
+  font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0.00, #cade97), color-stop(0.49, #9bbb50), color-stop(1.00, #388235));
+  background: -webkit-linear-gradient(top, #cade97 0%, #9bbb50 49%, #388235 100%);
+  background: -moz-linear-gradient(top, #cade97 0%, #9bbb50 49%, #388235 100%);
+  background: -o-linear-gradient(top, #cade97 0%, #9bbb50 49%, #388235 100%);
+  background: -ms-linear-gradient(top, #cade97 0%, #9bbb50 49%, #388235 100%);
+  background: linear-gradient(to bottom, #cade97 0%, #9bbb50 49%, #388235 100%);  
+}
+
+
+
+//Styles
 .center_content {
   clear:both;
 }
@@ -25,17 +49,26 @@
   width:195px;
   
   a {
-    color: #666;
-    display: block;
-    position: relative;
+    text-align: center;
     width:185px;
     height:31px;
-    margin:0 0 5px 0;
-    line-height:31px;
+    margin:0 0 10px 0;
+    line-height:35px;
     padding:0px 0 0 10px;
+    display: inline-block;
+    font-size: 13px;
+    font-weight: bold;
+    color: #111;
+    text-shadow: 0 -1px 1px rgba(0, 0, 0, 0.4), 0 1px 1px rgba(255, 255, 255, 0.5);
+    letter-spacing: 0;
+    border: none;
+    box-shadow: inset 0 -1px 1px rgba(0, 0, 0, 0.9), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+    border-radius: 6px;
     text-decoration: none;
-    
-    &.menuitem {
+      
+    &.yellow_button {
+      @include yellow_button;
+      
       &:hover {
         
       }      
@@ -45,7 +78,9 @@
       }      
     }
     
-    &.menuitem_green {
+    &.green_button {
+      @include green_button;
+
       &:hover {
         
       }      
