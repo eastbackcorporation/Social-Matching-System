@@ -1,0 +1,37 @@
+<%%=raw jqgrid("<%= grid.resource_name.humanize %> Listing ", "<%= grid.class_name %>", "/<%= grid.resource_name %>", 
+[ 
+	<% grid.columns.each_with_index do |attribute, i| %> 
+		{ :name => "<%= attribute %>", :label => "<%= attribute %>" }<% if i < grid.columns.size - 1 %>,<% end %> 
+	<% end -%> 
+], 
+{
+	:autowidth => true,
+	
+	<% if grids.length > 1 %>
+	:master_details => [
+		<% grids[1..-1].each do |detail| %>
+		{:grid_id => "<%=detail.class_name%>", :caption => "<%=detail.model_name.humanize%> details for id: ", :foreign_key_column => "<%=detail.foreign_key%>"},
+		<% end %>
+	]
+	<% end %>
+} 
+) %>
+
+
+<% if grids.length > 1 %>
+	<% grids[1..-1].each do |detail| %>
+	<br>
+	<br>
+	<%%=raw jqgrid("<%= detail.resource_name.humanize %> Listing ", "<%=detail.class_name%>", "/<%= detail.resource_name %>", 
+	[ 
+		<% detail.columns.each_with_index do |attribute, i|-%> 
+			{ :name => "<%= attribute %>", :label => "<%= attribute %>" }<% if i < detail.columns.size - 1 -%>,<% end %> 
+		<% end -%> 
+	], 
+	{
+		:autowidth => true, :slave_detail => true
+	} 
+	) %>
+	<% end %>
+<% end %>
+

@@ -27,6 +27,10 @@ gem 'spine-rails'
 gem 'eco'
 gem 'spine.mobile-rails', :git => 'git://github.com/hiddenbek/spine.mobile-rails.git'
 
+# To use jqgrid-rails3
+gem 'will_paginate'
+
+
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'

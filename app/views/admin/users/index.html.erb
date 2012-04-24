@@ -1,33 +1,100 @@
-<div class="block">
-  <div class="content">
-    <h2 class="title">ユーザ一覧</h2>
-    <div class="inner">
-      <table class="table">
-        <tr>
-          <th>ユーザーID</th>
-          <th>mailアドレス</th>
-          <th>ロール</th>
-          <th colspan="3">操作</th>
-        </tr>
+<div class="center_content">
 
-      <% @admin_users.each do |user| %>
-        <tr>
-          <td><%= user.login %></td>
-          <td><%= user.email %></td>
-          <td><%= user.roles.first.name %></td>
-          <td><%= link_to '詳細', [:admin, user] %></td>
-          <!-- 下は未実装 -->
-          <td><%= link_to '編集', edit_admin_user_path(user) %></td>
-          <td><%= link_to '削除', [:admin, user], :confirm => '削除しますか?', :method => :delete %></td>
-        </tr>
-      <% end %>
-      </table>
+	<div class="left_content">
 
-      <br />
+		<div class="sidebarmenu">
 
-      <%= link_to '新規ユーザー登録', new_admin_user_path %>
-      <%= link_to '住所作成' ,new_admin_address_path %>
-      <%= link_to "住所目録へ", admin_addresses_path %>
-    </div>
-  </div>
+			<a class="yellow_button" href="">ユーザー管理</a>
+
+			<a class="green_button" href="">マッチング管理</a>
+
+		</div>
+
+	</div>
+
+	<div class="right_content">
+
+		<%=raw jqgrid("ユーザー一覧", "Users", "/admin/users", 
+			[ 
+				{ :name => "id", :label => "id", :index => 'id', :width => "55" }, 	 
+				{ :name => "login", :label => "ログイン名", :index => 'pseudo asc', :width => "100", :editable => true, :editrules => {:required => true} }, 
+				{ :name => 'role_ids', :label => 'ロール', :width => "80", :align => 'center', :editable => true},
+				#{ :name => 'role_ids', :label => '管理者', :width => "80", :align => 'center', :editable => true, :formatter => "checkbox",:customFormatter => :testfunc2, :unformat => :testUnformat, :edittype => "checkbox", :role => "1", :editoptions => { :value => "Yes:No", :checked => :checked}},
+				#{ :name => 'role_ids', :label => '送信者', :width => "80", :align => 'center', :editable => true, :formatter => "checkbox",:customFormatter => :testfunc2, :edittype => "checkbox", :role => "2", :editoptions => { :value => "Yes:No"}},
+				#{ :name => 'role_ids', :label => '受信者', :width => "80", :align => 'center', :editable => true, :formatter => "checkbox",:customFormatter => :testfunc2, :edittype => "checkbox", :role => "3", :editoptions => { :value => "Yes:No"}},
+				{ :name => "email", :label => "E-mail", :align => "center", :editable => true, :formatter => 'email', :editrules => {:required => true, :email => true} }, 
+				{ :name => "family_name", :label => "姓", :editable => true  }, 
+				{ :name => "given_name", :label => "名", :editable => true  }, 
+				{ :name => "family_name_kana", :label => "姓カナ", :editable => true },
+				{ :name => "given_name_kana", :label => "名カナ", :editable => true },
+				{ :name => 'sex', :index => 'sex', :label => "性別", :width => 70, 
+					:editable => true,
+					:edittype => "select",
+					:editoptions => { :value => '男性:男性; 女性:女性', :defaultValue => '男性'}
+				},
+				{ 
+					:name => "password",
+					:label => "パスワード",
+					:align => "left",
+					:editable => true, 
+					:edittype => "password", 
+					:hidden => true, 
+					:editrules => {
+						:edithidden => true
+					}
+				}, 
+				{ 
+					:name => "password_confirmation", 
+					:label => "パスワード(確認)", 
+					:align => "left", 
+					:editable => true, 
+					:edittype => "password", 
+					:hidden => true, 
+					 :editrules => {
+					 	:edithidden => true
+					 }
+				} 
+				#{
+					#editとdeleteボタン用のカラム
+				#	:name => "",
+				#	:label => "編集",
+				#	:fixed => true, 
+				#	:sortable => false, 
+				#	:resize => false,
+				#	:width => "60",
+				#	:formatter =>'actions',
+				#	:formatoptions => {
+				#		:keys => true,
+				#		:editformbutton => true
+				#	}
+				#} 	 
+			], 
+			{
+				:autowidth => true,
+				:edit_method => :form,
+				:add => true,
+				:view => true,
+				:delete => true,
+				:rowNum	=> 10,
+				:rowList => [10,20,30,50],
+				:height => 300,
+				:edit_options => {
+					:editCaption => "ユーザー情報編集",
+					:bSubmit => "保存"
+				},
+				:add_options => {
+					:addCaption => "ユーザー登録",
+					:bSubmit => "保存"
+				}
+
+				#:master_details => 
+				#[
+    			#	{:grid_id => "roles_users", :caption => "test", :foreign_key_column => "id", :detail_foreign_key => "user_id"}
+				#]
+				
+			} 
+		) %>
+
+	</div><!-- end of right content-->
 </div>
+<!--end of center content -->

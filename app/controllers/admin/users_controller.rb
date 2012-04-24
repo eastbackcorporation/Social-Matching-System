@@ -5,9 +5,13 @@ class Admin::UsersController < ApplicationController
   before_filter :require_user
   before_filter :check_admin
 
+  respond_to :html,:json
+
   #ユーザの一覧表示
   def index
-    @admin_users=User.all
+    respond_with() do |format|
+      format.json {render :json => filter_on_params(User)}  
+    end
   end
 
   def show
@@ -24,8 +28,11 @@ class Admin::UsersController < ApplicationController
   end
 
   #ユーザの新規登録
-  #TODO form_fordでなくform_tagを用いたため不格好
   def create
+    #auth_logicの動作によりユーザの新規作成にパスワード情報が必要のため、
+    #grid_add()を使わずに直接操作する
+    
+    #grid_add(User)
     @admin_user = User.new(
       :login=>params[:login],
       :email=>params[:email],
@@ -37,50 +44,52 @@ class Admin::UsersController < ApplicationController
       :given_name_kana=>params[:given_name_kana],
       :sex=>params[:sex]
       )
-    if params[:role] =="admin"
-      @admin_user.roles<<Role.admin
-    elsif params[:role] == "sender"
-      @admin_user.roles<<Role.sender
-    elsif params[:role] == "receiver"
-      @admin_user.roles<<Role.receiver
-    end
     if @admin_user.save
-      flash[:notice] = 'ユーザを新規作成しました。'
-      #redirect_to [:admin, @admin_user]
-
-      render :show
+      render :json => [false, '', @admin_user] 
     else
-      flash[:notice] ='ユーザ新規登録しっぱい！'
-      render :new
+      error_message = "<table>"
+      @admin_user.errors.entries.each do |error|
+        error_message << "<tr><td><strong>#{User.human_attribute_name(error[0])}</strong></td> <td>: #{error[1]}</td><td>"
+      end
+      error_message << "</table>"
+      render :json =>[true, error_message, @admin_user]
     end
   end
 
   def update
+    #grid_edit(User)    
     @admin_user = User.find(params[:id])
+
+    oldIds = @admin_user.role_ids
+    oldIds.each{ |id| @admin_user.roles.delete(Role.find(id)) }
+    newIds = params[:role_ids].sub(/(^\[)|(\]$)/,"").split(",")
+    newIds.each {|id| 
+      @admin_user.roles<<Role.find(id)
+    }    
+
     @admin_user.update_attributes(
       :login=>params[:login],
       :email=>params[:email],
       :password=>params[:password],
-      :password_confirmation=>params[:password_confirmation]
+      :password_confirmation=>params[:password_confirmation],
+      :family_name=>params[:family_name],
+      :given_name=>params[:given_name],
+      :family_name_kana=>params[:family_name_kana],
+      :given_name_kana=>params[:given_name_kana],
+      :sex=>params[:sex]
       )
-    @admin_user.roles.delete_all
-    if params[:role] =="admin"
-      @admin_user.roles<<Role.admin
-    elsif params[:role] == "sender"
-      @admin_user.roles<<Role.sender
-    elsif params[:role] == "receiver"
-      @admin_user.roles<<Role.receiver
-    end
     if @admin_user.save
-      flash[:notice] = 'ユーザを新規作成しました。'
-      #redirect_to [:admin, @admin_user]
-
-      render :show
+      render :json => [false, '', @admin_user] 
     else
-      flash[:notice] ='ユーザ新規登録しっぱい！'
-      render :new
+      error_message = "<table>"
+      @admin_user.errors.entries.each do |error|
+        error_message << "<tr><td><strong>#{User.human_attribute_name(error[0])}</strong></td> <td>: #{error[1]}</td><td>"
+      end
+      error_message << "</table>"
+      render :json =>[true, error_message, @admin_user]
     end
   end
+  
   # =ユーザーの削除
   # TODO: 実レコードの強制削除。関連レコードが全てアソシエーションに沿って正しく
   #       削除されているかどうか確認のこと。
