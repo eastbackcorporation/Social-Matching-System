@@ -29,10 +29,10 @@ class Sender::MassagesController < ApplicationController
   def create
     @massage = Massage.new(params[:massage])
     @massage.update_attributes(:user_id=>current_user.id)
-    @massage.update_attributes(:status_id=>0)
+    @massage.update_attributes(:status_id=>1)
     @massage.save
      #リファクタリングが必要
-    if self.matching(100)
+    if self.matching(300)
       #リファクタリングが必要
       @massage.update_attributes(:status_id=>2)
     else
@@ -67,6 +67,7 @@ class Sender::MassagesController < ApplicationController
     redirect_to(sender_massages_url, :notice => '情報を削除しました。')
   end
 
+protected
   #マッチングする
   #仮実装なので、注意
   #lange は探索する緯度経度の範囲　
@@ -81,7 +82,7 @@ class Sender::MassagesController < ApplicationController
         @matching_user=MatchingUser.new(:massage_id=>@massage.id,:receiver_id=>rl.user_id)#,:distance=> dis.to_s)
         if @matching_user.save
           #メール送信
-          #MatchingMailer.matching_email(rl.user).deliver
+          MatchingMailer.matching_email(rl.user,@massage).deliver
           @matching_users<<@matching_user
         end
       end
@@ -95,8 +96,14 @@ class Sender::MassagesController < ApplicationController
     end
   end
 
-  #2点間のユークリッド距離の計算
+  #緯度経度-2点間の距離の計算
   def distance(location)
-    return sqrt( ( location.latitude.to_f- @massage.latitude.to_f )**2 + ( location.longitude.to_f - @massage.longitude.to_f )**2 )
+    earth_r=6378.137
+    rad_dis_latitude=PI/180.0*(location.latitude.to_f- @massage.latitude.to_f )
+    rad_dis_longitude=PI/180.0*(location.longitude.to_f- @massage.longitude.to_f )
+    dis_latitude=earth_r*rad_dis_latitude
+    dis_longitude=cos(PI/180.0*location.latitude.to_f)*earth_r*rad_dis_longitude
+    return sqrt( dis_latitude*dis_latitude + dis_longitude*dis_longitude )
+    #return sqrt( ( location.latitude.to_f- @massage.latitude.to_f )**2 + ( location.longitude.to_f - @massage.longitude.to_f )**2 )
   end
 end

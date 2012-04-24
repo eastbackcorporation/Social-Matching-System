@@ -34,7 +34,7 @@ class Receiver::MassagesController < ApplicationController
     end
     if all_reject_flg
       @massage=Massage.find(params[:id])
-      @massage.update_attributes(:status_id=>3)
+      @massage.update_attributes(:status_id=>3)#status_id 3: 該当者不受理
     end
     redirect_to(receiver_users_path, :notice => "お断りしました")
   end
