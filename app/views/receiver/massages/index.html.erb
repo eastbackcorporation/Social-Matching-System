@@ -1,0 +1,33 @@
+<div class="block">
+  <div class="content">
+    <h2 class="title">依頼情報一覧</h2>
+    <div class="inner">
+      <table class="table">
+        <tr>
+          <th>カテゴリ</th>
+          <th>ステータス</th>
+          <th>発信日</th>
+          <th>有効期限</th>
+          <th colspan="3">操作</th>
+        </tr>
+
+      <% @massages.each do |massage| %>
+        <tr>
+          <td><%= massage.category.name %></td>
+          <td><%= massage.status.name %></td>
+          <td><%= massage.created_at %></td>
+          <td><%= massage.validated_datetime %></td>
+          <% unless MatchingUser.where(:receiver_id=>current_user.id,:massage_id=>massage.id).first.reject_flg %>
+          <td><%= link_to '詳細', [:receiver, massage] %></td>
+          <% else %>
+            <td><strong>[お断り済み]</strong></td>
+          <% end %>
+          </tr>
+      <% end %>
+      </table>
+
+      <br />
+
+    </div>
+  </div>
+</div>

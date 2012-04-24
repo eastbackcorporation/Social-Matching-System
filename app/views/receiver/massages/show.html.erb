@@ -1,0 +1,30 @@
+<p id="notice"><%= notice %></p>
+
+<table>
+  <tr>
+    <td>カテゴリ</td>
+    <td><%= @massage.category.name %></td>
+  </tr>
+  <tr>
+    <td>ステータス</td>
+    <td><%= @massage.status.name %></td>
+  </tr>
+  <tr>
+    <td>作成日</td>
+    <td><%= @massage.created_at %></td>
+  </tr>
+  <tr>
+    <td>有効期限</td>
+    <td><%= @massage.validated_datetime %></td>
+  </tr>
+  <tr>
+    <td>実施日</td>
+    <td><%= @massage.active_datetime %></td>
+  </tr>
+  <td><%= form_tag({:action => :reject},{:method => :put}) do %>
+        <%= submit_tag("お断りする") %>
+      <% end %>
+  </td>
+</table>
+
+<%= link_to '戻る', sender_massages_path %>

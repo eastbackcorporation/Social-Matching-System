@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 #ユーザ管理用コントローラ
+#admin のみがユーザの管理が行える
 class Admin::UsersController < ApplicationController
   before_filter :require_user
   before_filter :check_admin
@@ -14,9 +15,11 @@ class Admin::UsersController < ApplicationController
     end
   end
 
+  #ユーザの詳細表示
   def show
     @admin_user=User.find(params[:id])
   end
+
   #ユーザの新規登録画面表示
   def new
     @admin_user = User.new
@@ -56,6 +59,7 @@ class Admin::UsersController < ApplicationController
     end
   end
 
+  #ユーザ情報の変更
   def update
     #grid_edit(User)    
     @admin_user = User.find(params[:id])
@@ -89,7 +93,8 @@ class Admin::UsersController < ApplicationController
       render :json =>[true, error_message, @admin_user]
     end
   end
-  
+
+
   # =ユーザーの削除
   # TODO: 実レコードの強制削除。関連レコードが全てアソシエーションに沿って正しく
   #       削除されているかどうか確認のこと。
@@ -98,7 +103,4 @@ class Admin::UsersController < ApplicationController
     @admin_user.destroy
     redirect_to(admin_users_url, :notice => 'ユーザー情報を削除しました。')
   end
-
-
-
 end

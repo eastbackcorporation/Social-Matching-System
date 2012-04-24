@@ -1,20 +1,21 @@
-class Admin::AddressesController < ApplicationController
+# -*- coding: utf-8 -*-
 
+#住所管理用コントローラ
+#admin のみが情緒の管理が行える
+class Admin::AddressesController < ApplicationController
   before_filter :require_user
   before_filter :check_admin
-  # GET /addresses
-  # GET /addresses.json
+
+  #住所情報一覧
   def index
     @addresses = Address.all
-
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @addresses }
     end
   end
 
-  # GET /addresses/1
-  # GET /addresses/1.json
+  #住所情報詳細表示
   def show
     @address = Address.find(params[:id])
 
@@ -24,8 +25,7 @@ class Admin::AddressesController < ApplicationController
     end
   end
 
-  # GET /addresses/new
-  # GET /addresses/new.json
+  #新規住所登録ページ表示
   def new
     @address = Address.new
 
@@ -35,13 +35,12 @@ class Admin::AddressesController < ApplicationController
     end
   end
 
-  # GET /addresses/1/edit
+  #住所情報変更ページ表示
   def edit
     @address = Address.find(params[:id])
   end
 
-  # POST /addresses
-  # POST /addresses.json
+  #住所情報作成
   def create
     @address = Address.new(params[:address])
     #@address.user=current_user
@@ -57,8 +56,7 @@ class Admin::AddressesController < ApplicationController
     end
   end
 
-  # PUT /addresses/1
-  # PUT /addresses/1.json
+  #住所情報変更
   def update
     @address = Address.find(params[:id])
 
@@ -73,8 +71,7 @@ class Admin::AddressesController < ApplicationController
     end
   end
 
-  # DELETE /addresses/1
-  # DELETE /addresses/1.json
+  #住所情報削除
   def destroy
     @address = Address.find(params[:id])
     @address.destroy

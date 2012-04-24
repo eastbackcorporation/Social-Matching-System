@@ -1,0 +1,2 @@
+module Receiver::MassagesHelper
+end

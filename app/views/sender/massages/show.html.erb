@@ -1,0 +1,31 @@
+<p id="notice"><%= notice %></p>
+
+<table>
+  <tr>
+    <td>カテゴリ</td>
+    <td><%= @massage.category.name %></td>
+  </tr>
+  <tr>
+    <td>ステータス</td>
+    <td><%= @massage.status.name %></td>
+  </tr>
+  <tr>
+    <td>作成日</td>
+    <td><%= @massage.created_at %></td>
+  </tr>
+  <tr>
+    <td>有効期限</td>
+    <td><%= @massage.validated_datetime %></td>
+  </tr>
+  <tr>
+    <td>実施日</td>
+    <td><%= @massage.active_datetime %></td>
+  </tr>
+  <td><%= form_tag({:action => :change_status},{:method => :put}) do %>
+        <%= select_tag("status",options_for_select([["完了",4],["キャンセル",5]])) %>
+        <%= submit_tag("ステータス変更") %>
+      <% end %>
+  </td>
+</table>
+
+<%= link_to '戻る', sender_massages_path %>
