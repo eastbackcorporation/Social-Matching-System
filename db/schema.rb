@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120420052814) do
+ActiveRecord::Schema.define(:version => 20120423064223) do
 
   create_table "addresses", :force => true do |t|
     t.integer  "user_id",     :null => false
@@ -42,11 +42,12 @@ ActiveRecord::Schema.define(:version => 20120420052814) do
   end
 
   create_table "matching_users", :force => true do |t|
-    t.integer  "massage_id",  :null => false
-    t.integer  "receiver_id", :null => false
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+    t.integer  "massage_id",                     :null => false
+    t.integer  "receiver_id",                    :null => false
+    t.datetime "created_at",                     :null => false
+    t.datetime "updated_at",                     :null => false
     t.float    "distance"
+    t.boolean  "reject_flg",  :default => false
   end
 
   create_table "receivers_locations", :force => true do |t|

@@ -8,8 +8,9 @@ class MatchingMailer < ActionMailer::Base
          :subject => "Welcome to My Awesome Site")
   end
 
-  def matching_email(receiver)
+  def matching_email(receiver,massage)
     @user = receiver
+    @massage=massage
     @url = "http://example.com/login"
     mail(:to => receiver.email,
          :subject => "Your Matching")

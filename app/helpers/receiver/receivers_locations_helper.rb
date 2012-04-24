@@ -1,0 +1,2 @@
+module Receiver::ReceiversLocationsHelper
+end

@@ -14,7 +14,9 @@ SocialMatchingSystem::Application.routes.draw do
 
   namespace :receiver do
     resources :users
-    resources :massages
+    resources :massages do
+      put :reject,:on => :member
+    end
   end
 
   resources :user_sessions
