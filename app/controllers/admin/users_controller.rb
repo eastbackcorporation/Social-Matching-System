@@ -74,12 +74,21 @@ class Admin::UsersController < ApplicationController
     #grid_edit(User)    
     @admin_user = User.find(params[:id])
 
-    @admin_user.address.update_attributes(
+    if @admin_user.address
+      @admin_user.address.update_attributes(
         :postal_code => params["address.postal_code"],
         :prefecture => params["address.prefecture"],
         :address1 => params["address.address1"],
         :address2 => params["address.address2"],
-    )
+      )
+    else
+      @admin_user.address = Address.new(
+        :postal_code => params["address.postal_code"],
+        :prefecture => params["address.prefecture"],
+        :address1 => params["address.address1"],
+        :address2 => params["address.address2"],
+      )      
+    end
     
     oldIds = @admin_user.role_ids
     oldIds.each{ |id| @admin_user.roles.delete(Role.find(id)) }
@@ -118,7 +127,9 @@ class Admin::UsersController < ApplicationController
   def destroy
     #住所の削除が必要　delete User.address
     @admin_user = User.find(params[:id])
-    @admin_user.address.destroy
+    if @admin_user.address
+      @admin_user.address.destroy
+    end
     grid_del(User)
   end
 end
