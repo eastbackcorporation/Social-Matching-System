@@ -30,8 +30,48 @@
 				{ :name => 'sex', :index => 'sex', :label => "性別", :width => 70, 
 					:editable => true,
 					:edittype => "select",
-					:editoptions => { :value => '男性:男性; 女性:女性', :defaultValue => '男性'}
+					:editoptions => { :value => '男性:男性;女性:女性', :defaultValue => '男性'}
 				},
+				{ 
+					:name => "address.postal_code",
+					:label => "郵便番号",
+					:align => "left",
+					:editable => true, 
+					:hidden => true, 
+					:editrules => {
+						:edithidden => true
+					}
+				}, 
+				{ 
+					:name => "address.prefecture",
+					:label => "都道府県",
+					:align => "left",
+					:editable => true, 
+					:hidden => true, 
+					:editrules => {
+						:edithidden => true
+					}
+				}, 
+				{ 
+					:name => "address.address1",
+					:label => "住所１",
+					:align => "left",
+					:editable => true, 
+					:hidden => true, 
+					:editrules => {
+						:edithidden => true
+					}
+				}, 
+				{ 
+					:name => "address.address2",
+					:label => "住所２",
+					:align => "left",
+					:editable => true, 
+					:hidden => true, 
+					:editrules => {
+						:edithidden => true
+					}
+				}, 
 				{ 
 					:name => "password",
 					:label => "パスワード",
@@ -85,13 +125,14 @@
 				:add_options => {
 					:addCaption => "ユーザー登録",
 					:bSubmit => "保存"
-				}
+				},
 
-				#:master_details => 
-				#[
-    			#	{:grid_id => "roles_users", :caption => "test", :foreign_key_column => "id", :detail_foreign_key => "user_id"}
-				#]
-				
+				:master_details => {
+					:grid_id => "Addresses",
+					:caption => "test",
+					:foreign_key_column => "id",
+					:detail_foreign_key => "user_id"
+				}
 			} 
 		) %>
 

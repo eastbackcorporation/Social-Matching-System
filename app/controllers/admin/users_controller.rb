@@ -36,6 +36,7 @@ class Admin::UsersController < ApplicationController
     #grid_add()を使わずに直接操作する
     
     #grid_add(User)
+    #ユーザを作成
     @admin_user = User.new(
       :login=>params[:login],
       :email=>params[:email],
@@ -47,6 +48,15 @@ class Admin::UsersController < ApplicationController
       :given_name_kana=>params[:given_name_kana],
       :sex=>params[:sex]
       )
+    
+    #ユーザに紐付く住所を作成
+    @admin_user.address = Address.new(
+        :postal_code => params["address.postal_code"],
+        :prefecture => params["address.prefecture"],
+        :address1 => params["address.address1"],
+        :address2 => params["address.address2"],
+    )
+
     if @admin_user.save
       render :json => [false, '', @admin_user] 
     else
@@ -64,6 +74,13 @@ class Admin::UsersController < ApplicationController
     #grid_edit(User)    
     @admin_user = User.find(params[:id])
 
+    @admin_user.address.update_attributes(
+        :postal_code => params["address.postal_code"],
+        :prefecture => params["address.prefecture"],
+        :address1 => params["address.address1"],
+        :address2 => params["address.address2"],
+    )
+    
     oldIds = @admin_user.role_ids
     oldIds.each{ |id| @admin_user.roles.delete(Role.find(id)) }
     newIds = params[:role_ids].sub(/(^\[)|(\]$)/,"").split(",")
@@ -99,6 +116,9 @@ class Admin::UsersController < ApplicationController
   # TODO: 実レコードの強制削除。関連レコードが全てアソシエーションに沿って正しく
   #       削除されているかどうか確認のこと。
   def destroy
+    #住所の削除が必要　delete User.address
+    @admin_user = User.find(params[:id])
+    @admin_user.address.destroy
     grid_del(User)
   end
 end
