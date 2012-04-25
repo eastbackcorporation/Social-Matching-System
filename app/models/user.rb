@@ -14,4 +14,7 @@ class User < ActiveRecord::Base
   ##pending
   #has_many :massages ,:through => :matching_users
   has_one :address
+  has_one :receivers_location
+
+
 end

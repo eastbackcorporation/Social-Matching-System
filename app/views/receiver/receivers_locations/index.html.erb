@@ -1,0 +1,14 @@
+<h1>現在位置</h1>
+
+
+<div>
+  緯度 : <strong><%= @receivers_location.latitude %></strong>
+  経度 : <strong><%= @receivers_location.longitude%></strong>
+</div>
+<script type="text/javascript">
+<!--
+navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
+// -->
+</script>
+<div id="show_result"></div>
+
