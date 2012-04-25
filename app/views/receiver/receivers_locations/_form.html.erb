@@ -1,0 +1,10 @@
+<%= form_for([:receiver,@raceivers_location]) do |f| %>
+  <div>
+    位置情報取得が未実装なため、開発段階のテストとして位置情報は手打ちする<br>
+    <%= f.label :latitude ,"緯度" %>  <%= f.text_field :latitude %>
+    <%= f.label :longitude ,"経度" %> <%= f.text_field :longitude %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+ <% end %>
