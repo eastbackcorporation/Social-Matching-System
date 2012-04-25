@@ -4,6 +4,7 @@
 class Receiver::MassagesController < ApplicationController
   before_filter :require_user
   before_filter :check_receiver
+  before_filter :check_validated_datetime
 
   #自分宛の依頼情報一覧
   def index
