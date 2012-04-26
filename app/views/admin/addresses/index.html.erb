@@ -3,16 +3,21 @@
 <table>
   <tr>
     <th>ユーザ名</th>
-    <th></th>
-    <th></th>
-    <th></th>
+    <th>登録名</th>
+    <th>郵便番号</th>
+    <th>都道府県</th>
+    <th>市区町村</th>
+    <th>それ以降</th>
   </tr>
 
 <% @addresses.each do |address| %>
   <tr>
     <td><%= address.user.login %></td>
+   　<td><%= address.name %></td>
+    <td><%= address.postal_code %></td>
     <td><%= address.prefecture %></td>
-    <td>...</td>
+    <td><%= address.address1 %></td>
+    <td><%= address.address2 %></td>
     <td><%= link_to '詳細', admin_address_path(address) %></td>
     <td><%= link_to '編集', edit_admin_address_path(address) %></td>
     <td><%= link_to '削除', [:admin, address], confirm: 'Are you sure?', method: :delete %></td>

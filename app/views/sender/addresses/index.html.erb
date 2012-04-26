@@ -1,0 +1,21 @@
+<h1>あなたに関係する住所</h1>
+
+<table>
+  <tr>
+    <th>登録名</th>
+    <th>郵便番号</th>
+    <th>都道府県</th>
+    <th>市区町村</th>
+    <th>それ以降</th>
+  </tr>
+
+<% @addresses.each do |address| %>
+  <tr>
+    <td><%= address.name %></td>
+    <td><%= address.postal_code %></td>
+    <td><%= address.prefecture %></td>
+    <td><%= address.address1 %></td>
+    <td><%= address.address2 %></td>
+
+<% end %>
+</table>
