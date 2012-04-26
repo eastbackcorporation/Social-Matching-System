@@ -3,5 +3,5 @@
 class ReceiversLocation < ActiveRecord::Base
   attr_accessible :user_id,:latitude,:longitude
 
-  belongs_to :users
+  belongs_to :user
 end

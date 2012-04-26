@@ -2,9 +2,10 @@
 
 include Math
 #情報発信用コントローラ
-class Sender::MassagesController < ApplicationController
+class Sender::MassagesController < MassagesController
   before_filter :require_user
   before_filter :check_sender
+  before_filter :check_validated_datetime
 
   #ユーザの発信した依頼情報一覧
   def index
@@ -73,7 +74,7 @@ protected
   #lange は探索する緯度経度の範囲　
   def matching (lange)
     @receivers_locations=ReceiversLocation.all
-    @matching_users=[]
+    @matching_receivers=[]
 
     @receivers_locations.each do |rl|
       dis = self.distance(rl)
@@ -81,17 +82,16 @@ protected
         #   問題あり
         @matching_user=MatchingUser.new(:massage_id=>@massage.id,:receiver_id=>rl.user_id)#,:distance=> dis.to_s)
         if @matching_user.save
-          #メール送信
-          MatchingMailer.matching_email(rl.user,@massage).deliver
-          @matching_users<<@matching_user
+          @matching_receivers<<rl.user
         end
       end
     end
-    if @matching_users.empty?
+    if @matching_receivers.empty?
        flash[:notice] = "該当者なし"
        return false
     else
-      flash[:notice] = "該当者数 :" +  @matching_users.size.to_s + "人"
+      self.send_mail
+      flash[:notice] = "該当者数 :" +  @matching_receivers.size.to_s + "人"
       return true
     end
   end
@@ -105,5 +105,12 @@ protected
     dis_longitude=cos(PI/180.0*location.latitude.to_f)*earth_r*rad_dis_longitude
     return sqrt( dis_latitude*dis_latitude + dis_longitude*dis_longitude )
     #return sqrt( ( location.latitude.to_f- @massage.latitude.to_f )**2 + ( location.longitude.to_f - @massage.longitude.to_f )**2 )
+  end
+
+  #メール送信
+  def send_mail
+    @matching_receivers.each do |r|
+      MatchingMailer.matching_email(r,@massage).deliver
+    end
   end
 end
