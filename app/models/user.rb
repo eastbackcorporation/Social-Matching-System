@@ -16,5 +16,8 @@ class User < ActiveRecord::Base
   has_many :addresses
   has_one :receivers_location
 
-
+  #validates_format_of :family_name ,:with=> /^([一-龠]|[ぁ-ん]|[ァ-ヴ])*$/u
+  #validates_format_of :given_name ,:with=> /^([一-龠]|[ぁ-ん]|[ァ-ヴ])*$/u
+  #validates_format_of :family_name_kana,:with=>/[ァ-ヴ]*/u
+  #validates_format_of :given_name_kana,:with=>/[ァ-ヴ]*/u
 end
