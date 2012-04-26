@@ -5,6 +5,8 @@ class Receiver::MassagesController < MassagesController
   before_filter :require_user
   before_filter :check_receiver
   before_filter :check_validated_datetime
+  
+    respond_to :html,:json
 
   #自分宛の依頼情報一覧
   def index
@@ -13,6 +15,11 @@ class Receiver::MassagesController < MassagesController
     @matching_users.each do |mu|
       @massages<<mu.massage
     end
+    
+    respond_with() do |format|
+      format.json {render :json => filter_on_params(Massage)}  
+    end
+
   end
 
   #詳細表示

@@ -4434,7 +4434,7 @@ var xmlJsonClass = {
 					j: j,
 					l: dateFormat.i18n.dayNames[w + 7],
 					N: N,
-					S: opts.S(j),
+					S: (typeof(opts.S) == "function") ? opts.S(j) : opts.S,
 					//j < 11 || j > 13 ? ['st', 'nd', 'rd', 'th'][Math.min((j - 1) % 10, 3)] : 'th',
 					w: w,
 					z: z,

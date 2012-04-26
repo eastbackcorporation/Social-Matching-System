@@ -1,30 +1,54 @@
 <p id="notice"><%= notice %></p>
 
-<table>
-  <tr>
-    <td>カテゴリ</td>
-    <td><%= @massage.category.name %></td>
-  </tr>
-  <tr>
-    <td>ステータス</td>
-    <td><%= @massage.status.name %></td>
-  </tr>
-  <tr>
-    <td>作成日</td>
-    <td><%= @massage.created_at %></td>
-  </tr>
-  <tr>
-    <td>有効期限</td>
-    <td><%= @massage.validated_datetime %></td>
-  </tr>
-  <tr>
-    <td>実施日</td>
-    <td><%= @massage.active_datetime %></td>
-  </tr>
-  <td><%= form_tag({:action => :reject},{:method => :put}) do %>
-        <%= submit_tag("お断りする") %>
-      <% end %>
-  </td>
+<% sender = User.find(@massage.user_id) %>
+<table class="massage_show">
+	<tfoot>
+        <tr>
+            <th scope="row"><%= link_to '戻る', sender_massages_path %></th>
+            <td>
+            	<% unless MatchingUser.where(:receiver_id=>current_user.id,:massage_id=>@massage.id).first.reject_flg %>
+            		<%= form_tag({:action => :reject},{:method => :put}) do %>
+        				<%= submit_tag("お断りする") %>
+      				<% end %>
+      			<% else %>
+      				<strong>[お断り済み]</strong>
+      			<% end %>
+      		</td>
+        </tr>
+    </tfoot>
+	<tbody>
+		<tr>
+            <th scope="row">カテゴリ</th>
+            <td><%= @massage.category.name %></td>
+        </tr>
+		<tr>
+            <th scope="row">ステータス</th>
+            <td><%= @massage.status.name %></td>
+        </tr>
+		<tr>
+            <th scope="row">作成日</th>
+            <td><%= @massage.created_at %></td>
+        </tr>
+		<tr>
+            <th scope="row">有効期限</th>
+            <td><%= @massage.validated_datetime %></td>
+        </tr>
+		<tr>
+            <th scope="row">実施日</th>
+            <td><%= @massage.active_datetime %></td>
+        </tr>
+		<tr>
+            <th scope="row">依頼者</th>
+            <td><%= sender.family_name %> <%= sender.given_name %></td>
+        </tr>
+		<tr>
+            <th scope="row">E-mail</th>
+            <td><%= sender.email %></td>
+        </tr>
+	</tbody>
 </table>
 
-<%= link_to '戻る', sender_massages_path %>
+<script type="text/javascript">
+	//Ajaxで位置情報をポストする際に同時に送信されるユーザID
+	var current_user_id = "<%= current_user.id %>";	
+</script>

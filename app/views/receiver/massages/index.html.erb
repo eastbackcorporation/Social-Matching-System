@@ -1,38 +1,64 @@
 <div class="block">
 	<div class="content">
-		<h2 class="title">依頼情報一覧</h2>
-		<div class="inner">
-			<table class="table">
-				<tr>
-					<th>カテゴリ</th>
-					<th>ステータス</th>
-					<th>発信日</th>
-					<th>有効期限</th>
-					<th colspan="3">操作</th>
-				</tr>
+		
+		<%=raw jqgrid("依頼情報一覧", "ReceiverMessage", "/receiver/massages", 
+			[ 
+				{ :name => "id", :label => "id", :index => 'id',:align => 'center', :width => "55", :hidden => true }, 	 
+				{ :name => "category.name", :label => "カテゴリ", :index => 'category_id',:align => 'center', :width => "55" }, 	 
+				{ :name => "status.name", :label => "ステータス", :index => 'status_id',:align => 'center', :width => "55" }, 	 
+				{ :name => "active_datetime",
+					:label => "発信日",
+					:index => 'active_datetime',
+					:align => 'center',
+					:sorttype => 'date',
+					:formatter => 'date',
+					:formatoptions => {
+						:srcformat => "UniversalSortableDateTime",
+						:newformat => 'Y年 m月d日 g時i分'
+					}
+				},
+				{ :name => "validated_datetime",
+					:label => "有効期限",
+					:index => 'validated_datetime',
+					:align => 'center',
+					:sorttype => 'date',
+					:formatter => 'date',
+					:formatoptions => {
+						:srcformat => "UniversalSortableDateTime",
+						:newformat => 'Y年 m月d日 g時i分'
+					}
+				},
+				{ :name => "id",
+					:label => "操作",
+					:search => false,
+					:sortable => false,
+					:align => 'center',
+					:width => "55",
+					:customFormatter => 'makeLink'
+				}
+			], 
+			{
+				:autowidth => true,
+				:edit => false,
+				:add => false,
+				:view => false,
+				:delete => false,
+				:rowNum	=> 10,
+				:rowList => [10,20,30,50],
+				:height => 300,
+			} 
+		) %>		
 
-				<% @massages.each do |massage| %>
-				<tr>
-					<td><%= massage.category.name %></td>
-					<td><%= massage.status.name %></td>
-					<td><%= massage.created_at %></td>
-					<td><%= massage.validated_datetime %></td>
-					<% unless MatchingUser.where(:receiver_id=>current_user.id,:massage_id=>massage.id).first.reject_flg %>
-					<td><%= link_to '詳細', [:receiver, massage] %></td>
-					<% else %>
-					<td><strong>[お断り済み]</strong></td>
-					<% end %>
-				</tr>
-				<% end %>
-			</table>
-
-			<br />
-
-		</div>
 	</div>
 </div>
 
 <script type="text/javascript">
 	//Ajaxで位置情報をポストする際に同時に送信されるユーザID
 	var current_user_id = "<%= current_user.id %>";
+	
+	function makeLink(cellvalue, options, rowObject){
+		var url = "<%= receiver_massage_url(:id => "") %>";
+		url = url + cellvalue;
+		return "<a href='" + url + "'>詳細</a>";
+	}
 </script>
