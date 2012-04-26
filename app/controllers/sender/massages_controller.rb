@@ -20,6 +20,8 @@ class Sender::MassagesController < MassagesController
   #新規依頼作成ページ表示
   def new
     @massage = Massage.new
+    @categories=Category.all
+    @addresses=Address.where(:user_id=>current_user.id)
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @massage }
@@ -50,6 +52,7 @@ class Sender::MassagesController < MassagesController
     end
   end
 
+
   #ステータスの変更
   def change_status
     @massage = Massage.find(params[:id])
@@ -69,6 +72,7 @@ class Sender::MassagesController < MassagesController
   end
 
 protected
+
   #マッチングする
   #仮実装なので、注意
   #lange は探索する緯度経度の範囲　

@@ -13,7 +13,7 @@ class User < ActiveRecord::Base
   has_many :massages ,:through =>:matching_users
   ##pending
   #has_many :massages ,:through => :matching_users
-  has_one :address
+  has_many :addresses
   has_one :receivers_location
 
 

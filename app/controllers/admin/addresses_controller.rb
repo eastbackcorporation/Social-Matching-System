@@ -44,7 +44,9 @@ class Admin::AddressesController < ApplicationController
   def create
     @address = Address.new(params[:address])
     #@address.user=current_user
-    #@address.save
+    @address.update_attributes(:main=>true)
+    @address.update_attributes(:name=>"現住所")
+
     respond_to do |format|
       if @address.save
         format.html { redirect_to [:admin,@address], notice: 'Address was successfully created.' }

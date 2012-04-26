@@ -5,9 +5,18 @@
   <div>
     <!-- ここにカテゴリ　-->
     <% categories=[] %>
-    <% Category.all.each{ |e| categories<<[e.name,e.id]}%>
+    <% @categories.each{ |e| categories<<[e.name,e.id]}%>
     <%= f.label :category ,"カテゴリ"%>
     <%= f.select :category_id ,categories %>
+  </div>
+  <div class="field">
+    <!-- ここに住所　-->
+    <% addresses = [] %>
+    <% @addresses.each{|a| addresses << [a.name ,a.id]}%>
+    <%= f.label :address ,"実施住所を選んでください"%><br />
+    <%= f.select :address_id,addresses %>
+    <%= link_to '新規の住所を登録する', new_sender_address_path %>
+    <%= link_to '登録した住所を確認する', sender_addresses_path %>
   </div>
   <div class="field">
     <%= f.label :active_datetime ,"実施日時"%><br />
