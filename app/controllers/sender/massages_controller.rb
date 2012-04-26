@@ -35,7 +35,7 @@ class Sender::MassagesController < MassagesController
     @massage.update_attributes(:status_id=>1)
     @massage.save
      #リファクタリングが必要
-    if self.matching(300)
+    if self.matching(GlobalSetting[:matching_range],GlobalSetting[:maximum_range])
       #リファクタリングが必要
       @massage.update_attributes(:status_id=>2)
     else
@@ -76,18 +76,25 @@ protected
   #マッチングする
   #仮実装なので、注意
   #lange は探索する緯度経度の範囲　
-  def matching (lange)
+  def matching (range,maximum)
     @receivers_locations=ReceiversLocation.all
     @matching_receivers=[]
 
-    @receivers_locations.each do |rl|
-      dis = self.distance(rl)
-      if lange >=  dis
-        #   問題あり
-        @matching_user=MatchingUser.new(:massage_id=>@massage.id,:receiver_id=>rl.user_id)#,:distance=> dis.to_s)
-        if @matching_user.save
-          @matching_receivers<<rl.user
+    while @matching_receivers.empty?
+      @receivers_locations.each do |rl|
+        dis = self.distance(rl)
+        if range >=  dis
+          #   問題あり
+          @matching_user=MatchingUser.new(:massage_id=>@massage.id,:receiver_id=>rl.user_id)#,:distance=> dis.to_s)
+          if @matching_user.save
+            @matching_receivers<<rl.user
+          end
         end
+      end
+      if range<maximum
+        range += range
+      else
+        break
       end
     end
     if @matching_receivers.empty?
