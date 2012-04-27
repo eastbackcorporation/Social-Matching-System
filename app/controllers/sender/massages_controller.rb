@@ -85,7 +85,7 @@ protected
         dis = self.distance(rl)
         if range >=  dis
           #   問題あり
-          @matching_user=MatchingUser.new(:massage_id=>@massage.id,:receiver_id=>rl.user_id)#,:distance=> dis.to_s)
+          @matching_user=MatchingUser.new(:massage_id=>@massage.id,:receiver_id=>rl.user_id,:distance=> dis.to_s)
           if @matching_user.save
             @matching_receivers<<rl.user
           end
