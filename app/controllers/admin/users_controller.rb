@@ -8,6 +8,9 @@ class Admin::UsersController < ApplicationController
 
   respond_to :html,:json
 
+  include ActiveModel::MassAssignmentSecurity
+  attr_accessible :addresses_attributes, :user_id, :prefecture,:address1,:address2,:postal_code,:main,:name
+  
   #ユーザの一覧表示
   def index
     respond_with() do |format|
@@ -17,7 +20,8 @@ class Admin::UsersController < ApplicationController
 
   #ユーザの詳細表示
   def show
-    @admin_user=User.find(params[:id])
+    @admin_user = User.find(params[:id])
+    @addresses = Address.find(:all, :conditions => {:user_id => params[:id]})
   end
 
   #ユーザの新規登録画面表示
@@ -28,6 +32,8 @@ class Admin::UsersController < ApplicationController
   #ユーザー情報編集フォームの表示
   def edit
     @admin_user = User.find(params[:id])
+    #@addresses = Address.find(:all, :conditions => {:user_id => params[:id]})
+    @addresses = @admin_user.addresses
   end
 
   #ユーザの新規登録
@@ -67,57 +73,60 @@ class Admin::UsersController < ApplicationController
       error_message << "</table>"
       render :json =>[true, error_message, @admin_user]
     end
+    
+    
+    @address = Address.find(params[:id])
+
+    respond_to do |format|
+      if @address.update_attributes(params[:address])
+        format.html { redirect_to [:admin,@address], notice: 'Address was successfully updated.' }
+        format.json { head :no_content }
+      else
+        format.html { render action: "edit" }
+        format.json { render json: @address.errors, status: :unprocessable_entity }
+      end
+    end    
+    
+    
   end
 
   #ユーザ情報の変更
   def update
-    #grid_edit(User)    
     @admin_user = User.find(params[:id])
-
-    if @admin_user.address
-      @admin_user.address.update_attributes(
-        :postal_code => params["address.postal_code"],
-        :prefecture => params["address.prefecture"],
-        :address1 => params["address.address1"],
-        :address2 => params["address.address2"],
-      )
-    else
-      @admin_user.address = Address.new(
-        :postal_code => params["address.postal_code"],
-        :prefecture => params["address.prefecture"],
-        :address1 => params["address.address1"],
-        :address2 => params["address.address2"],
-      )      
-    end
     
-    oldIds = @admin_user.role_ids
-    oldIds.each{ |id| @admin_user.roles.delete(Role.find(id)) }
-    newIds = params[:role_ids].sub(/(^\[)|(\]$)/,"").split(",")
-    newIds.each {|id| 
-      @admin_user.roles<<Role.find(id)
-    }    
-
-    @admin_user.update_attributes(
-      :login=>params[:login],
-      :email=>params[:email],
-      :password=>params[:password],
-      :password_confirmation=>params[:password_confirmation],
-      :family_name=>params[:family_name],
-      :given_name=>params[:given_name],
-      :family_name_kana=>params[:family_name_kana],
-      :given_name_kana=>params[:given_name_kana],
-      :sex=>params[:sex]
-      )
-    if @admin_user.save
-      render :json => [false, '', @admin_user] 
-    else
-      error_message = "<table>"
-      @admin_user.errors.entries.each do |error|
-        error_message << "<tr><td><strong>#{User.human_attribute_name(error[0])}</strong></td> <td>: #{error[1]}</td><td>"
+    addresses = params[:user][:addresses]
+    
+    addresses.each_pair do |key, value|
+      if /^new/ =~ key
+        #address = Address.new(value)
+        #address.user = @admin_user
+        @admin_user.addresses.build(value)
+        #address.save
+      else
+        address = Address.find(key)
+        if address
+          if value["_delete"] && value["_delete"] == "1"
+            address.destroy
+          else
+            address.update_attributes(value)
+          end
+        end
       end
-      error_message << "</table>"
-      render :json =>[true, error_message, @admin_user]
+      
     end
+
+    params[:user].delete('addresses')
+
+    respond_to do |format|
+      if @admin_user.update_attributes(params[:user])
+        format.html { redirect_to [:admin,@admin_user], notice: 'Address was successfully updated.' }
+        format.json { head :no_content }
+      else
+        format.html { render action: "edit" }
+        format.json { render json: @admin_user.errors, status: :unprocessable_entity }
+      end
+    end
+
   end
 
 

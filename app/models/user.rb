@@ -15,6 +15,9 @@ class User < ActiveRecord::Base
   #has_many :massages ,:through => :matching_users
   has_many :addresses
   has_one :receivers_location
+  
+  #accepts_nested_attributes_for :addresses, :allow_destroy => true
+  attr_accessible :addresses
 
   #validates_format_of :family_name ,:with=> /^([一-龠]|[ぁ-ん]|[ァ-ヴ])*$/u
   #validates_format_of :given_name ,:with=> /^([一-龠]|[ぁ-ん]|[ァ-ヴ])*$/u

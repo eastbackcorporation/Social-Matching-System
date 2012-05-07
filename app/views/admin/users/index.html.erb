@@ -4,7 +4,7 @@
 
 		<div class="sidebarmenu">
 
-			<a class="yellow_button" href="">ユーザー管理</a>
+			<a class="yellow_button" href="<%= admin_users_url %>">ユーザー管理</a>
 
 			<a class="green_button" href="">マッチング管理</a>
 
@@ -16,84 +16,21 @@
 
 		<%=raw jqgrid("ユーザー一覧", "Users", "/admin/users", 
 			[ 
-				{ :name => "id", :label => "id", :index => 'id', :width => "55" }, 	 
+				{ :name => "id", :label => "id", :index => 'id', :width => "70", :hidden => true }, 	 
 				{ :name => "login", :label => "ログイン名", :index => 'pseudo asc', :width => "100", :editable => true, :editrules => {:required => true} }, 
-				{ :name => 'role_ids', :label => 'ロール', :width => "80", :align => 'center', :editable => true},
-				#{ :name => 'role_ids', :label => '管理者', :width => "80", :align => 'center', :editable => true, :formatter => "checkbox",:customFormatter => :testfunc2, :unformat => :testUnformat, :edittype => "checkbox", :role => "1", :editoptions => { :value => "Yes:No", :checked => :checked}},
-				#{ :name => 'role_ids', :label => '送信者', :width => "80", :align => 'center', :editable => true, :formatter => "checkbox",:customFormatter => :testfunc2, :edittype => "checkbox", :role => "2", :editoptions => { :value => "Yes:No"}},
-				#{ :name => 'role_ids', :label => '受信者', :width => "80", :align => 'center', :editable => true, :formatter => "checkbox",:customFormatter => :testfunc2, :edittype => "checkbox", :role => "3", :editoptions => { :value => "Yes:No"}},
 				{ :name => "email", :label => "E-mail", :align => "center", :editable => true, :formatter => 'email', :editrules => {:required => true, :email => true} }, 
-				{ :name => "family_name", :label => "姓", :editable => true  }, 
-				{ :name => "given_name", :label => "名", :editable => true  }, 
-				{ :name => "family_name_kana", :label => "姓カナ", :editable => true },
-				{ :name => "given_name_kana", :label => "名カナ", :editable => true },
-				{ :name => 'sex', :index => 'sex', :label => "性別", :width => 70, 
-					:editable => true,
-					:edittype => "select",
-					:editoptions => { :value => '男性:男性;女性:女性', :defaultValue => '男性'}
-				},
-				{ 
-					:name => "address.postal_code",
-					:label => "郵便番号",
-					:align => "left",
-					:editable => true, 
-					:hidden => true, 
-					:editrules => {
-						:edithidden => true
-					}
-				}, 
-				{ 
-					:name => "address.prefecture",
-					:label => "都道府県",
-					:align => "left",
-					:editable => true, 
-					:hidden => true, 
-					:editrules => {
-						:edithidden => true
-					}
-				}, 
-				{ 
-					:name => "address.address1",
-					:label => "住所１",
-					:align => "left",
-					:editable => true, 
-					:hidden => true, 
-					:editrules => {
-						:edithidden => true
-					}
-				}, 
-				{ 
-					:name => "address.address2",
-					:label => "住所２",
-					:align => "left",
-					:editable => true, 
-					:hidden => true, 
-					:editrules => {
-						:edithidden => true
-					}
-				}, 
-				{ 
-					:name => "password",
-					:label => "パスワード",
-					:align => "left",
-					:editable => true, 
-					:edittype => "password", 
-					:hidden => true, 
-					:editrules => {
-						:edithidden => true
-					}
-				}, 
-				{ 
-					:name => "password_confirmation", 
-					:label => "パスワード(確認)", 
-					:align => "left", 
-					:editable => true, 
-					:edittype => "password", 
-					:hidden => true, 
-					 :editrules => {
-					 	:edithidden => true
-					 }
-				} 
+				{ :name => "family_name", :label => "姓", :editable => true, :width => 100 }, 
+				{ :name => "given_name", :label => "名", :editable => true, :width => 100 }, 
+				{ :name => 'sex', :index => 'sex', :label => "性別", :width => 70},
+				{ :name => 'phone_number', :index => 'phone_number', :label => "電話番号"},
+				{ :name => "id",
+					:label => "操作",
+					:search => false,
+					:sortable => false,
+					:align => 'center',
+					:width => "130",
+					:customFormatter => 'makeLink'
+				}
 				#{
 					#editとdeleteボタン用のカラム
 				#	:name => "",
@@ -111,31 +48,28 @@
 			], 
 			{
 				:autowidth => true,
-				:edit_method => :form,
-				:add => true,
-				:view => true,
-				:delete => true,
+				:edit => false,
+				:add => false,
+				:view => false,
+				:delete => false,
 				:rowNum	=> 10,
 				:rowList => [10,20,30,50],
-				:height => 300,
-				:edit_options => {
-					:editCaption => "ユーザー情報編集",
-					:bSubmit => "保存"
-				},
-				:add_options => {
-					:addCaption => "ユーザー登録",
-					:bSubmit => "保存"
-				},
-
-				:master_details => {
-					:grid_id => "Addresses",
-					:caption => "test",
-					:foreign_key_column => "id",
-					:detail_foreign_key => "user_id"
-				}
+				:height => 230,
 			} 
 		) %>
+		
+		<a href="<%= new_admin_user_url %>">ユーザーを追加する</a>
 
 	</div><!-- end of right content-->
 </div>
 <!--end of center content -->
+
+<script type="text/javascript">
+	function makeLink(cellvalue, options, rowObject){
+		var url = "/admin/users/"
+		showUrl = url + cellvalue;
+		editUrl = url + cellvalue + "/edit"
+		return "<a href='" + showUrl + "'>詳細</a>" + " | <a href='" + editUrl + "'>編集</a>";
+	}
+</script>
+

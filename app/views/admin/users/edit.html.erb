@@ -1,7 +1,118 @@
-<h1>ユーザの編集</h1>
+<div class="center_content">
 
+	<div class="left_content">
 
-<%= form_tag({:action => "update"},{:method => "put"}) do %>
-  <%= render 'form'%>
-  <%= submit_tag "編集" %>
-<% end %>
+		<div class="sidebarmenu">
+
+			<a class="yellow_button" href="<%= admin_users_url %>">ユーザー管理</a>
+
+			<a class="green_button" href="">マッチング管理</a>
+
+		</div>
+
+	</div>
+
+	<div class="right_content">
+
+		<h1>ユーザの編集</h1>
+
+		<%= form_for([:admin,@admin_user]) do |f| %>
+		email: <%= f.text_field :email %>
+		<br/>
+		family_name: <%= f.text_field :family_name %>
+		<br/>
+		given_name: <%= f.text_field :given_name %>
+		<br/>
+		<!-- ネストした住所情報 -->
+
+		<% if @addresses
+			@addresses.each do |address| %>
+				<%= f.fields_for "addresses[]",address do |f2| %>
+				<p>
+					都道府県: <%= f2.text_field :prefecture %>
+					<br/>
+					郵便番号: <%= f2.text_field :postal_code %>
+					<br/>
+					アドレス１: <%= f2.text_field :address1 %>
+					<br/>
+					アドレス２: <%= f2.text_field :address2 %>
+					<br/>
+					ラベル: <%= f2.text_field :name %>
+					<br/>
+					メイン: <%= f2.text_field :main %>
+					<br/>
+
+					削除：
+					<input type="checkbox" name="user[addresses][<%= address.id %>][_delete]" value=1>
+				</p>
+				<% end %>
+			<% end %>
+		<% end %>
+
+		<!-- 新規住所作成用 Form -->
+		<div id="addAddressForm">
+			<!-- Form template-->
+			<div id="addAddressForm_template">
+				<label for="addAddressForm_#index#_prefecture">都道府県:</label>
+				<input id="addAddressForm_#index#_address" name="user[addresses][new_#index#][prefecture]" type="text"/>
+				<br>
+				<label for="addAddressForm_#index#_postal_code">郵便番号:</label>
+				<input id="addAddressForm_#index#_postal_code" name="user[addresses][new_#index#][postal_code]" type="text"/>
+				<br>
+				<label for="addAddressForm_#index#_postal_address1">アドレス１:</label>
+				<input id="addAddressForm_#index#_address1" name="user[addresses][new_#index#][address1]" type="text"/>
+				<br>
+				<label for="addAddressForm_#index#_postal_address2">アドレス２:</label>
+				<input id="addAddressForm_#index#_address2" name="user[addresses][new_#index#][address2]" type="text"/>
+				<br>
+				<label for="addAddressForm_#index#_postal_name">ラベル:</label>
+				<input id="addAddressForm_#index#_name" name="user[addresses][new_#index#][name]" type="text"/>
+				<br>
+				<label for="addAddressForm_#index#_postal_main">メイン:</label>
+				<input id="addAddressForm_#index#_main" name="user[addresses][new_#index#][main]" type="text"/>
+				<a id="addAddressForm_remove_current">キャンセル <img class="delete" src="images/cross.png" width="16" height="16" border="0"> </a>
+			</div>
+			<!-- /Form template-->
+
+			<!-- No forms template -->
+			<div id="addAddressForm_noforms_template">
+				
+			</div>
+			<!-- /No forms template-->
+
+			<!-- Controls -->
+			<div id="addAddressForm_controls">
+				<div id="addAddressForm_add">
+					<a><span>住所を新規作成</span></a>
+				</div>
+			</div>
+			<!-- /Controls -->
+
+		</div>
+		<!-- /新規住所作成用 Form -->
+
+		<%= f.submit %>
+		<% end %>
+
+	</div><!-- end of right content-->
+</div>
+<!--end of center content -->
+
+<script type="text/javascript">
+	$(document).ready(function() {
+     
+    	var addAddressForm = $('#addAddressForm').sheepIt({
+        	separator: '',
+        	allowRemoveLast: true,
+        	allowRemoveCurrent: true,
+        	allowRemoveAll: false,
+        	allowAdd: true,
+        	allowAddN: false,
+        	maxFormsCount: 20,
+        	minFormsCount: 0,
+        	iniFormsCount: 0
+    	});
+ 
+	});
+</script>
+
