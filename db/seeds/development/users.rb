@@ -22,7 +22,8 @@ end
 kou=User.create(:login => "kou_receiver",:email => "kou_honda@eastback.jp",
              :password => "test",:password_confirmation => "test")
 kou.roles<<Role.receiver
-1.times do |r|
+
+10.times do |r|
   login="test_receiver"+r.to_s
   email="test#{r}@test.jp"
   test_receiver = User.create(:login => login,
