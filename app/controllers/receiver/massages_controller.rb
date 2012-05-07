@@ -11,11 +11,16 @@ class Receiver::MassagesController < MassagesController
   #自分宛の依頼情報一覧
   def index
     @matching_users=MatchingUser.where(:receiver_id=>current_user.id)
-    @massages=[]
+    ids = ""
+    #自分宛の依頼情報のidを取得し、正規表現の文字列を作成する
     @matching_users.each do |mu|
-      @massages<<mu.massage
+      ids << "^" << mu.massage_id.to_s << "$"
+      ids << "|"
     end
     
+    #フィルターにかけるパラメータとして、id=>#{ids}を設定する
+    ids[-1,1] = ""
+    params[:id] = ids
     respond_with() do |format|
       format.json {render :json => filter_on_params(Massage)}  
     end
