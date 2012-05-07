@@ -10,6 +10,14 @@
     <td><%= @massage.status.name %></td>
   </tr>
   <tr>
+    <td>現在の探索範囲</td>
+    <td><%= @massage.matching_range %>km</td>
+  </tr>
+  <tr>
+    <td>現在の該当者数</td>
+    <td><%= @massage.matching_count %>人</td>
+  </tr>
+  <tr>
     <td>作成日</td>
     <td><%= @massage.created_at %></td>
   </tr>

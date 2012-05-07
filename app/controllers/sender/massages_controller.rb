@@ -6,6 +6,7 @@ class Sender::MassagesController < MassagesController
   before_filter :require_user
   before_filter :check_sender
   before_filter :check_validated_datetime
+  before_filter :check_active
 
   #ユーザの発信した依頼情報一覧
   def index
@@ -31,15 +32,17 @@ class Sender::MassagesController < MassagesController
   #新規依頼作成
   def create
     @massage = Massage.new(params[:massage])
-    @massage.update_attributes(:user_id=>current_user.id)
-    @massage.update_attributes(:status_id=>1)
+    @massage.update_attributes(:user_id=>current_user.id,:status_id=>1)
     @massage.save
-     #リファクタリングが必要
-    if self.matching(GlobalSetting[:matching_range],GlobalSetting[:maximum_range])
+    #リファクタリングが必要
+    @range=GlobalSetting[:matching_range]
+    @maximum=GlobalSetting[:maximum_range]
+    @step=GlobalSetting[:matching_step]
+    @matching_interval=GlobalSetting[:matching_interval]
+
+    if self.matching
       #リファクタリングが必要
-      @massage.update_attributes(:status_id=>2)
-    else
-      @massage.update_attributes(:status_id=>1)
+      @massage.update_attributes(:status_id=>2)#該当者あり
     end
     respond_to do |format|
       if @massage.save
@@ -72,37 +75,43 @@ class Sender::MassagesController < MassagesController
   end
 
 protected
-
   #マッチングする
   #仮実装なので、注意
-  #lange は探索する緯度経度の範囲　
-  def matching (range,maximum)
+  def matching
     @receivers_locations=ReceiversLocation.all
     @matching_receivers=[]
-
-    while @matching_receivers.empty?
-      @receivers_locations.each do |rl|
-        dis = self.distance(rl)
-        if range >=  dis
-          #   問題あり
-          @matching_user=MatchingUser.new(:massage_id=>@massage.id,:receiver_id=>rl.user_id,:distance=> dis.to_s)
-          if @matching_user.save
-            @matching_receivers<<rl.user
-          end
+    @massage.matching_count=0
+    until self.search_user(0,@range) || @range>=@maximum
+      @range += @step
+    end
+    #探査用スレッド
+    t=Thread.new do
+      msg_id=@massage.id
+      begin
+        sleep @matching_interval
+        @massage=Massage.find(msg_id)
+        @matching_receivers=[]
+        prev_range=@range
+        until self.search_user(prev_range,@range) || @range>=@maximum
+          @range += @step
         end
-      end
-      if range<maximum
-        range += range
-      else
-        break
-      end
+        #開発時-確認用
+        #p "id: "+msg_id.to_s+" status :"+ @massage.status.name
+        #p "new match :"+@matching_receivers.size.to_s
+        #p "match range :" + prev_range.to_s+" <<"+@range.to_s
+        self.send_mail @matching_receivers
+
+        @massage.save
+      end while @massage.active_flg && @range<@maximum
     end
     if @matching_receivers.empty?
-       flash[:notice] = "該当者なし"
-       return false
+      flash[:notice] = "該当者なし"
+      Thread::kill(t)
+      return false
     else
-      self.send_mail
-      flash[:notice] = "該当者数 :" +  @matching_receivers.size.to_s + "人"
+      self.send_mail @matching_receivers
+
+      flash[:notice] = "現在の該当者数 :" +  @matching_receivers.size.to_s + "人"
       return true
     end
   end
@@ -115,13 +124,33 @@ protected
     dis_latitude=earth_r*rad_dis_latitude
     dis_longitude=cos(PI/180.0*location.latitude.to_f)*earth_r*rad_dis_longitude
     return sqrt( dis_latitude*dis_latitude + dis_longitude*dis_longitude )
-    #return sqrt( ( location.latitude.to_f- @massage.latitude.to_f )**2 + ( location.longitude.to_f - @massage.longitude.to_f )**2 )
   end
 
   #メール送信
-  def send_mail
-    @matching_receivers.each do |r|
-      MatchingMailer.matching_email(r,@massage).deliver
+  def send_mail(receivers)
+    Thread.new do
+      receivers.each do |r|
+        p "masssage send to "+ r.email
+        MatchingMailer.matching_email(r,@massage).deliver
+      end
     end
+  end
+
+  #距離の近いreceiverの探索
+  def search_user(min_dis,max_dis)
+    rtn_flg=false
+    @receivers_locations.each do |rl|
+      dis = self.distance(rl)
+      if min_dis <= dis && dis <= max_dis
+        @matching_user=MatchingUser.new(:massage_id=>@massage.id,:receiver_id=>rl.user_id,:distance=> dis.to_s)
+        if @matching_user.save
+          @matching_receivers<<rl.user
+          rtn_flg=true
+        end
+      end
+    end
+    @massage.matching_count= @massage.matching_count+@matching_receivers.size
+    @massage.matching_range=max_dis
+    return rtn_flg
   end
 end

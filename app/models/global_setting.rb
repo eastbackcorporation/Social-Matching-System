@@ -6,8 +6,9 @@ class GlobalSetting < ActiveRecord::Base
   # システム設定のデフォルト
   DEFAULTS = {:name => "だんだんマッチング",
               :matching_range=> 1,
-              :maximum_range=>30,
-              :matching_interval=>10 * 60*1000}
+              :maximum_range=>300,
+              :matching_step=>1,
+              :matching_interval=>10}
 
   @@instance = nil
 
@@ -27,5 +28,4 @@ class GlobalSetting < ActiveRecord::Base
   rescue
     return DEFAULTS
   end
-
 end
