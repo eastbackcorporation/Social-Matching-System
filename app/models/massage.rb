@@ -3,7 +3,7 @@
 # 依頼情報のためのモデルクラス
 class Massage < ActiveRecord::Base
   attr_accessible :category_id,:user_id,:active_datetime,:validated_datetime,
-                  :latitude,:longitude,:status_id,:address_id
+                  :latitude,:longitude,:status_id,:address_id,:matching_count,:matching_range,:active_flg
   belongs_to :user
   belongs_to :category
   belongs_to :status
