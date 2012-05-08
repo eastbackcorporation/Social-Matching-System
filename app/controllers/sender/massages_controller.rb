@@ -2,6 +2,7 @@
 
 include Math
 #情報発信用コントローラ
+#マッチング処理はここで行う
 class Sender::MassagesController < MassagesController
   before_filter :require_user
   before_filter :check_sender
@@ -34,14 +35,13 @@ class Sender::MassagesController < MassagesController
     @massage = Massage.new(params[:massage])
     @massage.update_attributes(:user_id=>current_user.id,:status_id=>1)
     @massage.save
-    #リファクタリングが必要
+
     @range=GlobalSetting[:matching_range]
     @maximum=GlobalSetting[:maximum_range]
     @step=GlobalSetting[:matching_step]
     @matching_interval=GlobalSetting[:matching_interval]
 
-    if self.matching
-      #リファクタリングが必要
+    if self.matching #マッチングを行う
       @massage.update_attributes(:status_id=>2)#該当者あり
     end
     respond_to do |format|
@@ -55,7 +55,6 @@ class Sender::MassagesController < MassagesController
     end
   end
 
-
   #ステータスの変更
   def change_status
     @massage = Massage.find(params[:id])
@@ -67,6 +66,7 @@ class Sender::MassagesController < MassagesController
       redirect_to(sender_massages_url)
     end
   end
+
   # 依頼情報の削除
   def destroy
     @massage = Massage.find(params[:id])
@@ -75,16 +75,20 @@ class Sender::MassagesController < MassagesController
   end
 
 protected
-  #マッチングする
-  #仮実装なので、注意
+  #マッチングを行う
+  #一定時間内に依頼が成立しなかった場合、範囲を広げて再びマッチングする
   def matching
     @receivers_locations=ReceiversLocation.all
     @matching_receivers=[]
     @massage.matching_count=0
+
+    #最初のマッチング
     until self.search_user(0,@range) || @range>=@maximum
       @range += @step
     end
-    #探査用スレッド
+
+    #再マッチング用スレッド
+    #一定時間内に依頼が成立しなかった場合、範囲を広げて再びマッチングする
     t=Thread.new do
       msg_id=@massage.id
       begin
@@ -92,26 +96,22 @@ protected
         @massage=Massage.find(msg_id)
         @matching_receivers=[]
         prev_range=@range
+
         until self.search_user(prev_range,@range) || @range>=@maximum
           @range += @step
         end
-        #開発時-確認用
-        #p "id: "+msg_id.to_s+" status :"+ @massage.status.name
-        #p "new match :"+@matching_receivers.size.to_s
-        #p "match range :" + prev_range.to_s+" <<"+@range.to_s
-        self.send_mail @matching_receivers
 
+        self.send_mail @matching_receivers
         @massage.save
       end while @massage.active_flg && @range<@maximum
     end
+
     if @matching_receivers.empty?
       flash[:notice] = "該当者なし"
       Thread::kill(t)
       return false
     else
       self.send_mail @matching_receivers
-
-      flash[:notice] = "現在の該当者数 :" +  @matching_receivers.size.to_s + "人"
       return true
     end
   end
@@ -130,7 +130,6 @@ protected
   def send_mail(receivers)
     Thread.new do
       receivers.each do |r|
-        p "masssage send to "+ r.email
         MatchingMailer.matching_email(r,@massage).deliver
       end
     end
