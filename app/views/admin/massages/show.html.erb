@@ -1,0 +1,55 @@
+<p id="notice"><%= notice %></p>
+
+<table>
+  <tr>
+    <td>カテゴリ</td>
+    <td><%= @massage.category.name %></td>
+  </tr>
+  <tr>
+    <td>ステータス</td>
+    <td><%= @massage.status.name %></td>
+  </tr>
+  <tr>
+    <td>現在の探索範囲</td>
+    <td><%= @massage.matching_range %>km</td>
+  </tr>
+  <tr>
+    <td>現在の該当者数</td>
+    <td><%= @massage.matching_count %>人</td>
+  </tr>
+  <tr>
+    <td>作成日</td>
+    <td><%= @massage.created_at %></td>
+  </tr>
+  <tr>
+    <td>有効期限</td>
+    <td><%= @massage.validated_datetime %></td>
+  </tr>
+  <tr>
+    <td>実施日</td>
+    <td><%= @massage.active_datetime %></td>
+  </tr>
+  <td><%= form_tag({:action => :change_status},{:method => :put}) do %>
+        <%= select_tag("status",options_for_select([["完了",4],["キャンセル",5]])) %>
+        <%= submit_tag("ステータス変更") %>
+      <% end %>
+  </td>
+</table>
+
+<table>
+  <th>該当ユーザ名</th>
+  <th>メールアドレス</th>
+  <% if @matching_users.empty? %>
+  <tr><td>該当者なし</td></tr>
+  <%else%>
+    <% @matching_users.each do |user| %>
+      <tr>
+        <td><%= user.login %>　</td>
+        <td><%= user.email %></td>
+        <td><%= link_to '詳細', [:admin, :user] %></td>
+   　 </tr>
+    <% end %>
+  <% end %>
+</table>
+
+<%= link_to '戻る', admin_massages_path %>
