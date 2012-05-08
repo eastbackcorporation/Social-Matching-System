@@ -27,6 +27,7 @@ class Admin::UsersController < ApplicationController
   #ユーザの新規登録画面表示
   def new
     @admin_user = User.new
+    @errors = ""
   end
 
   #ユーザー情報編集フォームの表示
@@ -34,59 +35,60 @@ class Admin::UsersController < ApplicationController
     @admin_user = User.find(params[:id])
     #@addresses = Address.find(:all, :conditions => {:user_id => params[:id]})
     @addresses = @admin_user.addresses
+    @roles = {}
+    @admin_user.roles.each do |r|
+      @roles[r.name] = r.id 
+    end
   end
 
   #ユーザの新規登録
   def create
-    #auth_logicの動作によりユーザの新規作成にパスワード情報が必要のため、
-    #grid_add()を使わずに直接操作する
-    
-    #grid_add(User)
-    #ユーザを作成
     @admin_user = User.new(
-      :login=>params[:login],
-      :email=>params[:email],
-      :password=>params[:password],
-      :password_confirmation=>params[:password_confirmation],
-      :family_name=>params[:family_name],
-      :given_name=>params[:given_name],
-      :family_name_kana=>params[:family_name_kana],
-      :given_name_kana=>params[:given_name_kana],
-      :sex=>params[:sex]
-      )
-    
-    #ユーザに紐付く住所を作成
-    @admin_user.address = Address.new(
-        :postal_code => params["address.postal_code"],
-        :prefecture => params["address.prefecture"],
-        :address1 => params["address.address1"],
-        :address2 => params["address.address2"],
+      :login => params[:login],  
+      :email => params[:email],  
+      :password => params[:password],  
+      :password_confirmation => params[:password_confirmation],  
+      #:role => params[:role],  
+      :family_name => params[:family_name],  
+      :given_name => params[:givem_name],  
+      :family_name_kana => params[:family_name_kane],  
+      :given_name_kana => params[:given_name_kana],
+      :sex => params[:sex]
     )
-
-    if @admin_user.save
-      render :json => [false, '', @admin_user] 
-    else
-      error_message = "<table>"
-      @admin_user.errors.entries.each do |error|
-        error_message << "<tr><td><strong>#{User.human_attribute_name(error[0])}</strong></td> <td>: #{error[1]}</td><td>"
+    
+    roles = params[:roles]
+    Role.all.each do |r|
+      if roles.has_key?(r.name)
+        @admin_user.roles << r
       end
-      error_message << "</table>"
-      render :json =>[true, error_message, @admin_user]
     end
     
+    address = Address.new(
+      :prefecture => params[:prefecture],  
+      :postal_code => params[:postal_code],  
+      :address1 => params[:address1],  
+      :address2 => params[:address2],  
+      :name => params[:name],  
+      :main => 1  
+    )
     
-    @address = Address.find(params[:id])
+    @admin_user.addresses << address
 
     respond_to do |format|
-      if @address.update_attributes(params[:address])
-        format.html { redirect_to [:admin,@address], notice: 'Address was successfully updated.' }
+      if @admin_user.save
+        format.html { redirect_to admin_users_url, notice: 'Address was successfully updated.' }
         format.json { head :no_content }
       else
-        format.html { render action: "edit" }
-        format.json { render json: @address.errors, status: :unprocessable_entity }
+        @errors = "/n"
+        @admin_user.errors.entries.each do |error|
+          @errors << "#{User.human_attribute_name(error[0])}: #{error[1]}/n"
+        end
+      @errors << "/n"
+        
+        format.html { render action: "new"}
+        format.json { render json: @admin_user.errors, status: :unprocessable_entity }
       end
     end    
-    
     
   end
 
@@ -94,12 +96,10 @@ class Admin::UsersController < ApplicationController
   def update
     @admin_user = User.find(params[:id])
     
+    #住所の変更
     addresses = params[:user][:addresses]
-    
     addresses.each_pair do |key, value|
       if /^new/ =~ key
-        #address = Address.new(value)
-        #address.user = @admin_user
         @admin_user.addresses.build(value)
         #address.save
       else
@@ -114,8 +114,18 @@ class Admin::UsersController < ApplicationController
       end
       
     end
-
     params[:user].delete('addresses')
+    
+    #Roleの変更
+    @admin_user.roles.clear
+    roles = params[:user][:roles]
+    Role.all.each do |r|
+      if roles.has_key?(r.name)
+        @admin_user.roles << r
+      end
+    end
+    params[:user].delete('roles')
+    
 
     respond_to do |format|
       if @admin_user.update_attributes(params[:user])
