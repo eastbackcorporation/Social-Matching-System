@@ -6,7 +6,7 @@
         <tr>
             <th scope="row"><%= link_to '戻る', sender_massages_path %></th>
             <td>
-            	<% unless MatchingUser.where(:receiver_id=>current_user.id,:massage_id=>@massage.id).first.reject_flg %>
+            	<% unless MatchingUser.where(:user_id=>current_user.id,:massage_id=>@massage.id).first.reject_flg %>
             		<%= form_tag({:action => :reject},{:method => :put}) do %>
         				<%= submit_tag("お断りする") %>
       				<% end %>
@@ -50,5 +50,5 @@
 
 <script type="text/javascript">
 	//Ajaxで位置情報をポストする際に同時に送信されるユーザID
-	var current_user_id = "<%= current_user.id %>";	
+	var current_user_id = "<%= current_user.id %>";
 </script>
