@@ -1,3 +1,4 @@
+<%= @errors %>
 <p>
   <%= label_tag :login %><br />
   <%= text_field_tag("login") %>
@@ -15,24 +16,39 @@
   <%= password_field_tag("password_confirmation")%>
 </p>
 <p>
-  <%= label_tag :role%>
-  <%roles=["admin","sender","receiver"]%>
-  <%= select_tag("role",options_for_select(roles))%>
+  <%= label_tag :roles_admin_%>
+  管理者：<%= check_box_tag "roles[admin][]", "1" %>
+  送信者：<%= check_box_tag "roles[sender][]", "2" %>
+  受信者：<%= check_box_tag "roles[receiver][]", "3" %>
 </p>
-<hr>
 <p>
   <%= label_tag :family_name ,"姓/漢字"%>
   <%= text_field_tag("family_name") %>
-  <%= label_tag :givem_name ,"名/漢字" %>
+  <%= label_tag :given_name ,"名/漢字" %>
   <%= text_field_tag("given_name") %>
 </p>
 <p>
-  <%= label_tag :family_name_kane ,"姓/カナ"%>
+  <%= label_tag :family_name_kana ,"姓/カナ"%>
   <%= text_field_tag("family_name_kana") %>
-  <%= label_tag :givem_name_kana ,"名/カナ" %>
+  <%= label_tag :given_name_kana ,"名/カナ" %>
   <%= text_field_tag("given_name_kana") %>
 </p>
 <p>
   <%= label_tag :sex,"性別"%>
   <%= select_tag("sex", options_for_select(["男","女"], [:male,:female]))%>
+</p>
+<hr>
+<p>
+	
+  <%= label_tag :prefecture ,"都道府県"%>
+  <%= text_field_tag("prefecture") %>
+  <%= label_tag :postal_code ,"郵便番号" %>
+  <%= text_field_tag("postal_code") %>
+  <%= label_tag :address1 ,"アドレス１"%>
+  <%= text_field_tag("address1") %>
+  <%= label_tag :address2 ,"アドレス２" %>
+  <%= text_field_tag("address2") %>
+  <%= label_tag :name ,"ラベル"%>
+  <%= text_field_tag("name") %>
+ 
 </p>

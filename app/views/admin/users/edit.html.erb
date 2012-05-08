@@ -23,6 +23,13 @@
 		<br/>
 		given_name: <%= f.text_field :given_name %>
 		<br/>
+		
+		<p>
+  		管理者：<%= check_box_tag "user[roles][admin][]", "1", @roles.has_key?('admin') %>
+  		送信者：<%= check_box_tag "user[roles][sender][]", "2", @roles.has_key?('sender') %>
+  		受信者：<%= check_box_tag "user[roles][receiver][]", "3", @roles.has_key?('receiver') %>
+		</p>
+
 		<!-- ネストした住所情報 -->
 
 		<% if @addresses
