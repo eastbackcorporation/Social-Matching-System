@@ -6,7 +6,9 @@
 
 			<a class="yellow_button" href="<%= admin_users_url %>">ユーザー管理</a>
 
-			<a class="green_button" href="">マッチング管理</a>
+			<a class="green_button" href="<%= admin_massages_url %>">マッチング管理</a>
+
+			<a class="blue_button" href="<%= edit_admin_global_setting_url(1) %>">共通設定管理</a>
 
 		</div>
 
@@ -14,13 +16,13 @@
 
 	<div class="right_content">
 
-		<%=raw jqgrid("ユーザー一覧", "Users", "/admin/users", 
-			[ 
-				{ :name => "id", :label => "id", :index => 'id', :width => "70", :hidden => true }, 	 
-				{ :name => "login", :label => "ログイン名", :index => 'pseudo asc', :width => "100", :editable => true, :editrules => {:required => true} }, 
-				{ :name => "email", :label => "E-mail", :align => "center", :editable => true, :formatter => 'email', :editrules => {:required => true, :email => true} }, 
-				{ :name => "family_name", :label => "姓", :editable => true, :width => 100 }, 
-				{ :name => "given_name", :label => "名", :editable => true, :width => 100 }, 
+		<%=raw jqgrid("ユーザー一覧", "Users", "/admin/users",
+			[
+				{ :name => "id", :label => "id", :index => 'id', :width => "70", :hidden => true },
+				{ :name => "login", :label => "ログイン名", :index => 'pseudo asc', :width => "100", :editable => true, :editrules => {:required => true} },
+				{ :name => "email", :label => "E-mail", :align => "center", :editable => true, :formatter => 'email', :editrules => {:required => true, :email => true} },
+				{ :name => "family_name", :label => "姓", :editable => true, :width => 100 },
+				{ :name => "given_name", :label => "名", :editable => true, :width => 100 },
 				{ :name => 'sex', :index => 'sex', :label => "性別", :width => 70},
 				{ :name => 'phone_number', :index => 'phone_number', :label => "電話番号"},
 				{ :name => "id",
@@ -35,8 +37,8 @@
 					#editとdeleteボタン用のカラム
 				#	:name => "",
 				#	:label => "編集",
-				#	:fixed => true, 
-				#	:sortable => false, 
+				#	:fixed => true,
+				#	:sortable => false,
 				#	:resize => false,
 				#	:width => "60",
 				#	:formatter =>'actions',
@@ -44,8 +46,8 @@
 				#		:keys => true,
 				#		:editformbutton => true
 				#	}
-				#} 	 
-			], 
+				#}
+			],
 			{
 				:autowidth => true,
 				:edit => false,
@@ -55,9 +57,9 @@
 				:rowNum	=> 10,
 				:rowList => [10,20,30,50],
 				:height => 230,
-			} 
+			}
 		) %>
-		
+
 		<a href="<%= new_admin_user_url %>">ユーザーを追加する</a>
 
 	</div><!-- end of right content-->
