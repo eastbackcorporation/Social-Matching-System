@@ -1,0 +1,63 @@
+<% sender = User.find(@massage.user_id) %>
+
+<div data-role="page" data-add-back-btn="true" data-back-btn-text="戻る">
+
+	<div data-role="header">
+		<h1>依頼情報詳細</h1>
+	</div><!-- /header -->
+
+	<div data-role="content">	
+		
+		<ul data-role="listview" data-inset="true">
+			<li>
+				<p>カテゴリ</p>
+				<h1><%= @massage.category.name %></h1>
+			</li>
+			<li>
+				<p>ステータス</p>
+				<h1><%= @massage.status.name %></h1>
+			</li>
+			<li>
+				<p>作成日</p>
+				<h1><%= Time.parse(@massage.created_at.to_s).strftime("%Y年%m月%d日 %H時%M分") %></h1>
+			</li>
+			<li>
+				<p>有効期限</p>
+				<h1><%= Time.parse(@massage.validated_datetime.to_s).strftime("%Y年%m月%d日 %H時%M分") %></h1>
+			</li>
+			<li>
+				<p>実施日</p>
+				<h1><%= Time.parse(@massage.active_datetime.to_s).strftime("%Y年%m月%d日 %H時%M分") %></h1>
+			</li>
+			<li>
+				<p>依頼者</p>
+				<h1><%= sender.family_name %> <%= sender.given_name %></h1>
+			</li>
+			<li>
+				<p>E-mail</p>
+				<h1><%= sender.email %></h1>
+			</li>
+		</ul>
+
+		<% unless MatchingUser.where(:receiver_id=>current_user.id,:massage_id=>@massage.id).first.reject_flg %>
+            <%= form_tag({:action => :reject},{:method => :put}) do %>
+        		<%= submit_tag("お断りする") %>
+      		<% end %>
+      	<% else %>
+      		<strong>[お断り済み]</strong>
+      	<% end %>
+
+		
+	</div><!-- /content -->
+
+	<div data-role="footer">
+		<h3>Social Matching System</h3>
+	</div><!-- /footer -->
+
+<script type="text/javascript">
+	//Ajaxで位置情報をポストする際に同時に送信されるユーザID
+	var current_user_id = "<%= current_user.id %>";	
+</script>
+
+</div><!-- /page -->
+

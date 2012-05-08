@@ -10,26 +10,40 @@ class Receiver::MassagesController < MassagesController
 
   #自分宛の依頼情報一覧
   def index
-    @matching_users=MatchingUser.where(:receiver_id=>current_user.id)
+      
+    matching_users=MatchingUser.where(:receiver_id=>current_user.id)
+
+    @massages = []
     ids = ""
-    #自分宛の依頼情報のidを取得し、正規表現の文字列を作成する
-    @matching_users.each do |mu|
+    
+    matching_users.each do |mu|
+      #mobile画面用
+      @massages << mu.massage
+      #PC画面(jqGrid)用
       ids << "^" << mu.massage_id.to_s << "$"
       ids << "|"
     end
     
-    #フィルターにかけるパラメータとして、id=>#{ids}を設定する
-    ids[-1,1] = ""
-    params[:id] = ids
-    respond_with() do |format|
-      format.json {render :json => filter_on_params(Massage)}  
+    if mobile? then
+      render :action => "index_mobile", :layout => 'mobile'      
+    else
+      #jqGridでフィルターにかけるパラメータとして、id=>#{ids}を設定する
+      ids[-1,1] = ""
+      params[:id] = ids
+      respond_with() do |format|
+        format.json {render :json => filter_on_params(Massage)}  
+      end  
     end
-
+    
   end
+
 
   #詳細表示
   def show
     @massage=Massage.find(params[:id])
+    if mobile? then
+      render :action => "show_mobile", :layout => 'mobile'      
+    end
   end
 
   #依頼拒否用アクション
@@ -43,7 +57,7 @@ class Receiver::MassagesController < MassagesController
       @massage=Massage.find(params[:id])
       @massage.update_attributes(:status_id=>3)#status_id 3: 該当者不受理
     end
-    redirect_to(receiver_users_path, :notice => "お断りしました")
+    redirect_to(receiver_massages_path, :notice => "お断りしました")
   end
 
   protected

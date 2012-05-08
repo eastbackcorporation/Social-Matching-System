@@ -1,0 +1,35 @@
+<div data-role="page">
+
+	<div data-role="header">
+		<%= link_to "ログアウト", :logout %>
+		<h1>依頼情報一覧</h1>
+		<a href="<%= receiver_massages_url %>" data-ajax="false" data-icon="refresh">再読み込み</a>
+		
+	</div><!-- /header -->
+
+	<div data-role="content">	
+		
+		<ul data-role="listview" data-filter="true">
+			<% @massages.each do |massage| %>
+			<li>
+				<a href="<%= receiver_massage_url(:id => massage.id) %>" data-transition="slide">
+					<p class="ui-li-aside"><%= Time.parse(massage[:active_datetime].to_s).strftime("%Y年%m月%d日") %></p>
+					<h1><%= massage.category.name %></h1>
+					<p>状態：<%= massage.status.name %></p>
+				</a>
+			</li>
+			<% end %>
+		</ul>
+		
+	</div><!-- /content -->
+
+	<div data-role="footer">
+		<h3>Social Matching System</h3>
+	</div><!-- /footer -->
+
+<script type="text/javascript">
+	//Ajaxで位置情報をポストする際に同時に送信されるユーザID
+	var current_user_id = "<%= current_user.id %>";	
+</script>
+
+</div><!-- /page -->
