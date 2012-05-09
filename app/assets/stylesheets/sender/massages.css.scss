@@ -1,3 +1,101 @@
 // Place all the styles related to the sender/massages controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+@mixin green_button {
+  font-weight: bold;
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0.00, #cade97), color-stop(0.49, #9bbb50), color-stop(1.00, #388235));
+  background: -webkit-linear-gradient(top, #cade97 0%, #9bbb50 49%, #388235 100%);
+  background: -moz-linear-gradient(top, #cade97 0%, #9bbb50 49%, #388235 100%);
+  background: -o-linear-gradient(top, #cade97 0%, #9bbb50 49%, #388235 100%);
+  background: -ms-linear-gradient(top, #cade97 0%, #9bbb50 49%, #388235 100%);
+  background: linear-gradient(to bottom, #cade97 0%, #9bbb50 49%, #388235 100%);  
+}
+
+
+body {
+  margin:0 auto;
+  display:block;
+  color:#3a3a3a;
+}
+
+h1 {
+  width:498px;
+  height:40px;
+  letter-spacing:1px;
+  font-size:1.8em;
+  margin:0 auto;
+}
+
+form {
+  width:459px;
+  margin:0 auto;
+}
+
+label {
+  display:block;
+  margin-top:30px;
+  margin-bottom:10px;
+  letter-spacing:2px;
+  font-size:1.1em;
+  font-weight:bold;
+}
+
+select {
+  border: 1px solid black;
+  font-size: 14px;
+  color: white;
+  background: #444;
+  padding: 5px;
+}
+ul {
+  list-style:none;
+  padding:0 0 0 10px;
+  
+  li {
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #D1D1D1;
+  }
+  
+  .radio { float:left; }
+}
+input, textarea {
+  width:439px;
+  height:27px;
+  background:#efefef;
+  border-radius:5px;
+  -moz-border-radius:5px;
+  -webkit-border-radius:5px;
+  border:1px solid #dedede;
+  padding:10px;
+  margin-top:3px;
+  font-size:0.9em;
+  color:#3a3a3a;
+}
+
+  input:focus, textarea:focus {
+    border:1px solid #97d6eb;
+  }
+
+textarea {
+  height:213px;
+  font-family:Arial, Helvetica, sans-serif;
+  background:url(images/textarea-bg.jpg) right no-repeat #efefef;
+}
+
+#address_postal_code {
+  width:100px;
+}
+input[type="radio"] {
+  width:50px;
+  cursor:pointer;
+}
+input[type="submit"] {
+  width:127px;
+  height:38px;
+  margin-top:50px;
+  cursor:pointer;
+  @include green_button;
+}
+
