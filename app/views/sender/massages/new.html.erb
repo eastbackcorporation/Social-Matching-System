@@ -1,46 +1,62 @@
 <h1>新規の依頼</h1>
 
   <%= form_for([:sender,@massage]) do |f| %>
-  <%= flash[:notice]%>
-  <div>
+  <div class="field">
     <!-- ここにカテゴリ　-->
     <% categories=[] %>
     <% @categories.each{ |e| categories<<[e.name,e.id]}%>
-    <%= f.label :category ,"カテゴリ"%>
+    <%= f.label :category_id ,"カテゴリを選択して下さい"%>
     <%= f.select :category_id ,categories %>
   </div>
   <div class="field">
-    <!-- ここに住所　-->
+    <!-- ここに住所　
     <% addresses = [] %>
     <% @addresses.each{|a| addresses << [a.name ,a.id]}%>
-    <%= f.label :address ,"実施住所を選んでください"%><br />
+    <%= f.label :address ,"実施住所を選んでください"%>
     <%= f.select :address_id,addresses %>
     <%= link_to '新規の住所を登録する', new_sender_address_path %>
     <%= link_to '登録した住所を確認する', sender_addresses_path %>
+  -->
+    <%= f.label :address_id ,"実施住所を選択して下さい"%>
+  	<ul>
+    <% @addresses.each{ |a| %>  	
+  		<li>
+  			<div class="radio"><%= f.radio_button :address_id, a.id %></div>
+  			<div>
+  				<h4><%= a.name %></h4> 
+  				<span><%= a.postal_code %> </span>
+  				<span class="addressStr"><%= a.prefecture %><%= a.address1 %><%= a.address2 %></span>
+  			</div>
+  		</li>
+  	<% } %>
+  	</ul>
+    <%= link_to '新規の住所を登録する', new_sender_address_path %>
   </div>
   <div class="field">
-    <%= f.label :active_datetime ,"実施日時"%><br />
+    <%= f.label :active_datetime ,"実施日時"%>
     <%= f.datetime_select :active_datetime , :use_month_numbers => true,
       :order => [ :year, :month, :day ],
       :start_year => Time.current.year,
-      :end_year => Time.current.year+1%>
+      :end_year => Time.current.year+1,
+      :minute_step => 15 %>
   </div>
   <div class="field">
-    <%= f.label :validated_datetime ,"有効期限日時"%><br />
+    <%= f.label :validated_datetime ,"有効期限日時"%>
     <%= f.datetime_select :validated_datetime , :use_month_numbers => true,
       :order => [ :year, :month, :day ],
       :start_year => Time.current.year,
-      :end_year => Time.current.year+1%>
+      :end_year => Time.current.year+1,
+      :minute_step => 15 %>
   </div>
-  <div>
-    位置情報取得が未実装なため、開発段階のテストとして位置情報は手打ちする<br>
-    <%= f.label :latitude ,"緯度" %>  <%= f.text_field :latitude %>
-    <%= f.label :longitude ,"経度" %> <%= f.text_field :longitude %>
-  </div>
+
+    <%= f.text_field :latitude, :type => "hidden" %>
+    <%= f.text_field :longitude, :type => "hidden" %>
+
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit "作成する" %>
   </div>
 <% end %>
 
 
 <%= link_to '戻る', receiver_users_path %>
+

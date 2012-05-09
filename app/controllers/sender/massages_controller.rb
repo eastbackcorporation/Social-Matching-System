@@ -9,9 +9,31 @@ class Sender::MassagesController < MassagesController
   before_filter :check_validated_datetime
   before_filter :check_active
 
+  respond_to :html,:json
+
   #ユーザの発信した依頼情報一覧
   def index
     @massages=Massage.where(:user_id=>current_user.id)
+    
+    ids = ""
+    
+    @massages.each do |m|
+      #PC画面(jqGrid)用
+      ids << "^" << m.id.to_s << "$"
+      ids << "|"
+    end
+    
+    if mobile? then
+      render :action => "index_mobile", :layout => 'mobile'      
+    else
+      #jqGridでフィルターにかけるパラメータとして、id=>#{ids}を設定する
+      ids[-1,1] = ""
+      params[:id] = ids
+      respond_with() do |format|
+        format.json {render :json => filter_on_params(Massage)}  
+      end  
+    end
+    
   end
 
   #依頼情報詳細表示

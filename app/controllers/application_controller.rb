@@ -54,7 +54,7 @@ class ApplicationController < ActionController::Base
       if current_user.roles.admin
         return true
       elsif current_user.roles.sender
-        redirect_to sender_users_url
+        redirect_to sender_massages_url
       elsif current_user.roles.receiver
         redirect_to receiver_massages_url
       end
@@ -78,7 +78,7 @@ class ApplicationController < ActionController::Base
       elsif current_user.roles.admin
         redirect_to admin_users_url
       elsif current_user.roles.sender
-        redirect_to sender_users_url
+        redirect_to sender_massages_url
       end
     end
     

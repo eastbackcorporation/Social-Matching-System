@@ -6,7 +6,7 @@ class Receiver::MassagesController < MassagesController
   before_filter :check_receiver
   before_filter :check_validated_datetime
   
-    respond_to :html,:json
+  respond_to :html,:json
 
   #自分宛の依頼情報一覧
   def index
