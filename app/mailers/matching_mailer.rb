@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 class MatchingMailer < ActionMailer::Base
   default from: "kou_honda@eastback.jp"
 
@@ -10,9 +12,15 @@ class MatchingMailer < ActionMailer::Base
 
   def matching_email(receiver,massage)
     @user = receiver
-    @massage=massage
+    @massage = massage
+
+    @text = GlobalSetting[:mail_template]
+    @subject = GlobalSetting[:mail_title_template]
     @url = "http://example.com/login"
-    mail(:to => receiver.email,
-         :subject => "Your Matching")
+    #@email=receiver.email
+    #dummy
+    @email="receiver_sms@khn.sakura.ne.jp"
+    mail(:to => @email,
+         :subject => @suject)
   end
 end

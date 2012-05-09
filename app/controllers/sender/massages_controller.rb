@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 
-include Math
+
 #情報発信用コントローラ
 #マッチング処理はここで行う
 class Sender::MassagesController < MassagesController
+  include Math
   before_filter :require_user
   before_filter :check_sender
   before_filter :check_validated_datetime
@@ -130,7 +131,14 @@ protected
   def send_mail(receivers)
     Thread.new do
       receivers.each do |r|
-        MatchingMailer.matching_email(r,@massage).deliver
+        mail=MatchingMailer.matching_email(r,@massage)
+
+        mail.transport_encoding = "8bit"
+        if mail.deliver
+        p "mail send "+r.email
+        else
+          raise ":Not send mail"
+        end
       end
     end
   end
