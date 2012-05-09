@@ -2,9 +2,10 @@
 
 #共通設定用モデル
 class GlobalSetting < ActiveRecord::Base
-  attr_accessible :name,:matching_range,:maximum_range,:matching_interval,:matching_step,:mail_title_template,:mail_template
+  attr_accessible :name,:matching_range,:maximum_range,:matching_interval,:matching_step,:matching_number_limit,:mail_title_template,:mail_template
 
-  validates_numericality_of :matching_range,:maximum_range,:matching_interval,:matching_step
+  validates_numericality_of :matching_range,:maximum_range,:matching_interval,:matching_step,:matching_number_limit
+
 
   # システム設定のデフォルト
   DEFAULT_MAIL_TEMPLATE=<<"EOS"
@@ -12,10 +13,11 @@ class GlobalSetting < ActiveRecord::Base
 EOS
 
   DEFAULTS = {:name => "だんだんマッチング",
-              :matching_range=> 1,
-              :maximum_range=>300,
-              :matching_step=>1,
+              :matching_range=> 1.0,
+              :maximum_range=>300.0,
+              :matching_step=>1.0,
               :matching_interval=>10,
+              :matching_number_limit=>100,
               :mail_title_template=>"あなたに依頼が来ています",
               :mail_template=>DEFAULT_MAIL_TEMPLATE}
 

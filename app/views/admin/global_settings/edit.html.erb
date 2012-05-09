@@ -4,24 +4,29 @@
       <%= f.submit '更新', :class => "button", :confirm => "更新します。よろしいですか？" %>
 
       <div>
-        <%= f.label :name, "タイトル："  %>
+        <%= f.label :name, "システム名："  %>
         <%= f.text_field :name %>
       </div>
+      <hr>
       <div>
-        <%= f.label :matching_range, "基準マッチング範囲："  %>
-        <%= f.text_field :matching_range %> km
+        <%= f.label :matching_number_limit, "同時最大マッチング人数："  %>
+        <%= f.text_field :matching_number_limit %>
       </div>
       <div>
-        <%= f.label :maximum_range, "最大マッチング範囲："  %>
-        <%= f.text_field :maximum_range %> km
+        <%= f.label :matching_range, "基準マッチング範囲：km"  %>
+        <%= f.text_field :matching_range %>
       </div>
       <div>
-        <%= f.label :matching_step, "再マッチング時の拡大範囲："  %>
-        <%= f.text_field :matching_step %> km
+        <%= f.label :maximum_range, "最大マッチング範囲：km"  %>
+        <%= f.text_field :maximum_range %>
       </div>
       <div>
-        <%= f.label :matching_interval, "再マッチングする時間の間隔"  %>
-        <%= f.text_field :matching_interval %> 秒
+        <%= f.label :matching_step, "再マッチング時の拡大範囲：km"  %>
+        <%= f.text_field :matching_step %>
+      </div>
+      <div>
+        <%= f.label :matching_interval, "再マッチングする時間の間隔 :秒"  %>
+        <%= f.text_field :matching_interval %>
       </div>
       <hr>
       <div>

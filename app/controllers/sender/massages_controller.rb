@@ -15,26 +15,26 @@ class Sender::MassagesController < MassagesController
   #ユーザの発信した依頼情報一覧
   def index
     @massages=Massage.where(:user_id=>current_user.id)
-    
+
     ids = ""
-    
+
     @massages.each do |m|
       #PC画面(jqGrid)用
       ids << "^" << m.id.to_s << "$"
       ids << "|"
     end
-    
+
     if mobile? then
-      render :action => "index_mobile", :layout => 'mobile'      
+      render :action => "index_mobile", :layout => 'mobile'
     else
       #jqGridでフィルターにかけるパラメータとして、id=>#{ids}を設定する
       ids[-1,1] = ""
       params[:id] = ids
       respond_with() do |format|
-        format.json {render :json => filter_on_params(Massage)}  
-      end  
+        format.json {render :json => filter_on_params(Massage)}
+      end
     end
-    
+
   end
 
   #依頼情報詳細表示
@@ -63,6 +63,7 @@ class Sender::MassagesController < MassagesController
     @maximum=GlobalSetting[:maximum_range]
     @step=GlobalSetting[:matching_step]
     @matching_interval=GlobalSetting[:matching_interval]
+    @matching_number_limit=GlobalSetting[:matching_number_limit]
 
     if self.matching #マッチングを行う
       @massage.update_attributes(:status_id=>2)#該当者あり
@@ -165,9 +166,10 @@ protected
     end
   end
 
-  #距離の近いreceiverの探索
+  #距離の近いreceiverの探索 ver1.0
   def search_user(min_dis,max_dis)
     rtn_flg=false
+
     @receivers_locations.each do |rl|
       dis = self.distance(rl)
       if min_dis <= dis && dis <= max_dis
