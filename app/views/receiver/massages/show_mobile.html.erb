@@ -6,8 +6,8 @@
 		<h1>依頼情報詳細</h1>
 	</div><!-- /header -->
 
-	<div data-role="content">	
-		
+	<div data-role="content">
+
 		<ul data-role="listview" data-inset="true">
 			<li>
 				<p>カテゴリ</p>
@@ -39,7 +39,7 @@
 			</li>
 		</ul>
 
-		<% unless MatchingUser.where(:receiver_id=>current_user.id,:massage_id=>@massage.id).first.reject_flg %>
+		<% unless MatchingUser.where(:user_id=>current_user.id,:massage_id=>@massage.id).first.reject_flg %>
             <%= form_tag({:action => :reject},{:method => :put}) do %>
         		<%= submit_tag("お断りする") %>
       		<% end %>
@@ -47,7 +47,7 @@
       		<strong>[お断り済み]</strong>
       	<% end %>
 
-		
+
 	</div><!-- /content -->
 
 	<div data-role="footer">
@@ -56,7 +56,7 @@
 
 <script type="text/javascript">
 	//Ajaxで位置情報をポストする際に同時に送信されるユーザID
-	var current_user_id = "<%= current_user.id %>";	
+	var current_user_id = "<%= current_user.id %>";
 </script>
 
 </div><!-- /page -->

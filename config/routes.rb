@@ -3,6 +3,8 @@ SocialMatchingSystem::Application.routes.draw do
   namespace :admin do
     resources :users
     resources :addresses
+    resources :massages
+    resources :global_settings,:only => %w[edit update]
   end
 
   namespace :sender do

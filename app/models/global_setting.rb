@@ -1,7 +1,10 @@
 # -*- coding: utf-8 -*-
 
+#共通設定用モデル
 class GlobalSetting < ActiveRecord::Base
-  attr_accessible :name,:matching_range,:maximum_range,:matching_interval
+  attr_accessible :name,:matching_range,:maximum_range,:matching_interval,:matching_step
+
+  validates_numericality_of :matching_range,:maximum_range,:matching_interval,:matching_step
 
   # システム設定のデフォルト
   DEFAULTS = {:name => "だんだんマッチング",
@@ -25,7 +28,5 @@ class GlobalSetting < ActiveRecord::Base
       @@instance = GlobalSetting.first unless @@instance
       return @@instance
     end
-  rescue
-    return DEFAULTS
   end
 end

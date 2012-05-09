@@ -1,0 +1,32 @@
+<div class="block">
+  <div class="content">
+    <h2 class="title">依頼情報一覧</h2>
+    <div class="inner">
+      <table class="table">
+        <tr>
+          <th>カテゴリ</th>
+          <th>ステータス</th>
+          <th>該当者数</th>
+          <th>発信日</th>
+          <th>有効期限</th>
+          <th colspan="3">操作</th>
+        </tr>
+
+      <% @massages.each do |massage| %>
+        <tr>
+          <td><%= massage.category.name %></td>
+          <td><%= massage.status.name %></td>
+          <td><%= massage.matching_count %>
+          <td><%= massage.created_at %></td>
+          <td><%= massage.validated_datetime %></td>
+          <td><%= link_to '詳細', [:admin, massage] %></td>
+          <!-- 未実装 -->
+          <td><%= link_to '削除', [:admin, massage], :confirm => '削除しますか?', :method => :delete %></td>
+        </tr>
+      <% end %>
+      </table>
+
+      <%= link_to '新規', new_admin_massage_path %>
+    </div>
+  </div>
+</div>

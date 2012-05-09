@@ -163,7 +163,7 @@ protected
     @receivers_locations.each do |rl|
       dis = self.distance(rl)
       if min_dis <= dis && dis <= max_dis
-        @matching_user=MatchingUser.new(:massage_id=>@massage.id,:receiver_id=>rl.user_id,:distance=> dis.to_s)
+        @matching_user=MatchingUser.new(:massage_id=>@massage.id,:user_id=>rl.user_id,:distance=> dis.to_s)
         if @matching_user.save
           @matching_receivers<<rl.user
           rtn_flg=true
