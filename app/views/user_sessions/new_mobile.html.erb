@@ -1,0 +1,29 @@
+
+<div data-role="page">
+
+	<div data-role="header" data-position="fixed">
+		<h1>ログイン画面</h1>		
+	</div><!-- /header -->
+
+	<div data-role="content">	
+		
+		<%= form_for @user_session do |f| %>
+			<%= f.label :login %>
+			<%= f.text_field :login %>
+
+			<%= f.label :password %>
+			<%= f.password_field :password %>
+
+  			<%= f.check_box :remember_me %>
+  ￼			<%= f.label :remember_me, "次回から自動ログイン", :class => "plain" %>
+
+			<%= f.submit "ログイン", :id=>"submit" %>
+		<% end %>
+		
+	</div><!-- /content -->
+
+	<div data-role="footer" data-position="fixed">
+		<h3>Social Matching System</h3>
+	</div><!-- /footer -->
+
+</div><!-- /page -->

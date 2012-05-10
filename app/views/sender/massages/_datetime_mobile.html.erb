@@ -1,0 +1,50 @@
+	<% 
+		year = Time.now.year
+		month = Time.now.month
+		day = Time.now.day
+		hour = Time.now.hour
+	 %>
+			<fieldset data-role="controlgroup" data-type="horizontal">
+				<legend><%= legend %>（年月日）：</legend>
+
+    			<label for="<%= id %>_1i">年</label>
+    			<select id="<%= id %>_1i" name="<%= name.sub("%index%", "1i") %>">
+					<option value="<%= year + 1 %>"><%= year + 1 %></option>
+					<option selected="selected" value="<%= year %>"><%= year %></option>
+				</select>
+				
+				<label for="<%= id %>_2i">月</label>	
+				<select id="<%= id %>_2i" name="<%= name.sub("%index%", "2i") %>">
+					<% for i in 1..12 %>
+					<option value="<%= i %>" <%= if i==month then "selected='selected'" end %>><%= i %></option>
+					<% end %>
+				</select>
+
+				<label for="<%= id %>_3i">日</label>
+				<select id="<%= id %>_3i" name="<%= name.sub("%index%", "3i") %>">
+					<% for i in 1..31 %>
+					<option value="<%= i %>" <%= if i==day then "selected='selected'" end %>><%= i %></option>
+					<% end %>
+				</select>
+				
+			</fieldset>
+
+			<fieldset data-role="controlgroup" data-type="horizontal">
+				<legend><%= legend %>（時間）：</legend>
+
+    			<label for="<%= id %>_4i">時</label>
+				<select id="<%= id %>_4i" name="<%= name.sub("%index%", "4i") %>">
+					<% for i in 1..23 %>
+					<option value="<%= sprintf("%02d",i) %>" <%= if i==hour then "selected='selected'" end %>><%= sprintf("%02d",i) %></option>
+					<% end %>
+				</select>	
+							
+				<label for="<%= id %>_5i">分</label>	
+				<select id="<%= id %>_5i" name="<%= name.sub("%index%", "5i") %>">
+					<option value="00">00</option>
+					<option value="15">15</option>
+					<option value="30">30</option>
+					<option value="45">45</option>
+				</select>
+				
+			</fieldset>	

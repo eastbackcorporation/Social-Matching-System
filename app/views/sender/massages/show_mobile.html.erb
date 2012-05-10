@@ -1,9 +1,7 @@
-<% sender = User.find(@massage.user_id) %>
-
 <div data-role="page">
 
 	<div data-role="header">
-		<a href="<%= receiver_massages_url %>" data-transition="slide" data-direction="reverse" data-icon="arrow-l">一覧へ</a>
+		<a href="<%= sender_massages_url %>" data-transition="slide" data-direction="reverse" data-icon="arrow-l">一覧へ</a>
 		<h1>依頼情報詳細</h1>
 	</div><!-- /header -->
 
@@ -19,6 +17,10 @@
 				<h1><%= @massage.status.name %></h1>
 			</li>
 			<li>
+				<p>現在の探索範囲</p>
+				<h1><%= @massage.matching_range %>km</h1>
+			</li>
+			<li>
 				<p>作成日</p>
 				<h1><%= Time.parse(@massage.created_at.to_s).strftime("%Y年%m月%d日 %H時%M分") %></h1>
 			</li>
@@ -30,22 +32,11 @@
 				<p>実施日</p>
 				<h1><%= Time.parse(@massage.active_datetime.to_s).strftime("%Y年%m月%d日 %H時%M分") %></h1>
 			</li>
-			<li>
-				<p>依頼者</p>
-				<h1><%= sender.family_name %> <%= sender.given_name %></h1>
-			</li>
-			<li>
-				<p>E-mail</p>
-				<h1><%= sender.email %></h1>
-			</li>
 		</ul>
 
-		<% unless MatchingUser.where(:user_id=>current_user.id,:massage_id=>@massage.id).first.reject_flg %>
-            <%= form_tag({:action => :reject},{:method => :put}) do %>
-        		<%= submit_tag("お断りする") %>
-      		<% end %>
-      	<% else %>
-      		<strong>[お断り済み]</strong>
+		<%= form_tag({:action => :change_status},{:method => :put}) do %>
+        	<%= select_tag("status",options_for_select([["完了",4],["キャンセル",5]])) %>
+        	<input name="commit" type="submit" value="ステータス変更" data-theme="b">
       	<% end %>
 
 
@@ -54,11 +45,6 @@
 	<div data-role="footer">
 		<h3>Social Matching System</h3>
 	</div><!-- /footer -->
-
-<script type="text/javascript">
-	//Ajaxで位置情報をポストする際に同時に送信されるユーザID
-	var current_user_id = "<%= current_user.id %>";
-</script>
 
 </div><!-- /page -->
 
