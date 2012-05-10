@@ -1,10 +1,10 @@
-Your Matching
 
-Your
-name:<%= @user.login %>
-email:<%= @user.email %>
-
-Matching http://localhost:3000<%= receiver_massage_path(@massage) %>
+<%= @text %>
+要件ステータス:<%= @massage.category.name %>
+依頼者名:<%= @massage.user.family_name  %> <%= @massage.user.given_name %>
+email:<%= @massage.user.email %>
+電話番号<%= @massage.user.phone_number %>
+マッチング情報 http://localhost:3000<%= receiver_massage_path(@massage) %>
 
 
 

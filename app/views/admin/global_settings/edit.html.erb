@@ -1,6 +1,8 @@
 <div class="block">
     <h2><%= @global_setting.name %>の設定編集</h2>
     <%= form_for([:admin, @global_setting]) do |f| %>
+      <%= f.submit '更新', :class => "button", :confirm => "更新します。よろしいですか？" %>
+
       <div>
         <%= f.label :name, "タイトル："  %>
         <%= f.text_field :name %>
@@ -21,6 +23,15 @@
         <%= f.label :matching_interval, "再マッチングする時間の間隔"  %>
         <%= f.text_field :matching_interval %> 秒
       </div>
-      <%= f.submit 'Update', :class => "button", :confirm => "更新します。よろしいですか？" %>
-    <% end %>
+      <hr>
+      <div>
+        <%= f.label :mail_title_template,"依頼メールのタイトル"%>
+        <%= f.text_field :mail_title_template %>
+      </div>
+      <br>
+      <div>
+        <%= f.label :mail_template,"依頼メールの文章"%>
+        <%= f.text_area :mail_template ,:size => "40x10"%>
+      </div>
+      <% end %>
 </div>
