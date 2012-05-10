@@ -10,6 +10,13 @@ class GlobalSetting < ActiveRecord::Base
   # システム設定のデフォルト
   DEFAULT_MAIL_TEMPLATE=<<"EOS"
 あなたがマッチングしました!!
+
+あなたのログイン名%receiver.login%
+
+依頼カテゴリ%massage.category%
+送信者メールアドレス: %sender.email%
+
+依頼情報詳細 http://localhost:3000/%massage_path%
 EOS
 
   DEFAULTS = {:name => "だんだんマッチング",
