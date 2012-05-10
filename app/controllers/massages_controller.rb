@@ -8,7 +8,7 @@ private
   def check_validated_datetime
     @massages = Massage.all
     @massages.each do |m|
-      unless m.validated_datetime > DateTime.now || m.status.name=="完了" || m.status.name =="キャンセル"
+      unless m.validated_datetime > DateTime.now || m.status.name=="完了" || m.status.name =="中止"
         m.status=Status.where(:name=> "期限切れ").first
         m.save
       end
@@ -19,10 +19,8 @@ private
   def check_active
     @massages = Massage.all
     @massages.each do |m|
-      if m.status.name=="完了" || m.status.name =="キャンセル" ||m.status.name =="期限切れ"
-        m.active_flg=false
+        m.active_flg=m.status.active_flg
         m.save
-      end
     end
   end
 end

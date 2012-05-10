@@ -13,4 +13,7 @@ class Massage < ActiveRecord::Base
 
   validates :category_id ,:user_id,:status_id,:presence =>true
 
+  def active?
+    return @active_flg
+  end
 end
