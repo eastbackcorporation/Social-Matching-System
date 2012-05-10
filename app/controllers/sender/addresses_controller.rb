@@ -12,6 +12,9 @@ class Sender::AddressesController < ApplicationController
   #新規住所の登録画面
   def new
     @address=Address.new
+   if mobile? then
+      render :action => "new_mobile", :layout => 'mobile'
+   end      
   end
 
   #新規住所の登録
