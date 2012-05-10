@@ -9,6 +9,9 @@ class UserSessionsController < ApplicationController
   #新規ログイン画面の表示
   def new
     @user_session = UserSession.new
+    if mobile?
+      render :action => "new_mobile", :layout => 'mobile'
+    end
   end
 
   #ログイン

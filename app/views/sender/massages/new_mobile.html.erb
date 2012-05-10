@@ -1,0 +1,65 @@
+<div data-role="page">
+
+	<div data-role="header">
+		<a href="<%= sender_massages_url %>" data-transition="slide" data-direction="reverse" data-icon="arrow-l">一覧へ</a>
+		<h1>新規の依頼</h1>
+	</div><!-- /header -->
+
+	<div data-role="content">
+
+	<!-- <div data-role="fieldcontain"> -->	
+  	<%= form_for([:sender,@massage]) do |f| %>
+    	<!-- ここにカテゴリ　-->
+    	<% categories=[] %>
+    	<% @categories.each{ |e| categories<<[e.name,e.id]}%>
+    	<%= f.label :category_id ,"カテゴリ："%>
+    	<%= f.select :category_id ,categories %>
+
+		<div class="divider"></div>
+
+	    <!-- ここに住所 -->
+		<label for="massage_address_id">実施住所：</label>
+		<select id="massage_address_id" name="massage[address_id]" data-native-menu="false">
+			<option data-pleceholder="true">住所を選択して下さい</option>
+    		<% @addresses.each{|a| %>
+			<option value="<%= a.id %>"><%= a.name %>: <%= a.prefecture %> <%= a.address1 %> <%= a.address2 %></option>
+			<% } %>
+		</select>
+			
+		<a href="<%= new_sender_address_path %>" data-role="button" data-theme="e" data-inline="true" data-icon="plus">新規の住所を登録する</a>
+
+
+		<div class="divider"></div>
+
+
+		<!-- 実施日時 -->
+		<%= render "datetime_mobile", {:legend => "実施日時", :id => "massage_active_datetime", :name => "massage[active_datetime(%index%)]" } %>
+
+		
+		<div class="divider"></div>
+
+		
+		<!-- 有効期限日時 -->
+		<%= render "datetime_mobile", {:legend => "有効期限日時", :id => "massage_validated_datetime", :name => "massage[validated_datetime(%index%)]" } %>
+
+
+    	<%= f.text_field :latitude, :type => "hidden" %>
+    	<%= f.text_field :longitude, :type => "hidden" %>
+
+
+		<div class="divider"></div>		
+
+		<input name="commit" type="submit" value="作成する" data-theme="b">
+
+	<% end %>
+	<!-- </div> -->
+
+
+	</div><!-- /content -->
+
+	<div data-role="footer">
+		<h3>Social Matching System</h3>
+	</div><!-- /footer -->
+
+</div><!-- /page -->
+

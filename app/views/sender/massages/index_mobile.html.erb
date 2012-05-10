@@ -10,10 +10,10 @@
 		<ul data-role="listview" data-filter="true">
 			<% @massages.each do |massage| %>
 			<li>
-				<a href="<%= receiver_massage_url(:id => massage.id) %>" data-transition="slide">
+				<a href="<%= sender_massage_url(:id => massage.id) %>" data-transition="slide">
 					<p class="ui-li-aside"><%= Time.parse(massage[:active_datetime].to_s).strftime("%Y年%m月%d日") %></p>
 					<h1><%= massage.category.name %></h1>
-					<p>状態：<%= massage.status.name %></p>
+					<p>状態：<%= massage.status.name %>, 該当者数：<%= massage.matching_count %></p>
 				</a>
 			</li>
 			<% end %>
@@ -22,12 +22,8 @@
 	</div><!-- /content -->
 
 	<div data-role="footer" class="ui-bar" data-position="fixed">
-		<a href="<%= receiver_massages_url %>" data-ajax="false" data-role="button" data-icon="refresh">再読込み</a>
+		<a href="<%= sender_massages_url %>" data-ajax="false" data-role="button" data-icon="refresh">再読込み</a>
+		<a href="<%= new_sender_massage_url %>" class="ui-btn-right" data-role="button" data-icon="add" data-transition="slide">新規作成</a>
 	</div><!-- /footer -->
-
-<script type="text/javascript">
-	//Ajaxで位置情報をポストする際に同時に送信されるユーザID
-	var current_user_id = "<%= current_user.id %>";	
-</script>
 
 </div><!-- /page -->

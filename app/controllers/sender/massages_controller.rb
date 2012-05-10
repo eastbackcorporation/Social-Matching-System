@@ -39,6 +39,9 @@ class Sender::MassagesController < MassagesController
   #依頼情報詳細表示
   def show
    @massage=Massage.find(params[:id])
+   if mobile? then
+      render :action => "show_mobile", :layout => 'mobile'
+   end      
   end
 
   #新規依頼作成ページ表示
@@ -46,10 +49,15 @@ class Sender::MassagesController < MassagesController
     @massage = Massage.new
     @categories=Category.all
     @addresses=Address.where(:user_id=>current_user.id)
-    respond_to do |format|
-      format.html # new.html.erb
-      format.json { render json: @massage }
-    end
+    
+    if mobile? then
+      render :action => "new_mobile", :layout => 'mobile'
+    end      
+    
+    #respond_to do |format|
+    #  format.html # new.html.erb
+    #  format.json { render json: @massage }
+    #end
   end
 
   #新規依頼作成
@@ -150,11 +158,11 @@ protected
 
   #メール送信
   def send_mail(receivers)
-    Thread.new do
+    #Thread.new do
       receivers.each do |r|
         MatchingMailer.matching_email(r,@massage).deliver
       end
-    end
+    #end
   end
 
   #距離の近いreceiverの探索

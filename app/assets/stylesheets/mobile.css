@@ -1,0 +1,12 @@
+.ui-footer-fixed .ui-btn-right {
+	/*固定フッターで右側ボタンを指定（class属性「ui-btn-right」を指定）した場合に、*/
+	/*フッターのサイズが30px余分に大きくなり、ボタンの右端が切れてしまう現象の対応*/
+	margin-right: 35px;
+}
+
+.divider {
+	display:block;
+	margin: 20px auto;	
+	width:80%;
+	border-top: 1px solid #ccc;
+}
