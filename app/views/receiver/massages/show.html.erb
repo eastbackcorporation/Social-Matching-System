@@ -1,7 +1,7 @@
 <p id="notice"><%= notice %></p>
 
 <% sender = User.find(@massage.user_id) %>
-<table class="massage_show">
+<table class="massage_show fleft">
 	<tfoot>
         <tr>
             <th scope="row"><%= link_to '戻る', sender_massages_path %></th>
@@ -27,19 +27,23 @@
         </tr>
 		<tr>
             <th scope="row">作成日</th>
-            <td><%= @massage.created_at %></td>
+            <td><%= Time.parse(@massage.created_at.to_s).strftime("%Y年%m月%d日 %H時%M分") %></td>
         </tr>
 		<tr>
             <th scope="row">有効期限</th>
-            <td><%= @massage.validated_datetime %></td>
+            <td><%= Time.parse(@massage.validated_datetime.to_s).strftime("%Y年%m月%d日 %H時%M分") %></td>
         </tr>
 		<tr>
             <th scope="row">実施日</th>
-            <td><%= @massage.active_datetime %></td>
+            <td><%= Time.parse(@massage.active_datetime.to_s).strftime("%Y年%m月%d日 %H時%M分") %></td>
         </tr>
 		<tr>
             <th scope="row">依頼者</th>
             <td><%= sender.family_name %> <%= sender.given_name %></td>
+        </tr>
+		<tr>
+            <th scope="row">電話番号</th>
+            <td><%= sender.phone_number %></td>
         </tr>
 		<tr>
             <th scope="row">E-mail</th>
@@ -48,7 +52,30 @@
 	</tbody>
 </table>
 
+<table class="massage_show fright">
+	<tr>
+        <th scope="row">実施場所</th>
+		<td><div id="map" style="width: 400px; height: 300px"></div></td>
+	</tr>
+</table>
+
 <script type="text/javascript">
 	//Ajaxで位置情報をポストする際に同時に送信されるユーザID
 	var current_user_id = "<%= current_user.id %>";
+	
+	//Goolge Map の作成	
+	$(function(){
+		var myLatlng = new google.maps.LatLng(<%= @massage.latitude %>,<%= @massage.longitude %>);   
+		var myOptions = {
+			zoom: 13,
+			center: myLatlng,
+			mapTypeId: google.maps.MapTypeId.ROADMAP
+		};
+		var map = new google.maps.Map(document.getElementById("map"), myOptions);
+		var marker = new google.maps.Marker({
+			position: myLatlng,
+			map: map,
+		});
+	});
+
 </script>

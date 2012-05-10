@@ -35,14 +35,23 @@
 				<h1><%= sender.family_name %> <%= sender.given_name %></h1>
 			</li>
 			<li>
+				<p>電話番号</p>
+				<h1><%= sender.phone_number %></h1>
+			</li>
+			<li>
 				<p>E-mail</p>
 				<h1><%= sender.email %></h1>
+			</li>
+			<li>
+				<a href="<%= map_receiver_massage_url(:id => @massage.id) %>" data-transition="slide">
+				<h1>実施場所</h1>
+				</a>
 			</li>
 		</ul>
 
 		<% unless MatchingUser.where(:user_id=>current_user.id,:massage_id=>@massage.id).first.reject_flg %>
             <%= form_tag({:action => :reject},{:method => :put}) do %>
-        		<%= submit_tag("お断りする") %>
+        		<input name="commit" type="submit" value="お断りする" data-theme="e">
       		<% end %>
       	<% else %>
       		<strong>[お断り済み]</strong>
