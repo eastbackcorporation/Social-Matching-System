@@ -15,13 +15,14 @@ admin.roles<<Role.admin
                           :email =>email,
                           :password => "test",
                           :password_confirmation => "test")
+  test_sender.given_name="太郎"
+  test_sender.family_name="田中"
+  test_sender.sex=:male
+  test_sender.phone_number="0900001"+s.to_s*4
 
   test_sender.roles<<Role.sender
+  test_sender.save
 end
-
-kou=User.create(:login => "kou_receiver",:email => "kou_honda@eastback.jp",
-             :password => "test",:password_confirmation => "test")
-kou.roles<<Role.receiver
 
 10.times do |r|
   login="test_receiver"+r.to_s
@@ -31,5 +32,11 @@ kou.roles<<Role.receiver
                           :password => "test",
                           :password_confirmation => "test")
 
+  test_receiver.given_name="花子"
+  test_receiver.family_name="鈴木"
+  test_receiver.sex=:female
+  test_receiver.phone_number="0900002"+r.to_s*4
+
   test_receiver.roles<<Role.receiver
+  test_receiver.save
 end

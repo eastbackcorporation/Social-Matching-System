@@ -28,13 +28,12 @@ class Sender::MassagesController < MassagesController
       render :action => "index_mobile", :layout => 'mobile'
     else
       #jqGridでフィルターにかけるパラメータとして、id=>#{ids}を設定する
-      ids[-1,1] = ""
+      #ids[-1,1] = ""
       params[:id] = ids
       respond_with() do |format|
         format.json {render :json => filter_on_params(Massage)}
       end
     end
-
   end
 
   #依頼情報詳細表示
@@ -128,6 +127,7 @@ protected
         self.send_mail @matching_receivers
         @massage.save
       end while @massage.active_flg && @range<@maximum
+      @massage.status=Massage.where(:name=>"マッチング終了")
     end
 
     if @matching_receivers.empty?
