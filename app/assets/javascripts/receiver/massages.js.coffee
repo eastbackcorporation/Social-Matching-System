@@ -73,11 +73,11 @@ $ ->
 
 
   if geo_position_js.init()
-    #clearInterval(timer);
-    #timer = setInterval(function () {
-    #  geo_position_js.getCurrentPosition(success_callback, error_callback);
-    #}, intervalTime);
-    geo_position_js.getCurrentPosition success_callback, error_callback
+    clearInterval(timer);
+    timer = setInterval ->
+      geo_position_js.getCurrentPosition success_callback, error_callback
+    , intervalTime
+    #geo_position_js.getCurrentPosition success_callback, error_callback
   else
     console.log "Geolocation Functionality not available"
     clearInterval timer
