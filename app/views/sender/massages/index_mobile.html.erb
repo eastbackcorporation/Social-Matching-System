@@ -22,8 +22,19 @@
 	</div><!-- /content -->
 
 	<div data-role="footer" class="ui-bar" data-position="fixed">
-		<a href="<%= sender_massages_url %>" data-ajax="false" data-role="button" data-icon="refresh">再読込み</a>
+		<a id="sender_massage_refresh_btn" href="" data-ajax="false" data-role="button" data-icon="refresh">再読込み</a>
 		<a href="<%= new_sender_massage_url %>" class="ui-btn-right" data-role="button" data-icon="add" data-transition="slide">新規作成</a>
 	</div><!-- /footer -->
+
+<script type="text/javascript">
+	$(function(){
+		$("a#sender_massage_refresh_btn").bind( "vclick", function(){
+			$.mobile.changePage( "<%= sender_massages_url %>", {
+				allowSamePageTransition: true,
+				reloadPage: true
+			});			
+		});
+	});
+</script>
 
 </div><!-- /page -->
