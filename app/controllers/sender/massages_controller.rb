@@ -194,7 +194,7 @@ protected
       Thread::kill(t)
       return false
     else
-      Thread.new{self.send_mail(@matching_receivers)}
+      Thread.new{ self.send_mail(@matching_receivers) }
       return true
     end
   end
@@ -207,12 +207,13 @@ protected
       @massage=Massage.find(msg_id)
       @matching_receivers=[]
       prev_range=@range
+      @range+=@step
 
       until self.search_user2(prev_range,@range) || @range>@maximum
         @range += @step
       end
 
-      self.send_mail(@matching_receivers)
+      Thread.new { self.send_mail(@matching_receivers) }
       @massage.save
     end while @massage.active_flg && @range<@maximum
     @massage.status=Status.to("マッチング終了").first
@@ -229,7 +230,7 @@ protected
     if min_dis < receiver[1] && receiver[1] <=max_dis
       @matching_receivers << User.find(receiver[0])
       @range=receiver[1]
-      @massage.matching_range = @range
+      @massage.matching_range = receiver[1]
 
       @massage.matching_count += 1
 
@@ -237,7 +238,7 @@ protected
       matching_user.save
       return true
     else
-      @massage.matching_range = @range
+      @massage.matching_range = max_dis
       return false
     end
   end
