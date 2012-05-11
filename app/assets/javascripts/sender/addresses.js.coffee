@@ -5,8 +5,16 @@ $ ->
   $.mask.masks.postal_code = {mask: '999-9999'}
   $('#address_postal_code').setMask();
   
+  
   #モバイル画面用
-  $('#address_postal_code.ui-input-text').bind 'change', ->
+  $('div#new_address_mobile').live 'pageshow', ->
+    $.mask.masks.postal_code = {mask: '999-9999'}
+    $('#address_postal_code').setMask();
+    return
+    
+    
+  #モバイル画面用
+  $('#address_postal_code.ui-input-text').live 'change', ->
     AjaxZip3.zip2addr this,'','address[prefecture]','address[address1]','address[address2]'
     return
   
