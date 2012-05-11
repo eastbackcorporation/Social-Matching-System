@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-
 #情報発信用コントローラ
 #マッチング処理はここで行う
 class Sender::MassagesController < MassagesController
@@ -28,8 +27,12 @@ class Sender::MassagesController < MassagesController
       render :action => "index_mobile", :layout => 'mobile'
     else
       #jqGridでフィルターにかけるパラメータとして、id=>#{ids}を設定する
-      #ids[-1,1] = ""
-      params[:id] = ids
+      if ids != ""
+        ids[-1,1] = ""
+        params[:id] = ids
+      else
+        return
+      end
       respond_with() do |format|
         format.json {render :json => filter_on_params(Massage)}
       end
@@ -41,7 +44,7 @@ class Sender::MassagesController < MassagesController
    @massage=Massage.find(params[:id])
    if mobile? then
       render :action => "show_mobile", :layout => 'mobile'
-   end      
+   end
   end
 
   #新規依頼作成ページ表示
@@ -49,11 +52,11 @@ class Sender::MassagesController < MassagesController
     @massage = Massage.new
     @categories=Category.all
     @addresses=Address.where(:user_id=>current_user.id)
-    
+
     if mobile? then
       render :action => "new_mobile", :layout => 'mobile'
-    end      
-    
+    end
+
     #respond_to do |format|
     #  format.html # new.html.erb
     #  format.json { render json: @massage }
@@ -72,13 +75,15 @@ class Sender::MassagesController < MassagesController
     @matching_interval=GlobalSetting[:matching_interval]
     @matching_number_limit=GlobalSetting[:matching_number_limit]
 
-    if self.matching #マッチングを行う
+    #if self.matching #マッチングを行う
+    if self.matching2
       @massage.update_attributes(:status_id=>2)#該当者あり
     end
-        
+
     respond_to do |format|
       if @massage.save
         format.html { redirect_to(sender_massages_url) }
+        #format.html { redirect_to [:sender,@massage] }
         format.json { render json: @massage, status: :created, location: @massage }
       else
         format.html { render :new}
@@ -112,40 +117,128 @@ protected
   def matching
     @receivers_locations=ReceiversLocation.all
     @matching_receivers=[]
-    @massage.matching_count=0
+
 
     #最初のマッチング
     until self.search_user(0,@range) || @range>=@maximum
       @range += @step
     end
-
     #再マッチング用スレッド
     #一定時間内に依頼が成立しなかった場合、範囲を広げて再びマッチングする
-    t=Thread.new do
-      msg_id=@massage.id
-      begin
-        sleep @matching_interval
-        @massage=Massage.find(msg_id)
-        @matching_receivers=[]
-        prev_range=@range
-
-        until self.search_user(prev_range,@range) || @range>=@maximum
-          @range += @step
-        end
-
-        self.send_mail @matching_receivers
-        @massage.save
-      end while @massage.active_flg && @range<@maximum
-      @massage.status=Massage.where(:name=>"マッチング終了")
-    end
+    t=Thread.new{ self.repeat_matching }
 
     if @matching_receivers.empty?
-      flash[:notice] = "該当者なし"
       Thread::kill(t)
       return false
     else
-      self.send_mail @matching_receivers
+      Thread.new{self.send_mail(@matching_receivers)}
       return true
+    end
+  end
+
+  #マッチングを繰り返す
+  def repeat_matching
+    msg_id=@massage.id
+    begin
+      sleep @matching_interval
+      @massage=Massage.find(msg_id)
+      @matching_receivers=[]
+      prev_range=@range
+
+      until self.search_user(prev_range,@range) || @range>=@maximum
+        @range += @step
+      end
+
+      Thread.new{self.send_mail(@matching_receivers)}
+      @massage.save
+    end while @massage.active_flg && @range<@maximum
+    @massage.status=Status.to("マッチング終了").first
+  end
+
+  #距離の近いreceiverの探索 ver1.0
+  def search_user(min_dis,max_dis)
+    rtn_flg=false
+
+    @receivers_locations.each do |rl|
+      dis = self.distance(rl)
+
+      #範囲内かチェック
+      if min_dis <= dis && dis <= max_dis
+        @matching_user=MatchingUser.new(:massage_id=>@massage.id,:user_id=>rl.user_id,:distance=> dis.to_s)
+        if @matching_user.save
+          @matching_receivers<<rl.user
+          rtn_flg=true
+        end
+      end
+    end
+    @massage.matching_count= @massage.matching_count || 0
+    @massage.matching_count += @matching_receivers.size
+    @massage.matching_range=max_dis
+    return rtn_flg
+  end
+
+  #マッチングを行う ver2.0
+  #一定時間内に依頼が成立しなかった場合、範囲を広げて再びマッチングする
+  def matching2
+    @receivers_locations = ReceiversLocation.all
+    @matching_receivers = []
+
+    #最初のマッチング
+    until self.search_user2(0,@range) || @range>=@maximum
+      @range += @step
+    end
+
+    t=Thread.new{ self.repeat_matching2 }
+
+    if @matching_receivers.empty?
+      Thread::kill(t)
+      return false
+    else
+      Thread.new{self.send_mail(@matching_receivers)}
+      return true
+    end
+  end
+
+  #ver2.0版マッチングを繰り返す
+  def repeat_matching2
+    msg_id=@massage.id
+    begin
+      sleep @matching_interval
+      @massage=Massage.find(msg_id)
+      @matching_receivers=[]
+      prev_range=@range
+
+      until self.search_user2(prev_range,@range) || @range>@maximum
+        @range += @step
+      end
+
+      self.send_mail(@matching_receivers)
+      @massage.save
+    end while @massage.active_flg && @range<@maximum
+    @massage.status=Status.to("マッチング終了").first
+  end
+
+  #距離の近いreceiverの探索 ver1.0
+  def search_user2(min_dis,max_dis)
+    distance = {}
+    @receivers_locations.each { |rl| distance[rl.user_id] = self.distance(rl) }
+    @massage.matching_count =  @massage.matching_count || 0
+    receivers = distance.sort{ |a,b| a[1]<=>b[1] }
+    receiver = receivers[@massage.matching_count]
+
+    if min_dis <= receiver[1] && receiver[1] <max_dis
+      @matching_receivers << User.find(receiver[0])
+      @range=receiver[1]
+      @massage.matching_range = @range
+
+      @massage.matching_count += 1
+
+      matching_user=MatchingUser.new(:massage_id=>@massage.id,:user_id=>receiver[0].to_s,:distance=> receiver[1].to_s)
+      matching_user.save
+      return true
+    else
+      @massage.matching_range = @range
+      return false
     end
   end
 
@@ -161,36 +254,15 @@ protected
 
   #メール送信
   def send_mail(receivers)
-    #Thread.new do
-      receivers.each do |r|
-        mail=MatchingMailer.matching_email(r,@massage)
+    receivers.each do |r|
+      mail=MatchingMailer.matching_email(r,@massage)
 
-        mail.transport_encoding = "8bit"
-        if mail.deliver
+      mail.transport_encoding = "8bit"
+      if mail.deliver
         p "mail send "+r.email
-        else
-          raise ":Not send mail"
-        end
-      end
-    #end
-  end
-
-  #距離の近いreceiverの探索 ver1.0
-  def search_user(min_dis,max_dis)
-    rtn_flg=false
-
-    @receivers_locations.each do |rl|
-      dis = self.distance(rl)
-      if min_dis <= dis && dis <= max_dis
-        @matching_user=MatchingUser.new(:massage_id=>@massage.id,:user_id=>rl.user_id,:distance=> dis.to_s)
-        if @matching_user.save
-          @matching_receivers<<rl.user
-          rtn_flg=true
-        end
+      else
+        raise ":Not send mail"
       end
     end
-    @massage.matching_count= @massage.matching_count+@matching_receivers.size
-    @massage.matching_range=max_dis
-    return rtn_flg
   end
 end
