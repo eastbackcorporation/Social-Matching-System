@@ -226,7 +226,7 @@ protected
     receivers = distance.sort{ |a,b| a[1]<=>b[1] }
     receiver = receivers[@massage.matching_count]
 
-    if min_dis <= receiver[1] && receiver[1] <max_dis
+    if min_dis < receiver[1] && receiver[1] <=max_dis
       @matching_receivers << User.find(receiver[0])
       @range=receiver[1]
       @massage.matching_range = @range
@@ -255,13 +255,14 @@ protected
   #メール送信
   def send_mail(receivers)
     receivers.each do |r|
-      mail=MatchingMailer.matching_email(r,@massage)
-
-      mail.transport_encoding = "8bit"
-      if mail.deliver
-        p "mail send "+r.email
+      begin
+       mail=MatchingMailer.matching_email(r,@massage)
+       mail.transport_encoding = "8bit"
+       mail.deliver
+      rescue
+        p "Not send mail"
       else
-        raise ":Not send mail"
+        p "mail send "+r.email
       end
     end
   end
