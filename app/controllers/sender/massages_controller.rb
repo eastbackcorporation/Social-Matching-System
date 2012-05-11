@@ -27,8 +27,12 @@ class Sender::MassagesController < MassagesController
       render :action => "index_mobile", :layout => 'mobile'
     else
       #jqGridでフィルターにかけるパラメータとして、id=>#{ids}を設定する
-      #ids[-1,1] = ""
-      params[:id] = ids
+      if ids != ""
+        ids[-1,1] = ""
+        params[:id] = ids
+      else
+        return
+      end
       respond_with() do |format|
         format.json {render :json => filter_on_params(Massage)}
       end
@@ -75,10 +79,11 @@ class Sender::MassagesController < MassagesController
     if self.matching2
       @massage.update_attributes(:status_id=>2)#該当者あり
     end
-        
+
     respond_to do |format|
       if @massage.save
         format.html { redirect_to(sender_massages_url) }
+        #format.html { redirect_to [:sender,@massage] }
         format.json { render json: @massage, status: :created, location: @massage }
       else
         format.html { render :new}
