@@ -28,8 +28,12 @@ class Receiver::MassagesController < MassagesController
       render :action => "index_mobile", :layout => 'mobile'
     else
       #jqGridでフィルターにかけるパラメータとして、id=>#{ids}を設定する
-      ids[-1,1] = ""
-      params[:id] = ids
+      if ids != ""
+        ids[-1,1] = ""
+        params[:id] = ids
+      else
+        return
+      end
       respond_with() do |format|
         format.json {render :json => filter_on_params(Massage)}
       end
