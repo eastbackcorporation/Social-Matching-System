@@ -14,10 +14,17 @@
 		<%= javascript_include_tag "ajaxzip3-source" %>
 
 		<%= javascript_include_tag params[:controller] %>
+		<%= javascript_include_tag "sender/addresses" %>
 		
 		<%= csrf_meta_tags %>
-	</head>
+  
+  		<!-- for iOS web app. https://github.com/h5bp/mobile-boilerplate/issues/94 -->
+  		<meta name="apple-mobile-web-app-capable" content="yes">
+  		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+  	</head>
+  	
 	<body>
 		<%= yield %>
 	</body>
+	
 </html>

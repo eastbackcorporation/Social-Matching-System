@@ -1,39 +1,46 @@
 <p id="notice"><%= notice %></p>
 
-<table>
-  <tr>
-    <td>カテゴリ</td>
-    <td><%= @massage.category.name %></td>
-  </tr>
-  <tr>
-    <td>ステータス</td>
-    <td><%= @massage.status.name %></td>
-  </tr>
-  <tr>
-    <td>現在の探索範囲</td>
-    <td><%= @massage.matching_range %>km</td>
-  </tr>
-  <tr>
-    <td>現在の該当者数</td>
-    <td><%= @massage.matching_count %>人</td>
-  </tr>
-  <tr>
-    <td>作成日</td>
-    <td><%= @massage.created_at %></td>
-  </tr>
-  <tr>
-    <td>有効期限</td>
-    <td><%= @massage.validated_datetime %></td>
-  </tr>
-  <tr>
-    <td>実施日</td>
-    <td><%= @massage.active_datetime %></td>
-  </tr>
-  <td><%= form_tag({:action => :change_status},{:method => :put}) do %>
-        <%= select_tag("status",options_for_select([["完了",4],["キャンセル",5]])) %>
-        <%= submit_tag("ステータス変更") %>
-      <% end %>
-  </td>
+<table class="massage_show">
+	<tfoot>
+        <tr>
+            <th scope="row"><%= link_to '戻る', sender_massages_path %></th>
+  			<td>
+  				<%= form_tag({:action => :change_status},{:method => :put}) do %>
+        		<%= select_tag("status",options_for_select([["完了",4],["キャンセル",5]])) %>
+        		<%= submit_tag("ステータス変更") %>
+      			<% end %>
+  			</td>
+        </tr>
+    </tfoot>
+    <tbody>
+  		<tr>
+    		<th scope="row">カテゴリ</th>
+    		<td><%= @massage.category.name %></td>
+  		</tr>
+  		<tr>
+    		<th scope="row">ステータス</th>
+    		<td><%= @massage.status.name %></td>
+  		</tr>
+  		<tr>
+    		<th scope="row">現在の探索範囲</th>
+    		<td><%= @massage.matching_range %>km</td>
+  		</tr>
+  		<tr>
+    		<th scope="row">現在の該当者数</th>
+    		<td><%= @massage.matching_count %>人</td>
+  		</tr>
+  		<tr>
+    		<th scope="row">作成日</th>
+    		<td><%= Time.parse(@massage.created_at.to_s).strftime("%Y年%m月%d日 %H時%M分") %></td>
+  		</tr>
+  		<tr>
+    		<th scope="row">有効期限</th>
+    		<td><%= Time.parse(@massage.validated_datetime.to_s).strftime("%Y年%m月%d日 %H時%M分") %></td>
+  		</tr>
+  		<tr>
+    		<th scope="row">実施日</th>
+    		<td><%= Time.parse(@massage.active_datetime.to_s).strftime("%Y年%m月%d日 %H時%M分")  %></td>
+  		</tr>
+  	</tbody>
 </table>
 
-<%= link_to '戻る', sender_massages_path %>

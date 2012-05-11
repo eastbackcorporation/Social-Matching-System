@@ -20,6 +20,10 @@
 				<p>現在の探索範囲</p>
 				<h1><%= @massage.matching_range %>km</h1>
 			</li>
+  			<li>
+    			<p>現在の該当者数</p>
+    			<h1><%= @massage.matching_count %>人</h1>
+  			</li>
 			<li>
 				<p>作成日</p>
 				<h1><%= Time.parse(@massage.created_at.to_s).strftime("%Y年%m月%d日 %H時%M分") %></h1>

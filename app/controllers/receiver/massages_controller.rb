@@ -46,6 +46,16 @@ class Receiver::MassagesController < MassagesController
     end
   end
 
+  #mobile画面のGoogleMap
+  def map
+    @massage=Massage.find(params[:id])
+    if mobile? then
+      render :action => "map_mobile", :layout => 'mobile'
+    else
+      redirect_to :action => 'show', :id => params[:id]
+    end
+  end
+
   #依頼拒否用アクション
   def reject
     @matching_user=MatchingUser.where(:massage_id=>params[:id],:user_id=>current_user.id).first

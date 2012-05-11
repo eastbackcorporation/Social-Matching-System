@@ -75,9 +75,10 @@ class Sender::MassagesController < MassagesController
     if self.matching2
       @massage.update_attributes(:status_id=>2)#該当者あり
     end
+        
     respond_to do |format|
       if @massage.save
-        format.html { redirect_to [:sender,@massage] }
+        format.html { redirect_to(sender_massages_url) }
         format.json { render json: @massage, status: :created, location: @massage }
       else
         format.html { render :new}
