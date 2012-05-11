@@ -16,9 +16,9 @@ class MatchingMailer < ActionMailer::Base
                 "%massage.category%"=>massage.category.name,
                 "%massage_path%"=>receiver_massage_path(@massage)}
 
-    @text = GlobalSetting[:mail_template]
+    @text =GlobalSetting[:mail_template]
     @meta_data.each do |key,value|
-      @text.gsub!(Regexp.new(key),value)
+      @text=@text.gsub(Regexp.new(key),value)
     end
     @subject = GlobalSetting[:mail_title_template]
     @url = "http://example.com/login"
