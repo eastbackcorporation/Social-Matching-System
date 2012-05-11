@@ -23,7 +23,7 @@ $ ->
     return
     
   #モバイル画面で住所選択時に位置情報を取得してフォームに値を挿入する
-  $('select[name="massage[address_id]"]').bind 'change', (event,ui) ->
+  $('select[name="massage[address_id]"]').live 'change', ->
     #address = $(this).prev().find(".ui-btn-text").text().replace(/.*:/,'').replace(/\s/g,'')
     address = $('#massage_address_id option:selected').text().replace(/.*:/,'').replace(/\s/g,'')
     console.log address
