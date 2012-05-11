@@ -19,10 +19,10 @@
 		<%=raw jqgrid("ユーザー一覧", "Users", "/admin/users",
 			[
 				{ :name => "id", :label => "id", :index => 'id', :width => "70", :hidden => true },
-				{ :name => "login", :label => "ログイン名", :index => 'pseudo asc', :width => "100", :editable => true, :editrules => {:required => true} },
-				{ :name => "email", :label => "E-mail", :align => "center", :editable => true, :formatter => 'email', :editrules => {:required => true, :email => true} },
-				{ :name => "family_name", :label => "姓", :editable => true, :width => 100 },
-				{ :name => "given_name", :label => "名", :editable => true, :width => 100 },
+				{ :name => "login", :label => "ログイン名", :index => 'login', :width => "100" },
+				{ :name => "email", :label => "E-mail", :align => "center", :editable => true, :formatter => 'email' },
+				{ :name => "family_name", :label => "姓", :width => 100 },
+				{ :name => "given_name", :label => "名", :width => 100 },
 				{ :name => 'sex', :index => 'sex', :label => "性別", :width => 70},
 				{ :name => 'phone_number', :index => 'phone_number', :label => "電話番号"},
 				{ :name => "id",
@@ -33,20 +33,6 @@
 					:width => "130",
 					:customFormatter => 'makeLink'
 				}
-				#{
-					#editとdeleteボタン用のカラム
-				#	:name => "",
-				#	:label => "編集",
-				#	:fixed => true,
-				#	:sortable => false,
-				#	:resize => false,
-				#	:width => "60",
-				#	:formatter =>'actions',
-				#	:formatoptions => {
-				#		:keys => true,
-				#		:editformbutton => true
-				#	}
-				#}
 			],
 			{
 				:autowidth => true,

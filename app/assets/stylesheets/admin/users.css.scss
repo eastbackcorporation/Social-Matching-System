@@ -5,7 +5,6 @@
 
 //Mixins
 @mixin yellow_button {
-  font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
   background: -webkit-gradient(linear, left top, left bottom, color-stop(0.00, #e5e696), color-stop(1.00, #d1d35f));
   background: -webkit-linear-gradient(top, #e5e696 0%, #d1d35f 100%);
   background: -moz-linear-gradient(top, #e5e696 0%, #d1d35f 100%);
@@ -15,13 +14,21 @@
 }
 
 @mixin green_button {
-  font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
   background: -webkit-gradient(linear, left top, left bottom, color-stop(0.00, #cade97), color-stop(0.49, #9bbb50), color-stop(1.00, #388235));
   background: -webkit-linear-gradient(top, #cade97 0%, #9bbb50 49%, #388235 100%);
   background: -moz-linear-gradient(top, #cade97 0%, #9bbb50 49%, #388235 100%);
   background: -o-linear-gradient(top, #cade97 0%, #9bbb50 49%, #388235 100%);
   background: -ms-linear-gradient(top, #cade97 0%, #9bbb50 49%, #388235 100%);
   background: linear-gradient(to bottom, #cade97 0%, #9bbb50 49%, #388235 100%);  
+}
+
+@mixin blue_button {
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(1.00, #7a99cd), color-stop(0.00, #d1e0fa));
+  background: -webkit-linear-gradient(top, #d1e0fa 0%, #7a99cd 100%);
+  background: -moz-linear-gradient(top, #d1e0fa 0%, #7a99cd 100%);
+  background: -o-linear-gradient(top, #d1e0fa 0%, #7a99cd 100%);
+  background: -ms-linear-gradient(top, #d1e0fa 0%, #7a99cd 100%);
+  background: linear-gradient(to bottom, #d1e0fa 0%, #7a99cd 100%);
 }
 
 
@@ -49,6 +56,7 @@
   width:195px;
   
   a {
+    color: #111 !important;
     text-align: center;
     width:185px;
     height:31px;
@@ -67,27 +75,15 @@
     text-decoration: none;
       
     &.yellow_button {
-      @include yellow_button;
-      
-      &:hover {
-        
-      }      
-
-      &:visited,&:active {
-        
-      }      
+      @include yellow_button;      
     }
     
     &.green_button {
       @include green_button;
+    }
 
-      &:hover {
-        
-      }      
-
-      &:visited,&:active {
-        
-      }      
+    &.blue_button {
+      @include blue_button;
     }
     
     &.menuitem_red {
