@@ -30,22 +30,27 @@ private
   def check_all_reject
     @massages = Massage.all
     @massages.each do |m|
-      if  m.status.name=="マッチング終了" && self.all_receiver_reject?
+      if  m.status.name=="マッチング終了" && self.all_receiver_reject(m)
         m.status=Status.to("該当者不受理").first
+        m.save
         #TODO ここでsenderにメール送信
       end
     end
   end
-
+protected
   #massageに紐付く全てのreceiverがrejectしているか?
-  def all_receiver_reject?
-    @matching_users = MatchingUser.where(:user_id=>@massage.id)
-    all_reject_flg=true
-    @matching_users.each do |mu|
-      unless mu.reject_flg
-        all_reject_flg=false
+  def all_receiver_reject(massage)
+    @matching_users = MatchingUser.where(:massage_id=>massage.id)
+    if @matching_users
+      all_reject_flg=true
+      @matching_users.each do |mu|
+        unless mu.reject_flg
+          all_reject_flg=false
+        end
       end
+      return all_reject_flg
+    else
+      false
     end
-    return all_reject_flg
   end
 end
