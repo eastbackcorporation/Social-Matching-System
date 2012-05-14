@@ -3,6 +3,9 @@
 	<div data-role="header" data-position="fixed">
 		<%= link_to "ログアウト", :logout %>
 		<h1>依頼情報一覧</h1>		
+		<% if current_user.roles.sender %>
+			<a href="<%= sender_massages_url %>">送信者画面へ</a>
+		<% end %>
 	</div><!-- /header -->
 
 	<div data-role="content">	
@@ -22,12 +25,20 @@
 	</div><!-- /content -->
 
 	<div data-role="footer" class="ui-bar" data-position="fixed">
-		<a href="<%= receiver_massages_url %>" data-ajax="false" data-role="button" data-icon="refresh">再読込み</a>
+		<a id="receiver_massage_refresh_btn" href="" data-role="button" data-icon="refresh">再読込み</a>
 	</div><!-- /footer -->
 
 <script type="text/javascript">
 	//Ajaxで位置情報をポストする際に同時に送信されるユーザID
 	var current_user_id = "<%= current_user.id %>";	
+	$(function(){
+		$("a#receiver_massage_refresh_btn").bind( "vclick", function(){
+			$.mobile.changePage( "<%= receiver_massages_url %>", {
+				allowSamePageTransition: true,
+				reloadPage: true
+			});			
+		});
+	});
 </script>
 
 </div><!-- /page -->
