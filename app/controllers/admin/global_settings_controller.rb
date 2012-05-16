@@ -2,6 +2,9 @@
 
 # 共通設定画面コントローラ
 class Admin::GlobalSettingsController < ApplicationController
+  before_filter :require_user
+  before_filter :check_admin
+
   #編集画面表示
   def edit
     @global_setting = GlobalSetting.get_instance

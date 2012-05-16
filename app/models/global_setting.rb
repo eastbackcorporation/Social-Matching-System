@@ -25,7 +25,7 @@ EOS
               :matching_step=> 1.0,  #拡大するときのマッチング範囲
               :matching_interval=>10, #再マッチングする時の時間
               :matching_number_limit=>100, #最大マッチング人数
-              :validated_time_interval=>10*60, #位置情報の有効時間  10 * 60 秒= 10分
+              :validated_time_interval=>10, #位置情報の有効時間  10分
               :mail_title_template=>"あなたに依頼が来ています",
               :mail_template=>DEFAULT_MAIL_TEMPLATE}
 

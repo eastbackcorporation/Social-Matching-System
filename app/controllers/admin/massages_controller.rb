@@ -18,6 +18,6 @@ class Admin::MassagesController < ApplicationController
   #依頼情報の詳細
   def show
     @massage=Massage.find(params[:id])
-    @matching_users=@massage.users
+    @receivers=@massage.users
   end
 end

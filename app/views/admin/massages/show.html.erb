@@ -1,55 +1,101 @@
-<p id="notice"><%= notice %></p>
+<div class="center_content">
 
-<table>
-  <tr>
-    <td>カテゴリ</td>
-    <td><%= @massage.category.name %></td>
-  </tr>
-  <tr>
-    <td>ステータス</td>
-    <td><%= @massage.status.name %></td>
-  </tr>
-  <tr>
-    <td>現在の探索範囲</td>
-    <td><%= @massage.matching_range %>km</td>
-  </tr>
-  <tr>
-    <td>現在の該当者数</td>
-    <td><%= @massage.matching_count %>人</td>
-  </tr>
-  <tr>
-    <td>作成日</td>
-    <td><%= @massage.created_at %></td>
-  </tr>
-  <tr>
-    <td>有効期限</td>
-    <td><%= @massage.validated_datetime %></td>
-  </tr>
-  <tr>
-    <td>実施日</td>
-    <td><%= @massage.active_datetime %></td>
-  </tr>
-  <td><%= form_tag({:action => :change_status},{:method => :put}) do %>
-        <%= select_tag("status",options_for_select([["完了",4],["キャンセル",5]])) %>
-        <%= submit_tag("ステータス変更") %>
+  <div class="left_content">
+
+    <div class="sidebarmenu">
+
+      <a class="yellow_button" href="<%= admin_users_url %>">ユーザー管理</a>
+
+      <a class="green_button" href="<%= admin_massages_url %>">マッチング管理</a>
+
+      <a class="blue_button" href="<%= edit_admin_global_setting_url(1) %>">共通設定管理</a>
+
+    </div>
+
+  </div>
+  <div class="right_content">
+  <% sender = User.find(@massage.user_id) %>
+  <table class="massage_show fcenter">
+	 <tbody>
+		 <tr>
+            <th scope="row">カテゴリ</th>
+            <td><%= @massage.category.name %></td>
+        </tr>
+		<tr>
+            <th scope="row">ステータス</th>
+            <td><%= @massage.status.name %></td>
+        </tr>
+		<tr>
+            <th scope="row">作成日</th>
+            <td><%= Time.parse(@massage.created_at.to_s).strftime("%Y年%m月%d日 %H時%M分") %></td>
+        </tr>
+		<tr>
+            <th scope="row">有効期限</th>
+            <td><%= Time.parse(@massage.validated_datetime.to_s).strftime("%Y年%m月%d日 %H時%M分") %></td>
+        </tr>
+		<tr>
+            <th scope="row">実施日</th>
+            <td><%= Time.parse(@massage.active_datetime.to_s).strftime("%Y年%m月%d日 %H時%M分") %></td>
+        </tr>
+		<tr>
+            <th scope="row">依頼者</th>
+            <td><%= sender.family_name %> <%= sender.given_name %></td>
+        </tr>
+		<tr>
+            <th scope="row">電話番号</th>
+            <td><%= sender.phone_number %></td>
+        </tr>
+    <tr>
+            <th scope="row">住所</th>
+            <td><%= @massage.address.prefecture+@massage.address.address1+@massage.address.address2 %></td>
+        </tr>
+    </tbody>
+    <tfoot><tr>
+        <%= form_tag({:action => :change_status},{:method => :put}) do %>
+        <th><%= select_tag("status",options_for_select([["完了",4],["キャンセル",5]])) %></th>
+        <td><%= submit_tag("ステータス変更") %></td>
       <% end %>
-  </td>
-</table>
+      </tr>
+	</tfoot>
+  </table>
 
-<table>
-  <th>該当ユーザ名</th>
-  <th>メールアドレス</th>
-  <% if @matching_users.empty? %>
-  <tr><td>該当者なし</td></tr>
-  <%else%>
-    <% @matching_users.each do |user| %>
-      <tr>
-        <td><%= user.login %>　</td>
-        <td><%= user.email %></td>
-        <td><%= link_to '詳細', [:admin, :user] %></td>
-   　 </tr>
+
+  <table class="massage_show fcenter">
+    <tbody>
+    <th scope="row">該当ユーザ名</th>
+    <th scope="row"></th>
+    <% if @receivers.empty? %>
+    <tr><td>該当者なし</td></tr>
+    <%else%>
+      <% @receivers.each do |user| %>
+        <tr>
+          <td><%= user.login %>　</td>
+          <td><%= link_to '詳細', admin_user_path(user.id) %></td>
+     　 </tr>
+      <% end %>
     <% end %>
-  <% end %>
-</table>
+    <tbody>
+  </table>
+</div>
+</div>
 
-<%= link_to '戻る', admin_massages_path %>
+<script type="text/javascript">
+	//Ajaxで位置情報をポストする際に同時に送信されるユーザID
+	var current_user_id = "<%= current_user.id %>";
+
+	//Goolge Map の作成
+	$(function(){
+		var myLatlng = new google.maps.LatLng(<%= @massage.latitude %>,<%= @massage.longitude %>);
+		var myOptions = {
+			zoom: 13,
+			center: myLatlng,
+			mapTypeId: google.maps.MapTypeId.ROADMAP
+		};
+		var map = new google.maps.Map(document.getElementById("map"), myOptions);
+		var marker = new google.maps.Marker({
+			position: myLatlng,
+			map: map,
+		});
+	});
+
+</script>
