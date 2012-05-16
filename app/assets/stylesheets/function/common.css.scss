@@ -42,6 +42,7 @@ h3 {
 .header {
   width:900px;
   height:100px;
+  //background-color: #eef;
 }
 
 .header_login {
@@ -52,10 +53,10 @@ h3 {
 .logo {
   float:left;
   padding:35px 0 0 0;
-  
+
   a {
     text-decoration: none;
-    font-size: 1.2em;    
+    font-size: 1.2em;
   }
 }
 
@@ -64,14 +65,14 @@ h3 {
   float:right;
   text-align:right;
   padding:40px 0 0 0;
-  
+
   a {
     margin:0 5px 0 5px;
     text-decoration:none;
-    
+
     &.logout {
       background:url(asset-path('common/user_logout.png', image)) no-repeat right;
-      padding-right:18px;      
+      padding-right:18px;
     }
   }
 }
@@ -104,10 +105,10 @@ h3 {
 .right_footer {
   float:right;
   padding:25px 10px 0 0;
-  
+
   a {
     text-decoration: none;
-    font-size: 1.2em;    
+    font-size: 1.2em;
   }
 }
 
@@ -116,7 +117,7 @@ h3 {
   padding:15px 0 0 10px;
   color:#a8549b;
   font-size:11px;
-  
+
   a {
     color:#FFFFFF;
     text-decoration:none;

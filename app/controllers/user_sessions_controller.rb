@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-#ユーザ認証用
+#== ユーザ認証用コントローラ
 #authlogicにより管理を提供
 class UserSessionsController < ApplicationController
   before_filter :require_no_user, :only => [:new, :create]

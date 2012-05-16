@@ -8,6 +8,8 @@
 
 			<a class="green_button" href="">マッチング管理</a>
 
+			<a class="blue_button" href="<%= edit_admin_global_setting_url(1) %>">共通設定管理</a>
+
 		</div>
 
 	</div>
@@ -17,13 +19,16 @@
 		<h1>ユーザの編集</h1>
 
 		<%= form_for([:admin,@admin_user]) do |f| %>
-		email: <%= f.text_field :email %>
+	   <%= f.label :email ,"メールアドレス" %>
+	 	 <%= f.text_field :email %>
 		<br/>
-		family_name: <%= f.text_field :family_name %>
+		  <%= f.label :family_name ,"氏" %>
+		  <%= f.text_field :family_name %>
 		<br/>
-		given_name: <%= f.text_field :given_name %>
+		  <%= f.label :given_name ,"名" %>
+		  <%= f.text_field :given_name %>
 		<br/>
-		
+
 		<p>
   		管理者：<%= check_box_tag "user[roles][admin][]", "1", @roles.has_key?('admin') %>
   		送信者：<%= check_box_tag "user[roles][sender][]", "2", @roles.has_key?('sender') %>
@@ -34,21 +39,27 @@
 
 		<% if @addresses
 			@addresses.each do |address| %>
+			<hr/>
 				<%= f.fields_for "addresses[]",address do |f2| %>
 				<p>
-					都道府県: <%= f2.text_field :prefecture %>
+				  <%= f2.label :name ,"ラベル(実家、おじの家 等)" %>
+          <%= f2.text_field :name %>
+          <br/>
+          <%= f2.label :main ,"主たる住所か否か" %>
+          <%= f2.check_box :main %>
+          <br/>
+				  <%= f2.label :prefecture ,"都道府県" %>
+				  <%= f2.text_field :prefecture %>
 					<br/>
-					郵便番号: <%= f2.text_field :postal_code %>
+          <%= f2.label :postal_code ,"郵便番号" %>
+				  <%= f2.text_field :postal_code %>
 					<br/>
-					アドレス１: <%= f2.text_field :address1 %>
+					<%= f2.label :address1 ,"市区町村" %>
+					<%= f2.text_field :address1 %>
 					<br/>
-					アドレス２: <%= f2.text_field :address2 %>
+					<%= f2.label :address2 ,"それ以降" %>
+					<%= f2.text_field :address2 %>
 					<br/>
-					ラベル: <%= f2.text_field :name %>
-					<br/>
-					メイン: <%= f2.text_field :main %>
-					<br/>
-
 					削除：
 					<input type="checkbox" name="user[addresses][<%= address.id %>][_delete]" value=1>
 				</p>
@@ -60,30 +71,31 @@
 		<div id="addAddressForm">
 			<!-- Form template-->
 			<div id="addAddressForm_template">
+			  <label for="addAddressForm_#index#_postal_name">ラベル(実家、おじの家 等)</label>
+        <input id="addAddressForm_#index#_name" name="user[addresses][new_#index#][name]" type="text"/>
+        <br>
+        <label for="addAddressForm_#index#_postal_main">主たる住所か否か</label>
+        <input id="addAddressForm_#index#_main" name="user[addresses][new_#index#][main]" type="text"/>
+
 				<label for="addAddressForm_#index#_prefecture">都道府県:</label>
 				<input id="addAddressForm_#index#_address" name="user[addresses][new_#index#][prefecture]" type="text"/>
 				<br>
 				<label for="addAddressForm_#index#_postal_code">郵便番号:</label>
 				<input id="addAddressForm_#index#_postal_code" name="user[addresses][new_#index#][postal_code]" type="text"/>
 				<br>
-				<label for="addAddressForm_#index#_postal_address1">アドレス１:</label>
+				<label for="addAddressForm_#index#_postal_address1">市区町村</label>
 				<input id="addAddressForm_#index#_address1" name="user[addresses][new_#index#][address1]" type="text"/>
 				<br>
-				<label for="addAddressForm_#index#_postal_address2">アドレス２:</label>
+				<label for="addAddressForm_#index#_postal_address2">それ以降</label>
 				<input id="addAddressForm_#index#_address2" name="user[addresses][new_#index#][address2]" type="text"/>
 				<br>
-				<label for="addAddressForm_#index#_postal_name">ラベル:</label>
-				<input id="addAddressForm_#index#_name" name="user[addresses][new_#index#][name]" type="text"/>
-				<br>
-				<label for="addAddressForm_#index#_postal_main">メイン:</label>
-				<input id="addAddressForm_#index#_main" name="user[addresses][new_#index#][main]" type="text"/>
 				<a id="addAddressForm_remove_current">キャンセル <img class="delete" src="images/cross.png" width="16" height="16" border="0"> </a>
 			</div>
 			<!-- /Form template-->
 
 			<!-- No forms template -->
 			<div id="addAddressForm_noforms_template">
-				
+
 			</div>
 			<!-- /No forms template-->
 
@@ -107,7 +119,7 @@
 
 <script type="text/javascript">
 	$(document).ready(function() {
-     
+
     	var addAddressForm = $('#addAddressForm').sheepIt({
         	separator: '',
         	allowRemoveLast: true,
@@ -119,7 +131,7 @@
         	minFormsCount: 0,
         	iniFormsCount: 0
     	});
- 
+
 	});
 </script>
 

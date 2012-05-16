@@ -1,19 +1,66 @@
+<div class="center_content">
+
+  <div class="left_content">
+
+    <div class="sidebarmenu">
+
+      <a class="yellow_button" href="<%= admin_users_url %>">ユーザー管理</a>
+
+      <a class="green_button" href="">マッチング管理</a>
+
+      <a class="blue_button" href="<%= edit_admin_global_setting_url(1) %>">共通設定管理</a>
+
+    </div>
+
+  </div>
+
+  <div class="right_content">
+
 <div class="block">
   <div class="content">
     <h2 class="title"><%= @admin_user.login %>の詳細情報</h2>
     <div class="inner">
       <p id="notice"><%= notice %></p>
+      <table class="massage_show fcenter">
+        <tbody>
+          <tr>
+            <th>ユーザーID:</th>
+            <td><%= @admin_user.login %></td>
+          </tr>
+          <tr>
+            <th>Mailアドレス:</th>
+            <td><%= @admin_user.email %></td>
+          </tr>
+          <tr>
+            <th>氏名</th>
+            <td>
+              <% if @admin_user.family_name %>
+                <%= @admin_user.family_name %> <%=@admin_user.given_name  %>
+              <%else %> 未登録 <% end %>
+            </td>
+          </tr>
+          <tr>
+            <th>電話番号</th>
+            <td>
+               <% if @admin_user.phone_number %>
+                <%= @admin_user.phone_number %>
+               <%else %> 未登録 <% end %>
+            </td>
+          </tr>
+          <tr>
+            <th>性別</th>
+            <td><%= @admin_user.sex%></td>
+          </tr>
+          <tr>
+            <th>権限</th>
+            <td>
+              <% if @admin_user.roles.admin %> 管理者 <% end %>
+              <% if @admin_user.roles.sender %> 依頼者 <% end %>
+              <% if @admin_user.roles.receiver %> 受信者 <% end %>
 
-      <table class="table">
-        <tr>
-          <th>ユーザーID:</th>
-          <td><%= @admin_user.login %></td>
-        </tr>
-        <tr>
-          <th>Mailアドレス:</th>
-          <td><%= @admin_user.email %></td>
-        </tr>
-
+            </td>
+          </tr>
+        </tbody>
       </table>
 
 

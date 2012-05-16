@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-#依頼情報用の共通部分コントローラ
+#== 依頼情報用の共通部分コントローラ
 class MassagesController < ApplicationController
   before_filter :check_all_reject
 

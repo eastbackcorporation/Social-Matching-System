@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-#マッチング(依頼情報)管理用コントローラ
+#=== マッチング(依頼情報)管理用コントローラ
 #admin のみが情緒の管理が行える
 class Admin::MassagesController < ApplicationController
   before_filter :require_user

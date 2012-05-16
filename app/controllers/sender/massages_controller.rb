@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-#情報発信用コントローラ
+#===情報発信用コントローラ
 #マッチング処理はここで行う
 class Sender::MassagesController < MassagesController
   include Math
@@ -11,7 +11,7 @@ class Sender::MassagesController < MassagesController
 
   respond_to :html,:json
 
-  #ユーザの発信した依頼情報一覧
+  # ユーザの発信した依頼情報一覧
   def index
     @massages=Massage.where(:user_id=>current_user.id)
 
@@ -64,6 +64,7 @@ class Sender::MassagesController < MassagesController
     @massage.update_attributes(:user_id=>current_user.id,:status_id=>1)
     @massage.save
 
+    #グローバルセッテイングの参照
     @range=GlobalSetting[:matching_range]
     @maximum=GlobalSetting[:maximum_range]
     @step=GlobalSetting[:matching_step]
@@ -122,6 +123,7 @@ protected
     @matching_receivers=[]
 
     #最初のマッチング
+    #成功するまでrangeを広げる
     until self.search_user2(0,@range) || @range>=@maximum
       @range += @step
     end
@@ -207,6 +209,7 @@ protected
       end
     end
 
+    #距離が最小のreveiverにマッチする
     matching_receiver_id, matching_receiver_dis= distance.min{ |a,b| a[1]<=>b[1] }
 
     if matching_receiver_dis && min_dis<matching_receiver_dis && matching_receiver_dis <=max_dis

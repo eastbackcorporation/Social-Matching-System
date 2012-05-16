@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-#receiver の現在位置関連コントローラ
+#=== receiver の現在位置関連コントローラ
 #実装中
 class ReceiversLocationsController < ApplicationController
   before_filter :require_user

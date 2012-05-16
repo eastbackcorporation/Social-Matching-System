@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-#ユーザ管理用コントローラ
+#=== ユーザ管理用コントローラ
 #admin のみがユーザの管理が行える
 class Admin::UsersController < ApplicationController
   before_filter :require_user
@@ -10,11 +10,11 @@ class Admin::UsersController < ApplicationController
 
   include ActiveModel::MassAssignmentSecurity
   attr_accessible :addresses_attributes, :user_id, :prefecture,:address1,:address2,:postal_code,:main,:name
-  
+
   #ユーザの一覧表示
   def index
     respond_with() do |format|
-      format.json {render :json => filter_on_params(User)}  
+      format.json {render :json => filter_on_params(User)}
     end
   end
 
@@ -37,41 +37,41 @@ class Admin::UsersController < ApplicationController
     @addresses = @admin_user.addresses
     @roles = {}
     @admin_user.roles.each do |r|
-      @roles[r.name] = r.id 
+      @roles[r.name] = r.id
     end
   end
 
   #ユーザの新規登録
   def create
     @admin_user = User.new(
-      :login => params[:login],  
-      :email => params[:email],  
-      :password => params[:password],  
-      :password_confirmation => params[:password_confirmation],  
-      #:role => params[:role],  
-      :family_name => params[:family_name],  
-      :given_name => params[:givem_name],  
-      :family_name_kana => params[:family_name_kane],  
+      :login => params[:login],
+      :email => params[:email],
+      :password => params[:password],
+      :password_confirmation => params[:password_confirmation],
+      #:role => params[:role],
+      :family_name => params[:family_name],
+      :given_name => params[:givem_name],
+      :family_name_kana => params[:family_name_kane],
       :given_name_kana => params[:given_name_kana],
       :sex => params[:sex]
     )
-    
+
     roles = params[:roles]
     Role.all.each do |r|
       if roles.has_key?(r.name)
         @admin_user.roles << r
       end
     end
-    
+
     address = Address.new(
-      :prefecture => params[:prefecture],  
-      :postal_code => params[:postal_code],  
-      :address1 => params[:address1],  
-      :address2 => params[:address2],  
-      :name => params[:name],  
-      :main => 1  
+      :prefecture => params[:prefecture],
+      :postal_code => params[:postal_code],
+      :address1 => params[:address1],
+      :address2 => params[:address2],
+      :name => params[:name],
+      :main => 1
     )
-    
+
     @admin_user.addresses << address
 
     respond_to do |format|
@@ -84,18 +84,18 @@ class Admin::UsersController < ApplicationController
           @errors << "#{User.human_attribute_name(error[0])}: #{error[1]}/n"
         end
       @errors << "/n"
-        
+
         format.html { render action: "new"}
         format.json { render json: @admin_user.errors, status: :unprocessable_entity }
       end
-    end    
-    
+    end
+
   end
 
   #ユーザ情報の変更
   def update
     @admin_user = User.find(params[:id])
-    
+
     #住所の変更
     addresses = params[:user][:addresses]
     addresses.each_pair do |key, value|
@@ -112,10 +112,10 @@ class Admin::UsersController < ApplicationController
           end
         end
       end
-      
+
     end
     params[:user].delete('addresses')
-    
+
     #Roleの変更
     @admin_user.roles.clear
     roles = params[:user][:roles]
@@ -125,7 +125,7 @@ class Admin::UsersController < ApplicationController
       end
     end
     params[:user].delete('roles')
-    
+
 
     respond_to do |format|
       if @admin_user.update_attributes(params[:user])
@@ -140,9 +140,7 @@ class Admin::UsersController < ApplicationController
   end
 
 
-  # =ユーザーの削除
-  # TODO: 実レコードの強制削除。関連レコードが全てアソシエーションに沿って正しく
-  #       削除されているかどうか確認のこと。
+  # ユーザーの削除
   def destroy
     #住所の削除が必要　delete User.address
     @admin_user = User.find(params[:id])

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-#依頼情報確認用コントローラ
+#=== 依頼情報確認用コントローラ
 class Receiver::MassagesController < MassagesController
   before_filter :require_user
   before_filter :check_receiver

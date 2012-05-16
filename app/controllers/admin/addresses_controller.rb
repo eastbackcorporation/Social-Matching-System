@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-#住所管理用コントローラ
+#=== 住所管理用コントローラ
 #admin のみが情緒の管理が行える
 class Admin::AddressesController < ApplicationController
   before_filter :require_user

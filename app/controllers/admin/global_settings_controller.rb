@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# 共通設定画面コントローラ
+#=== 共通設定画面コントローラ
 class Admin::GlobalSettingsController < ApplicationController
   before_filter :require_user
   before_filter :check_admin

@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+# === 住所確認登録用コントローラ
 class Sender::AddressesController < ApplicationController
   before_filter :require_user
   before_filter :check_sender
@@ -14,7 +15,7 @@ class Sender::AddressesController < ApplicationController
     @address=Address.new
    if mobile? then
       render :action => "new_mobile", :layout => 'mobile'
-   end      
+   end
   end
 
   #新規住所の登録
