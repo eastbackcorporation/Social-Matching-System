@@ -38,7 +38,6 @@ class Receiver::MassagesController < MassagesController
         format.json {render :json => filter_on_params(Massage)}
       end
     end
-
   end
 
 

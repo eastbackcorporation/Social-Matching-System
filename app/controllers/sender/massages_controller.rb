@@ -26,7 +26,7 @@ class Sender::MassagesController < MassagesController
     if mobile? then
       render :action => "index_mobile", :layout => 'mobile'
     else
-      #jqGridでフィルターにかけるパラメータとして、id=>#{ids}を設定する
+      #jqGridでフィルターにかけるパラメータとして、id=># {ids}を設定する
       if ids != ""
         ids[-1,1] = ""
         params[:id] = ids
@@ -56,11 +56,6 @@ class Sender::MassagesController < MassagesController
     if mobile? then
       render :action => "new_mobile", :layout => 'mobile'
     end
-
-    #respond_to do |format|
-    #  format.html # new.html.erb
-    #  format.json { render json: @massage }
-    #end
   end
 
   #新規依頼作成
@@ -75,7 +70,8 @@ class Sender::MassagesController < MassagesController
     @matching_interval=GlobalSetting[:matching_interval]
     @matching_number_limit=GlobalSetting[:matching_number_limit]
     @validated_time_interval=GlobalSetting[:validated_time_interval]
-    #if self.matching #マッチングを行う
+
+    #マッチングを行う
     if self.matching
       @massage.update_attributes(:status_id=>2)#該当者あり
     end
@@ -115,7 +111,14 @@ protected
   #マッチングを行う
   #一定時間内に依頼が成立しなかった場合、範囲を広げて再びマッチングする
   def matching
-    @receivers_locations=ReceiversLocation.all_at( DateTime.now-Rational( @validated_time_interval,24*60*60) )
+
+    #位置情報取得
+    if @validated_time_interval>=0
+      @receivers_locations=ReceiversLocation.all_at( DateTime.now-Rational( @validated_time_interval,24*60) )
+    else
+      @receivers_locations=ReceiversLocation.all
+    end
+
     @matching_receivers=[]
 
     #最初のマッチング
@@ -143,25 +146,27 @@ protected
   end
 
   #マッチングを繰り返す
-  def repeat_matching(&serch)
+  def repeat_matching(&search)
     msg_id=@massage.id
 
+    #マッチングループ
     begin
-      sleep @matching_interval
+      sleep @matching_interval #待ち時間
+
       @massage=Massage.find(msg_id)
       @matching_receivers=[]
       prev_range=@range
       @range+=@step
 
-      #until self.search_user2(prev_range,@range) || @range>=@maximum
-      until serch.call(prev_range,@range) || @range>=@maximum
+      until search.call(prev_range,@range) || @range>=@maximum
         @range += @step
       end
 
+      #メール送信
       Thread.new{self.send_mail(@matching_receivers)}
 
       @massage.save
-    end while @massage.active_flg && @range<@maximum
+    end while @massage.active_flg && @range<@maximum #マッチング終了条件
 
     #終了処理
     @massage.status=Status.to("マッチング終了").first
@@ -190,30 +195,34 @@ protected
     return rtn_flg
   end
 
-  #距離の近いreceiverの探索 ver2.0
+  #距離の近いreceiverの探索 ver2.1
+  #TODO receiverが移動した時を考えるべき
   def search_user2(min_dis,max_dis)
-    distance = {}
-    @receivers_locations.each { |rl| distance[rl.user_id] = self.distance(rl) }
-    @massage.matching_count =  @massage.matching_count || 0
-    receivers = distance.sort{ |a,b| a[1]<=>b[1] }
+    @used_receivers_id = @used_receivers_id || [] #matching済みのreveiver_id
 
-    if @massage.matching_count<receivers.size
-      receiver = receivers[@massage.matching_count]
-    else
-      return false
+    distance = {} # {user_id=>距離} を格納
+    @receivers_locations.each do |rl|
+      unless @used_receivers_id.index(rl.user_id)
+        distance[rl.user_id] = self.distance(rl)
+      end
     end
 
-    if min_dis < receiver[1] && receiver[1] <=max_dis
-      @matching_receivers << User.find(receiver[0])
-      @range=receiver[1]
-      @massage.matching_range = receiver[1]
+    matching_receiver_id, matching_receiver_dis= distance.min{ |a,b| a[1]<=>b[1] }
 
+    if matching_receiver_dis && min_dis<matching_receiver_dis && matching_receiver_dis <=max_dis
+      @matching_receivers << User.find(matching_receiver_id)
+      @used_receivers_id << matching_receiver_id
+
+      @massage.matching_range = matching_receiver_dis
+      @massage.matching_count =  @massage.matching_count || 0
       @massage.matching_count += 1
 
-      matching_user=MatchingUser.new(:massage_id=>@massage.id,:user_id=>receiver[0].to_s,:distance=> receiver[1].to_s)
+      matching_user=MatchingUser.new(:massage_id=>@massage.id,
+                                     :user_id=>matching_receiver_id.to_s,:distance=> matching_receiver_dis.to_s)
       matching_user.save
       return true
     else
+      @massage.matching_count =  @massage.matching_count || 0
       @massage.matching_range = max_dis
       return false
     end
