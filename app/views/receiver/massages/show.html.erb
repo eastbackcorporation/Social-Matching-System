@@ -49,10 +49,14 @@
             <th scope="row">E-mail</th>
             <td><%= sender.email %></td>
         </tr>
+    <tr>
+            <th scope="row">住所</th>
+            <td><%= @massage.address.prefecture+@massage.address.address1+@massage.address.address2 %></td>
+        </tr>
 	</tbody>
 </table>
 
-<table class="massage_show fright">
+<table class="massage_show fleft">
 	<tr>
         <th scope="row">実施場所</th>
 		<td><div id="map" style="width: 400px; height: 300px"></div></td>
@@ -62,10 +66,10 @@
 <script type="text/javascript">
 	//Ajaxで位置情報をポストする際に同時に送信されるユーザID
 	var current_user_id = "<%= current_user.id %>";
-	
-	//Goolge Map の作成	
+
+	//Goolge Map の作成
 	$(function(){
-		var myLatlng = new google.maps.LatLng(<%= @massage.latitude %>,<%= @massage.longitude %>);   
+		var myLatlng = new google.maps.LatLng(<%= @massage.latitude %>,<%= @massage.longitude %>);
 		var myOptions = {
 			zoom: 13,
 			center: myLatlng,

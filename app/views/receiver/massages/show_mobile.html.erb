@@ -39,6 +39,10 @@
 				<h1><%= sender.phone_number %></h1>
 			</li>
 			<li>
+        <p>住所</p>
+        <p><%= @massage.address.prefecture+@massage.address.address1+@massage.address.address2 %></p>
+      </li>
+			<li>
 				<p>E-mail</p>
 				<h1><%= sender.email %></h1>
 			</li>
