@@ -1,7 +1,7 @@
 #receiver の現在位置情報を記録する
 #pending
 class ReceiversLocation < ActiveRecord::Base
-  attr_accessible :user_id,:latitude,:longitude
+  attr_accessible :user_id,:latitude,:longitude,:updated_at
   belongs_to :user
 
   #DateTime p より後に更新された位置情報取得

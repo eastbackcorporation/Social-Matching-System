@@ -7,7 +7,6 @@ class Receiver::ReceiversLocationsController < ApplicationController
 
   #ビューからAjaxでポストされた位置情報を登録する
   def create
-    #@raceivers_location = ReceiversLocation.where(:user_id => current_user.id).first
     @receivers_location = ReceiversLocation.find(:first, :conditions => {:user_id => params[:user_id]})
 
     if @receivers_location
