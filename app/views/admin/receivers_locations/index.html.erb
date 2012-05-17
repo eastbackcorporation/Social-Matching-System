@@ -15,7 +15,15 @@
           :formatoptions => {
             :srcformat => "UniversalSortableDateTime",
             :newformat => 'Y年 m月d日 g時i分'
-          }}
+          }},
+          { :name => "id",
+          :label => "地図",
+          :search => false,
+          :sortable => false,
+          :align => 'center',
+          :width => "30",
+          :customFormatter => 'makeLink'
+        }
       ],
       {
         :autowidth => true,
@@ -31,3 +39,11 @@
     </table>
   </div><!-- end of right content-->
 </div>
+
+<script type="text/javascript">
+  function makeLink(cellvalue, options, rowObject){
+    var url = "/admin/receivers_locations/"
+    showUrl = url + cellvalue;
+    return "<a href='" + showUrl + "'>地図</a>";
+  }
+</script>

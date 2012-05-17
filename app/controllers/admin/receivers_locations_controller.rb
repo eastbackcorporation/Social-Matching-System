@@ -14,4 +14,9 @@ class Admin::ReceiversLocationsController < ApplicationController
         format.json {render :json => filter_on_params(ReceiversLocation)}
     end
   end
+
+  #位置情報の詳細表示
+  def show
+    @receivers_location=ReceiversLocation.find(params[:id])
+  end
 end

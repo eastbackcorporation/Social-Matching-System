@@ -1,0 +1,32 @@
+<div class="center_content">
+
+  <%= render "admin/sidemenu" %>
+
+  <div class="right_content">
+  <table class="massage_show">
+	 <tr>
+        <th scope="row">場所</th>
+		<td><div id="map" style="width: 400px; height: 300px"></div></td>
+	 </tr>
+  </table>
+
+<script type="text/javascript">
+	//Ajaxで位置情報をポストする際に同時に送信されるユーザID
+	var current_user_id = "<%= current_user.id %>";
+
+	//Goolge Map の作成
+	$(function(){
+		var myLatlng = new google.maps.LatLng(<%= @receivers_location.latitude %>,<%= @receivers_location.longitude %>);
+		var myOptions = {
+			zoom: 13,
+			center: myLatlng,
+			mapTypeId: google.maps.MapTypeId.ROADMAP
+		};
+		var map = new google.maps.Map(document.getElementById("map"), myOptions);
+		var marker = new google.maps.Marker({
+			position: myLatlng,
+			map: map,
+		});
+	});
+
+</script>

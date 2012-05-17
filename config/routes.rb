@@ -5,7 +5,7 @@ SocialMatchingSystem::Application.routes.draw do
     resources :addresses
     resources :massages
     resources :global_settings,:only => %w[edit update]
-    resources :receivers_locations,:only=>"index"
+    resources :receivers_locations,:only=>%W[index show]
   end
 
   namespace :sender do
