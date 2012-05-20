@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 
 #=== マッチング(依頼情報)管理用コントローラ
-#admin のみが情緒の管理が行える
 class Admin::MassagesController < ApplicationController
   before_filter :require_user
-  before_filter :check_admin
+  before_filter "check_role(:role=>:admin)".to_sym
 
   respond_to :html,:json
+
   #依頼情報一覧表示
   def index
     @massages=Massage.all

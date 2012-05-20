@@ -1,8 +1,9 @@
 SocialMatchingSystem::Application.routes.draw do
 
+  get "top/index"
+
   namespace :admin do
     resources :users
-    resources :addresses
     resources :massages
     resources :global_settings,:only => %w[edit update]
     resources :receivers_locations,:only=>%W[index show]

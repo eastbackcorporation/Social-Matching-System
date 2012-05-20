@@ -1,11 +1,15 @@
 # -*- coding: utf-8 -*-
 
 #=== 依頼情報用の共通部分コントローラ
+#主にbefore_filter用メソッドをここで定義している
 class MassagesController < ApplicationController
   before_filter :check_all_reject
+  before_filter :check_validated_datetime
+  before_filter :check_active
 
 private
   #有効期限チェック
+  #-before filter用
   def check_validated_datetime
     @massages = Massage.all
     @massages.each do |m|
@@ -17,7 +21,8 @@ private
     end
   end
 
-  #massageの状態チェック-before filter用
+  #massageの状態チェック
+  #-before filter用
   def check_active
     @massages = Massage.all
     @massages.each do |m|
@@ -27,6 +32,7 @@ private
   end
 
   #massageに紐付く全てのreceiverがrejectしているならばステータスを変更する
+  #-before_filter用
   def check_all_reject
     @massages = Massage.all
     @massages.each do |m|
@@ -39,6 +45,7 @@ private
   end
 protected
   #massageに紐付く全てのreceiverがrejectしているか?
+  #-check_all_reject用
   def all_receiver_reject(massage)
     @matching_users = MatchingUser.where(:massage_id=>massage.id)
     if @matching_users

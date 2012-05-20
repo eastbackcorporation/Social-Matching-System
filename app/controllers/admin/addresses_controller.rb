@@ -4,7 +4,7 @@
 #admin のみが情緒の管理が行える
 class Admin::AddressesController < ApplicationController
   before_filter :require_user
-  before_filter :check_admin
+  before_filter "check_role(:role=>:admin)".to_sym
 
   #住所情報一覧
   def index
@@ -15,7 +15,7 @@ class Admin::AddressesController < ApplicationController
     end
   end
 
-  #住所情報詳細表示
+  #==== 住所情報詳細表示
   def show
     @address = Address.find(params[:id])
 
@@ -25,7 +25,7 @@ class Admin::AddressesController < ApplicationController
     end
   end
 
-  #新規住所登録ページ表示
+  #==== 新規住所登録ページ表示
   def new
     @address = Address.new
 
@@ -35,12 +35,12 @@ class Admin::AddressesController < ApplicationController
     end
   end
 
-  #住所情報変更ページ表示
+  #==== 住所情報変更ページ表示
   def edit
     @address = Address.find(params[:id])
   end
 
-  #住所情報作成
+  #==== 住所情報作成
   def create
     @address = Address.new(params[:address])
     #@address.user=current_user
@@ -58,7 +58,7 @@ class Admin::AddressesController < ApplicationController
     end
   end
 
-  #住所情報変更
+  #==== 住所情報変更
   def update
     @address = Address.find(params[:id])
 
@@ -73,7 +73,7 @@ class Admin::AddressesController < ApplicationController
     end
   end
 
-  #住所情報削除
+  #==== 住所情報削除
   def destroy
     @address = Address.find(params[:id])
     @address.destroy

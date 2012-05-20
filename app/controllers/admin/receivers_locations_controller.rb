@@ -3,7 +3,7 @@
 #=== 位置情報確認用コントローラ
 class Admin::ReceiversLocationsController < ApplicationController
   before_filter :require_user
-  before_filter :check_admin
+  before_filter "check_role(:role=>:admin)".to_sym
 
   respond_to :html,:json
 

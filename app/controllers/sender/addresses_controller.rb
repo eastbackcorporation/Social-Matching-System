@@ -3,7 +3,7 @@
 # === 住所確認登録用コントローラ
 class Sender::AddressesController < ApplicationController
   before_filter :require_user
-  before_filter :check_sender
+  before_filter "check_role(:role=>:sender)".to_sym
 
   #現在の保持している住所一覧
   def index

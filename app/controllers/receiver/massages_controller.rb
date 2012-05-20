@@ -3,8 +3,7 @@
 #=== 依頼情報確認用コントローラ
 class Receiver::MassagesController < MassagesController
   before_filter :require_user
-  before_filter :check_receiver
-  before_filter :check_validated_datetime
+  before_filter "check_role(:role=>:receiver)".to_sym
 
   respond_to :html,:json
 

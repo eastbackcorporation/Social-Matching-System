@@ -5,7 +5,16 @@ class Role < ActiveRecord::Base
   attr_accessible :name
   has_and_belongs_to_many :users
 
-   # 管理者ロールを返す
+  #保持しているRoleの確認
+  def self.has(role_name)
+    if self.where(:name =>role_name).first
+      return true
+    else
+      return false
+    end
+  end
+
+  # 管理者ロールを返す
   def self.admin
     return self.where(:name => "admin").first
   end

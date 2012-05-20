@@ -5,9 +5,8 @@
 class Sender::MassagesController < MassagesController
   include Math
   before_filter :require_user
-  before_filter :check_sender
-  before_filter :check_validated_datetime
-  before_filter :check_active
+  before_filter "check_role(:role=>:sender)".to_sym
+  before_filter :get_global_setting,:only => :create
 
   respond_to :html,:json
 
@@ -64,16 +63,8 @@ class Sender::MassagesController < MassagesController
     @massage.update_attributes(:user_id=>current_user.id,:status_id=>1)
     @massage.save
 
-    #グローバルセッテイングの参照
-    @range=GlobalSetting[:matching_range]
-    @maximum=GlobalSetting[:maximum_range]
-    @step=GlobalSetting[:matching_step]
-    @matching_interval=GlobalSetting[:matching_interval]
-    @matching_number_limit=GlobalSetting[:matching_number_limit]
-    @validated_time_interval=GlobalSetting[:validated_time_interval]
-
     #マッチングを行う
-    if self.matching
+    if self.matching_users
       @massage.update_attributes(:status_id=>2)#該当者あり
     end
 
@@ -109,37 +100,47 @@ class Sender::MassagesController < MassagesController
   end
 
 protected
+  #グローバルセッテイングの情報参照
+  def get_global_setting
+    @range=GlobalSetting[:matching_range]
+    @maximum=GlobalSetting[:maximum_range]
+    @step=GlobalSetting[:matching_step]
+    @matching_interval=GlobalSetting[:matching_interval]
+    @matching_number_limit=GlobalSetting[:matching_number_limit]
+    @validated_time_interval=GlobalSetting[:validated_time_interval]
+  end
+
+  #位置情報取得
+  def get_receivers_locations
+    #更新日時が@validated_time_interval以内のもののみ取得
+    #ただし、@validated_time_intervalが負の時はすべて取得
+    if @validated_time_interval>=0
+      return ReceiversLocation.all_at( DateTime.now-Rational( @validated_time_interval,24*60) )
+    else
+      return ReceiversLocation.all
+    end
+  end
+
   #マッチングを行う
   #一定時間内に依頼が成立しなかった場合、範囲を広げて再びマッチングする
-  def matching
-
-    #位置情報取得
-    if @validated_time_interval>=0
-      @receivers_locations=ReceiversLocation.all_at( DateTime.now-Rational( @validated_time_interval,24*60) )
-    else
-      @receivers_locations=ReceiversLocation.all
-    end
+  def matching_users
 
     @matching_receivers=[]
-
     #最初のマッチング
     #成功するまでrangeを広げる
-    until self.search_user2(0,@range) || @range>=@maximum
-      @range += @step
-    end
+    self.search_users(0,@range)
 
     #再マッチング用スレッド
     #一定時間内に依頼が成立しなかった場合、範囲を広げて再びマッチングする
     t=Thread.new do
       begin
-        self.repeat_matching{|a,b| self.search_user2(a,b) }
+        self.repeat_matching{|a,b| self.search_users(a,b) }
       rescue
         p "ERROR :.repeat_matching"
       end
     end
 
     if @matching_receivers.empty?
-      Thread::kill(t)
       return false
     else
       Thread.new{self.send_mail(@matching_receivers)}
@@ -157,12 +158,9 @@ protected
 
       @massage=Massage.find(msg_id)
       @matching_receivers=[]
-      prev_range=@range
-      @range+=@step
+      min_distance,max_distance=@range,@range+@step
 
-      until search.call(prev_range,@range) || @range>=@maximum
-        @range += @step
-      end
+      search.call(min_distance,max_distance) # @matching_receivers << result
 
       #メール送信
       Thread.new{self.send_mail(@matching_receivers)}
@@ -175,64 +173,73 @@ protected
     @massage.save
   end
 
-  #距離の近いreceiverの探索 ver1.0
-  def search_user(min_dis,max_dis)
-    rtn_flg=false
+  #receiverの探索
+  #見つかるまで、範囲を広げる
+  def search_users(min_distance,max_distance)
+    #成功するまでrangeを広げる
+    until self.search_user2(min_distance,max_distance) || max_distance>=@maximum
+      max_distance += @step
+      @range = max_distance
+     end
+  end
 
-    @receivers_locations.each do |rl|
-      dis = self.distance(rl)
+  #距離の近いreceiverの探索 ver1.0
+  def search_user(min_distance,max_distance)
+    rtn_flg=false
+    @receivers_locations=self.get_receivers_locations #位置情報取得
+    @receivers_locations.each do |receivers_location|
+      distance = self.measure_distance(receivers_location)
 
       #範囲内かチェック
-      if min_dis <= dis && dis <= max_dis
-        @matching_user=MatchingUser.new(:massage_id=>@massage.id,:user_id=>rl.user_id,:distance=> dis.to_s)
-        if @matching_user.save
-          @matching_receivers<<rl.user
-          rtn_flg=true
-        end
+      if min_distance <= distance && distance <= max_distance
+        rtn_flg=self.save_matching_user(receivers_location.id,distance)
       end
     end
-    @massage.matching_count= @massage.matching_count || 0
-    @massage.matching_count += @matching_receivers.size
-    @massage.matching_range=max_dis
+    @massage.matching_range=max_distance
     return rtn_flg
   end
 
   #距離の近いreceiverの探索 ver2.1
-  #TODO receiverが移動した時を考えるべき
-  def search_user2(min_dis,max_dis)
+  def search_user2(min_distance,max_distance)
+
+    @receivers_locations=self.get_receivers_locations #位置情報取得
     @used_receivers_id = @used_receivers_id || [] #matching済みのreveiver_id
 
     distance = {} # {user_id=>距離} を格納
-    @receivers_locations.each do |rl|
-      unless @used_receivers_id.index(rl.user_id)
-        distance[rl.user_id] = self.distance(rl)
+    @receivers_locations.each do |receivers_location|
+      unless @used_receivers_id.index(receivers_location.user_id)
+        distance[receivers_location.user_id] = self.measure_distance(receivers_location)
       end
     end
 
-    #距離が最小のreveiverにマッチする
+    # 距離が最小のreveiverにマッチする
     matching_receiver_id, matching_receiver_dis= distance.min{ |a,b| a[1]<=>b[1] }
 
-    if matching_receiver_dis && min_dis<matching_receiver_dis && matching_receiver_dis <=max_dis
-      @matching_receivers << User.find(matching_receiver_id)
-      @used_receivers_id << matching_receiver_id
-
-      @massage.matching_range = matching_receiver_dis
-      @massage.matching_count =  @massage.matching_count || 0
-      @massage.matching_count += 1
-
-      matching_user=MatchingUser.new(:massage_id=>@massage.id,
-                                     :user_id=>matching_receiver_id.to_s,:distance=> matching_receiver_dis.to_s)
-      matching_user.save
-      return true
+    if matching_receiver_dis && matching_receiver_dis <=max_distance
+      return self.save_matching_user(matching_receiver_id,matching_receiver_dis)
     else
       @massage.matching_count =  @massage.matching_count || 0
-      @massage.matching_range = max_dis
+      @massage.matching_range = max_distance
       return false
     end
   end
 
+  #マッチングしたユーザの保存
+  def save_matching_user(matching_user_id,matching_user_dis)
+      @matching_receivers << User.find(matching_user_id)
+      @used_receivers_id << matching_user_id
+
+      @massage.matching_range = matching_user_dis
+      @massage.matching_count =  @massage.matching_count || 0
+      @massage.matching_count += 1
+
+      matching_user=MatchingUser.new(:massage_id=>@massage.id,
+                                     :user_id=>matching_user_id.to_s,:distance=> matching_user_dis.to_s)
+      return matching_user.save
+  end
+
   #緯度経度-2点間の距離の計算
-  def distance(location)
+  def measure_distance(location)
     earth_r=6378.137
     rad_dis_latitude=PI/180.0*(location.latitude.to_f- @massage.latitude.to_f )
     rad_dis_longitude=PI/180.0*(location.longitude.to_f- @massage.longitude.to_f )

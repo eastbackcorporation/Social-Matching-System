@@ -4,7 +4,7 @@
 #admin のみがユーザの管理が行える
 class Admin::UsersController < ApplicationController
   before_filter :require_user
-  before_filter :check_admin
+  before_filter "check_role(:role=>:admin)".to_sym
 
   respond_to :html,:json
 
@@ -138,7 +138,6 @@ class Admin::UsersController < ApplicationController
     end
 
   end
-
 
   # ユーザーの削除
   def destroy

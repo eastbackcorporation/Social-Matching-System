@@ -3,9 +3,10 @@
 #=== receiver の現在位置取得コントローラ
 class Receiver::ReceiversLocationsController < ApplicationController
   before_filter :require_user
-  before_filter :check_receiver
+  before_filter "check_role(:role=>:admin)".to_sym
 
   #ビューからAjaxでポストされた位置情報を登録する
+  #user_id,と位置情報(緯度,経度)を受け取る
   def create
     @receivers_location = ReceiversLocation.find(:first, :conditions => {:user_id => params[:user_id]})
 

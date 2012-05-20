@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 
 #=== 共通コントローラ
 class ApplicationController < ActionController::Base
@@ -8,35 +9,28 @@ class ApplicationController < ActionController::Base
   private
     # 現在のユーザセッション情報の取得
     def current_user_session
-      logger.debug "ApplicationController::current_user_session"
       return @current_user_session if defined?(@current_user_session)
       @current_user_session = UserSession.find
     end
 
-    # 現在のユーザの所得
+    # 現在のユーザの取得
     def current_user
-      logger.debug "ApplicationController::current_user"
       return @current_user if defined?(@current_user)
       @current_user = current_user_session && current_user_session.user
     end
 
     # ユーザ認証確認　認証してないならログイン画面へ遷移
     def require_user
-      logger.debug "ApplicationController::require_user"
       unless current_user
         store_location
         flash[:notice] = "You must be logged in to access this page"
         redirect_to new_user_session_url
-
         return false
       end
     end
 
     # ユーザ認証確認
     def require_no_user
-
-      logger.debug "ApplicationController::require_no_user"
-
       if current_user
         store_location
         flash[:notice] = "You must be logged out to access this page"
@@ -87,6 +81,26 @@ class ApplicationController < ActionController::Base
         redirect_to admin_users_url
       elsif current_user.roles.sender
         redirect_to sender_massages_url
+      end
+    end
+
+    #roleのチェック
+    # opt => {:role => role_name}
+    # ex.) check_role :role => admin
+    def check_role(opt)
+      if current_user.roles.has(opt[:role])
+        return true
+      else
+        #redirect_to "/403.html"
+        render :status => :forbidden, :text => "Forbidden fruit"
+      end
+    end
+
+    def role?(val)
+      if current_user.roles.has(val)
+        return true
+      else
+        return false
       end
     end
 
