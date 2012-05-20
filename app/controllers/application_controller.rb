@@ -57,16 +57,7 @@ class ApplicationController < ActionController::Base
       if current_user.roles.has(opt[:role])
         return true
       else
-        #redirect_to "/403.html"
         render :status => :forbidden, :text => "Forbidden fruit"
-      end
-    end
-
-    def role?(val)
-      if current_user.roles.has(val)
-        return true
-      else
-        return false
       end
     end
 
