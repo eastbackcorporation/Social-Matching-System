@@ -41,6 +41,7 @@ class Sender::MassagesController < MassagesController
   #依頼情報詳細表示
   def show
    @massage=Massage.find(params[:id])
+   @request_statuses=RequestStatus.all
    if mobile? then
       render :action => "show_mobile", :layout => 'mobile'
    end
@@ -60,18 +61,17 @@ class Sender::MassagesController < MassagesController
   #新規依頼作成
   def create
     @massage = Massage.new(params[:massage])
-    @massage.update_attributes(:user_id=>current_user.id,:status_id=>1)
+    @massage.user=current_user
+    @massage.matching_status=MatchingStatus.to("検索中").first
+    @massage.request_status=RequestStatus.to("受付中").first
     @massage.save
 
     #マッチングを行う
-    if self.matching_users
-      @massage.update_attributes(:status_id=>2)#該当者あり
-    end
+    self.matching_users
 
     respond_to do |format|
       if @massage.save
         format.html { redirect_to(sender_massages_url) }
-        #format.html { redirect_to [:sender,@massage] }
         format.json { render json: @massage, status: :created, location: @massage }
       else
         format.html { render :new}
@@ -83,7 +83,7 @@ class Sender::MassagesController < MassagesController
   #ステータスの変更
   def change_status
     @massage = Massage.find(params[:id])
-    if @massage.update_attributes(:status_id=>params[:status])
+    if @massage.update_attributes(:request_status_id=>params[:request_status])
       flash[:notice]="ステータス変更しました"
       redirect_to(sender_massages_url)
     else
@@ -149,27 +149,39 @@ protected
   end
 
   #マッチングを繰り返す
+  #一定時間内に依頼が成立しなかった場合、範囲を広げて再びマッチングする
   def repeat_matching(&search)
-    msg_id=@massage.id
+    @current_massage_id=@massage.id
 
-    #マッチングループ
-    begin
-      sleep @matching_interval #待ち時間
+    sleep @matching_interval #最初の待ち時間
+    @massage=Massage.find(@current_massage_id)
+
+    #マッチング ループ
+    while @massage.active_flg && @range<@maximum #終了条件
 
       @massage=Massage.find(msg_id)
       @matching_receivers=[]
       min_distance,max_distance=@range,@range+@step
 
-      search.call(min_distance,max_distance) # @matching_receivers << result
+      search.call(min_distance,max_distance)  #  => @matching_receivers << result
 
       #メール送信
       Thread.new{self.send_mail(@matching_receivers)}
-
       @massage.save
-    end while @massage.active_flg && @range<@maximum #マッチング終了条件
+
+      sleep @matching_interval #待ち時間
+
+      @massage=Massage.find(@current_massage_id)
+      #一時的なストップ
+      while @massage.matching_status.name=="検索停止" do
+
+        sleep 5
+        @massage=Massage.find(@current_massage_id)
+      end
+    end
 
     #終了処理
-    @massage.status=Status.to("マッチング終了").first
+    @massage.matching_status=MatchingStatus.to("検索終了").first
     @massage.save
   end
 
@@ -186,7 +198,8 @@ protected
   #距離の近いreceiverの探索 ver1.0
   def search_user(min_distance,max_distance)
     rtn_flg=false
-    @receivers_locations=self.get_receivers_locations #位置情報取得
+    #位置情報取得
+    @receivers_locations=self.get_receivers_locations
     @receivers_locations.each do |receivers_location|
       distance = self.measure_distance(receivers_location)
 
@@ -201,11 +214,14 @@ protected
 
   #距離の近いreceiverの探索 ver2.1
   def search_user2(min_distance,max_distance)
+    #位置情報取得
+    @receivers_locations=self.get_receivers_locations
 
-    @receivers_locations=self.get_receivers_locations #位置情報取得
-    @used_receivers_id = @used_receivers_id || [] #matching済みのreveiver_id
+    #matching済みのreveiver_id
+    @used_receivers_id = @used_receivers_id || []
 
-    distance = {} # {user_id=>距離} を格納
+    # {user_id=>距離} を格納
+    distance = {}
     @receivers_locations.each do |receivers_location|
       unless @used_receivers_id.index(receivers_location.user_id)
         distance[receivers_location.user_id] = self.measure_distance(receivers_location)
@@ -213,9 +229,11 @@ protected
     end
 
     # 距離が最小のreveiverにマッチする
-    matching_receiver_id, matching_receiver_dis= distance.min{ |a,b| a[1]<=>b[1] }
+    matching_receiver_id, matching_receiver_distance= distance.min{ |a,b| a[1]<=>b[1] }
 
-    if matching_receiver_dis && matching_receiver_dis <=max_distance
+    #範囲条件の確認
+    if matching_receiver_distance && matching_receiver_dis <=max_distance
+      #マッチングしたユーザをする保存する
       return self.save_matching_user(matching_receiver_id,matching_receiver_dis)
     else
       @massage.matching_count =  @massage.matching_count || 0

@@ -12,8 +12,12 @@
             <td><%= @massage.category.name %></td>
         </tr>
 		<tr>
-            <th scope="row">ステータス</th>
-            <td><%= @massage.status.name %></td>
+            <th scope="row">依頼ステータス</th>
+            <td><%= @massage.request_status.name %></td>
+        </tr>
+    <tr>
+            <th scope="row">検索ステータス</th>
+            <td><%= @massage.matching_status.name %></td>
         </tr>
 		<tr>
             <th scope="row">作成日</th>

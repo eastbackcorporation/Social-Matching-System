@@ -5,9 +5,11 @@
 	<div class="right_content">
     <%=raw jqgrid("依頼情報一覧", "Message", "/admin/massages",
       [
-        { :name => "id", :label => "id", :index => 'id',:align => 'center', :width => "55", :hidden => true },
+        { :name => "id", :label => "id", :index => 'id',:align => 'center', :width => "35", :hidden => true },
         { :name => "category.name", :label => "カテゴリ", :index => 'category_id',:align => 'center', :width => "55" },
-        { :name => "status.name", :label => "ステータス", :index => 'status_id',:align => 'center', :width => "55" },
+        { :name => "request_status.name", :label => "依頼ステータス", :index => 'request_status_id',:align => 'center', :width => "55" },
+        { :name => "matching_status.name", :label => "検索ステータス", :index => 'matching_status_id',:align => 'center', :width => "55" },
+        { :name => "matching_count", :label => "該当者数",:align => 'center', :width => "25" },
         { :name => "active_datetime",
           :label => "実施日",
           :index => 'active_datetime',

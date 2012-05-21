@@ -1,12 +1,13 @@
 <div class="block">
 	<div class="content">
-		
-		<%=raw jqgrid("依頼情報一覧", "ReceiverMessage", "/receiver/massages", 
-			[ 
-				{ :name => "id", :label => "id", :index => 'id',:align => 'center', :width => "55", :hidden => true }, 	 
-				{ :name => "category.name", :label => "カテゴリ", :index => 'category_id',:align => 'center', :width => "55" }, 	 
-				{ :name => "status.name", :label => "ステータス", :index => 'status_id',:align => 'center', :width => "55" }, 	 
-				{ :name => "active_datetime",
+
+		<%=raw jqgrid("依頼情報一覧", "ReceiverMessage", "/receiver/massages",
+			[
+				{ :name => "id", :label => "id", :index => 'id',:align => 'center', :width => "55", :hidden => true },
+				{ :name => "category.name", :label => "カテゴリ", :index => 'category_id',:align => 'center', :width => "55" },
+				{ :name => "request_status.name", :label => "依頼ステータス", :index => 'request_status_id',:align => 'center', :width => "55" },
+        { :name => "matching_count", :label => "該当者数", :index => 'matching_count',:align => 'center', :width => "55" },
+        { :name => "active_datetime",
 					:label => "発信日",
 					:index => 'active_datetime',
 					:align => 'center',
@@ -36,7 +37,7 @@
 					:width => "55",
 					:customFormatter => 'makeLink'
 				}
-			], 
+			],
 			{
 				:autowidth => true,
 				:edit => false,
@@ -46,8 +47,8 @@
 				:rowNum	=> 10,
 				:rowList => [10,20,30,50],
 				:height => 300,
-			} 
-		) %>		
+			}
+		) %>
 
 	</div>
 </div>
@@ -55,7 +56,7 @@
 <script type="text/javascript">
 	//Ajaxで位置情報をポストする際に同時に送信されるユーザID
 	var current_user_id = "<%= current_user.id %>";
-	
+
 	function makeLink(cellvalue, options, rowObject){
 		var url = "<%= receiver_massage_url(:id => "") %>";
 		url = url + cellvalue;

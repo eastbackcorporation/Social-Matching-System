@@ -6,7 +6,9 @@
             <th scope="row"><%= link_to '戻る', sender_massages_path %></th>
   			<td>
   				<%= form_tag({:action => :change_status},{:method => :put}) do %>
-        		<%= select_tag("status",options_for_select([["完了",4],["キャンセル",5]])) %>
+  				  <% request_statuses = [] %>
+  				  <% @request_statuses.each{|rs| request_statuses << [rs.name ,rs.id]  }%>
+        		<%= select_tag("request_status",options_for_select( request_statuses ))  %>
         		<%= submit_tag("ステータス変更") %>
       			<% end %>
   			</td>
@@ -18,8 +20,8 @@
     		<td><%= @massage.category.name %></td>
   		</tr>
   		<tr>
-    		<th scope="row">ステータス</th>
-    		<td><%= @massage.status.name %></td>
+    		<th scope="row">依頼ステータス</th>
+    		<td><%= @massage.request_status.name %></td>
   		</tr>
   		<tr>
     		<th scope="row">現在の探索範囲</th>

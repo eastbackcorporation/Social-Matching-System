@@ -5,17 +5,37 @@
 class MassagesController < ApplicationController
   before_filter :check_all_reject
   before_filter :check_validated_datetime
+  before_filter :check_end_datetime
   before_filter :check_active
+  after_filter :check_active
 
 private
-  #有効期限チェック
+
+  #応答有効期限チェック
+  #有効期限を過ぎたmassageのmacthing_satatusを期限切れにする
   #-before filter用
   def check_validated_datetime
     @massages = Massage.all
     @massages.each do |m|
-      unless m.validated_datetime > DateTime.now || m.status.name=="完了" || m.status.name =="中止"
-        #m.status=Status.where(:name=> "期限切れ").first
-        m.status=Status.to("期限切れ").first
+      if m.validated_datetime <= DateTime.now && m.matching_status.name=="検索終了"
+        m.matching_status=MatchingStatus.to("期限切れ").first
+        m.save
+      end
+    end
+  end
+
+  #終了チェック
+  #実施日時(active_datetime)を過ぎたmassageには終了フラグ(end_flg)を立てる
+  #また終了時にrequest_statusが受付中ならば、不成立にする
+  #-before filter用
+  def check_end_datetime
+    @massages = Massage.all
+    @massages.each do |m|
+      if  m.active_datetime <= DateTime.now
+        m.end_flg=true
+        if m.request_status.name=="受付中"
+          m.request_status=RequestStatus.to("不成立").first
+        end
         m.save
       end
     end
@@ -26,7 +46,13 @@ private
   def check_active
     @massages = Massage.all
     @massages.each do |m|
-        m.active_flg=m.status.active_flg
+        if m.request_status.name == "成立" && m.matching_status.name == "検索中"
+          m.matching_status = MatchingStatus.to("検索停止").first
+        end
+        if m.request_status.name == "受付中" && m.matching_status.name == "検索停止"
+          m.matching_status = MatchingStatus.to("検索中").first
+        end
+        m.active_flg=m.matching_status.active_flg
         m.save
     end
   end
@@ -36,13 +62,14 @@ private
   def check_all_reject
     @massages = Massage.all
     @massages.each do |m|
-      if  m.status.name=="マッチング終了" && self.all_receiver_reject(m)
-        m.status=Status.to("該当者不受理").first
+      if  m.matching_status.name=="検索終了" && self.all_receiver_reject(m)
+        m.matching_status=MatchingStatus.to("該当者無し").first
         m.save
         #TODO ここでsenderにメール送信
       end
     end
   end
+
 protected
   #massageに紐付く全てのreceiverがrejectしているか?
   #-check_all_reject用

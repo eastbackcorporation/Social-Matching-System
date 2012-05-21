@@ -9,21 +9,13 @@
     <%= f.select :category_id ,categories %>
   </div>
   <div class="field">
-    <!-- ここに住所　
-    <% addresses = [] %>
-    <% @addresses.each{|a| addresses << [a.name ,a.id]}%>
-    <%= f.label :address ,"実施住所を選んでください"%>
-    <%= f.select :address_id,addresses %>
-    <%= link_to '新規の住所を登録する', new_sender_address_path %>
-    <%= link_to '登録した住所を確認する', sender_addresses_path %>
-  -->
     <%= f.label :address_id ,"実施住所を選択して下さい"%>
   	<ul>
-    <% @addresses.each{ |a| %>  	
+    <% @addresses.each{ |a| %>
   		<li>
   			<div class="radio"><%= f.radio_button :address_id, a.id %></div>
   			<div>
-  				<h4><%= a.name %></h4> 
+  				<h4><%= a.name %></h4>
   				<span><%= a.postal_code %> </span>
   				<span class="addressStr"><%= a.prefecture %><%= a.address1 %><%= a.address2 %></span>
   			</div>
@@ -58,5 +50,5 @@
 <% end %>
 
 
-<%= link_to '戻る', receiver_users_path %>
+<%= link_to '戻る', sender_massages_path %>
 

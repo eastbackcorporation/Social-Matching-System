@@ -13,8 +13,8 @@
 				<h1><%= @massage.category.name %></h1>
 			</li>
 			<li>
-				<p>ステータス</p>
-				<h1><%= @massage.status.name %></h1>
+				<p>依頼ステータス</p>
+				<h1><%= @massage.request_status.name %></h1>
 			</li>
 			<li>
 				<p>現在の探索範囲</p>
@@ -39,9 +39,12 @@
 		</ul>
 
 		<%= form_tag({:action => :change_status},{:method => :put}) do %>
-        	<%= select_tag("status",options_for_select([["完了",4],["キャンセル",5]])) %>
-        	<input name="commit" type="submit" value="ステータス変更" data-theme="b">
-      	<% end %>
+		  <% request_statuses = [] %>
+      <% @request_statuses.each{|rs| request_statuses << [rs.name ,rs.id]  }%>
+      <%= select_tag("request_status",options_for_select( request_statuses ))  %>
+
+      <input name="commit" type="submit" value="ステータス変更" data-theme="b">
+    <% end %>
 
 
 	</div><!-- /content -->
