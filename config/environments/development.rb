@@ -20,8 +20,8 @@ SocialMatchingSystem::Application.configure do
     :address => "smtp.gmail.com",
     :port => 587,
     :domain => 'gmail.com',
-    :user_name => "kou_honda@eastback.jp",
-    :password => "hondaback",
+    :user_name => "sample@sample.com",
+    :password => "password",
     :authentication => 'plain',
     :enable_starttls_auto => true,
   }
