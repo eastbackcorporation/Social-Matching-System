@@ -3,7 +3,7 @@
 #=== receiver の現在位置取得コントローラ
 class Receiver::ReceiversLocationsController < ApplicationController
   before_filter :require_user
-  before_filter "check_role(:role=>:admin)".to_sym
+  before_filter "check_role(:role=>:receiver)".to_sym
 
   #ビューからAjaxでポストされた位置情報を登録する
   #user_id,と位置情報(緯度,経度)を受け取る
