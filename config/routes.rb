@@ -1,7 +1,5 @@
 SocialMatchingSystem::Application.routes.draw do
 
-  get "top/index"
-
   namespace :admin do
     resources :users
     resources :massages
@@ -10,26 +8,28 @@ SocialMatchingSystem::Application.routes.draw do
   end
 
   namespace :sender do
-    resources :users
-    resources :addresses
+    #resources :users   現時点で使用してないコントローラ
+    #resources :addresses　現時点で使用してないコントローラ
     resources :massages do
       put :change_status, :on => :member
     end
   end
 
   namespace :receiver do
-    resources :users
+    #resources :users　現時点で使用してないコントローラ
     resources :massages do
       put :reject,:on => :member
       get :map,:on => :member
     end
-    resources :receivers_locations
+    resources :receivers_locations, :only=>:create
   end
 
   resources :user_sessions
 
   match 'login' => "user_sessions#new",      :as => :login
   match 'logout' => "user_sessions#destroy", :as => :logout
+
+  get "top/index"
 
   root :to => "user_sessions#new"
 end

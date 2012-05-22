@@ -57,7 +57,11 @@ class ApplicationController < ActionController::Base
       if current_user.roles.has(opt[:role])
         return true
       else
-        render :status => :forbidden, :text => "Forbidden fruit"
+        #TODO アクセス権限がないURLにアクセスした時 下の2通りの処理がある
+        #アクセス権 がないと表示する場合
+        #render :status => :forbidden, :text => "アクセス権限がありません"
+        #TOPにリダイレクトする場合
+        redirect_to(top_index_url)
       end
     end
 
