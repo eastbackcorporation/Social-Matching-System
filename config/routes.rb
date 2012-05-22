@@ -2,7 +2,9 @@ SocialMatchingSystem::Application.routes.draw do
 
   namespace :admin do
     resources :users
-    resources :massages
+    resources :massages do
+      put :change_status, :on => :member
+    end
     resources :global_settings,:only => %w[edit update]
     resources :receivers_locations,:only=>%W[index show]
   end
@@ -19,6 +21,7 @@ SocialMatchingSystem::Application.routes.draw do
     #resources :users　現時点で使用してないコントローラ
     resources :massages do
       put :reject,:on => :member
+      put :change_status, :on => :member
       get :map,:on => :member
     end
     resources :receivers_locations, :only=>:create

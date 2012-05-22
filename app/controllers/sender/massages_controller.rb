@@ -41,7 +41,6 @@ class Sender::MassagesController < MassagesController
   #依頼情報詳細表示
   def show
    @massage=Massage.find(params[:id])
-   @request_statuses=[RequestStatus.to("成立").first,RequestStatus.to("受付中").first,RequestStatus.to("中止").first]
    if mobile? then
       render :action => "show_mobile", :layout => 'mobile'
    end
@@ -64,17 +63,24 @@ class Sender::MassagesController < MassagesController
     @massage.user=current_user
     @massage.matching_status=MatchingStatus.to("検索中").first
     @massage.request_status=RequestStatus.to("受付中").first
-    @massage.save
 
-    #マッチングを行う
-    self.matching_users
+    if @massage.save
+      #マッチングを行う
+      self.matching_users
+    end
 
     respond_to do |format|
       if @massage.save
-        format.html { redirect_to(sender_massages_url) }
+        if mobile? then
+          format.html { redirect_to(sender_massages_url) }
+          format.json { render json: @massage, status: :created, location: @massage }
+        end
+        format.html { redirect_to [:sender,@massage] }
         format.json { render json: @massage, status: :created, location: @massage }
       else
-        format.html { render :new}
+        @categories=Category.all
+        @addresses=Address.where(:user_id=>current_user.id)
+        format.html { render :new  }
         format.json { render json: @massage.errors, status: :unprocessable_entity }
       end
     end
@@ -83,12 +89,17 @@ class Sender::MassagesController < MassagesController
   #ステータスの変更
   def change_status
     @massage = Massage.find(params[:id])
-    if @massage.update_attributes(:request_status_id=>params[:request_status])
-      flash[:notice]="ステータス変更しました"
-      redirect_to(sender_massage_url)
+    unless @massage.end_flg
+      if @massage.update_attributes(:request_status_id=>params[:request_status])
+        flash[:notice]="ステータス変更しました"
+        redirect_to(sender_massage_url)
+      else
+        flash[:notice]="ステータス変更できませんでした"
+        redirect_to(sender_massage_url)
+      end
     else
-      flash[:notice]="ステータス変更できませんでした"
-      redirect_to(sender_massage_url)
+       flash[:notice]="終了しているメッセージです"
+       redirect_to(sender_massage_url)
     end
   end
 
@@ -175,7 +186,8 @@ protected
 
       @massage=Massage.find(@current_massage_id)
       #一時的なストップ
-      while @massage.matching_status.name == "検索停止" do
+      #
+      while @massage.matching_status.name == "検索停止"  &&   !@massage.end_flg do
 
         sleep 5
         @massage=Massage.find(@current_massage_id)

@@ -43,12 +43,24 @@
             <th scope="row">住所</th>
             <td><%= @massage.address.prefecture+@massage.address.address1+@massage.address.address2 %></td>
         </tr>
+        <% if @massage.end_flg %>
+          <tr>
+            <th scope="row"></th>
+            <td>すでに終了しています</td>
+          </tr>
+        <% end %>
     </tbody>
     <tfoot><tr>
-        <%= form_tag({:action => :change_status},{:method => :put}) do %>
-        <th><%= select_tag("status",options_for_select([["完了",4],["キャンセル",5]])) %></th>
-        <td><%= submit_tag("ステータス変更") %></td>
-      <% end %>
+         <% unless @massage.end_flg%>
+          <%= form_tag({:action => :change_status},{:method => :put}) do %>
+            <% request_statuses = [] %>
+            <% ["成立","受付中","中止"].each do |rs| %>
+              <% request_statuses << [rs,RequestStatus.to(rs).first.id]%>
+            <% end %>
+            <th><%= select_tag("request_status",options_for_select( request_statuses )) %></th>
+            <td><%= submit_tag("ステータス変更") %></td>
+          <% end %>
+        <% end %>
       </tr>
 	</tfoot>
   </table>

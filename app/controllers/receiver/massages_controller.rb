@@ -39,7 +39,6 @@ class Receiver::MassagesController < MassagesController
     end
   end
 
-
   #詳細表示
   def show
     @massage=Massage.find(params[:id])
@@ -47,6 +46,24 @@ class Receiver::MassagesController < MassagesController
       render :action => "show_mobile", :layout => 'mobile'
     end
   end
+
+  #ステータスの変更
+  def change_status
+    @massage = Massage.find(params[:id])
+    unless @massage.end_flg
+      if @massage.update_attributes(:request_status_id=>params[:request_status])
+        flash[:notice]="ステータス変更しました"
+        edirect_to(receiver_massage_url)
+      else
+        flash[:notice]="ステータス変更できませんでした"
+        redirect_to(receiver_massage_url)
+      end
+    else
+       flash[:notice]="終了しているメッセージです"
+       redirect_to(receiver_massage_url)
+    end
+  end
+
 
   #mobile画面のGoogleMap
   def map

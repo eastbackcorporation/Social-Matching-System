@@ -5,12 +5,16 @@
         <tr>
             <th scope="row"><%= link_to '戻る', sender_massages_path %></th>
   			<td>
-  				<%= form_tag({:action => :change_status},{:method => :put}) do %>
-  				  <% request_statuses = [] %>
-  				  <% @request_statuses.each{|rs| request_statuses << [rs.name ,rs.id]  }%>
-        		<%= select_tag("request_status",options_for_select( request_statuses ))  %>
-        		<%= submit_tag("ステータス変更") %>
-      			<% end %>
+  			<% unless @massage.end_flg%>
+          <%= form_tag({:action => :change_status},{:method => :put}) do %>
+            <% request_statuses = [] %>
+            <% ["成立","受付中","中止"].each do |rs| %>
+              <% request_statuses << [rs,RequestStatus.to(rs).first.id]%>
+            <% end %>
+            <th><%= select_tag("request_status",options_for_select( request_statuses )) %></th>
+            <td><%= submit_tag("ステータス変更") %></td>
+          <% end %>
+        <% end %>
   			</td>
         </tr>
     </tfoot>
@@ -43,6 +47,12 @@
     		<th scope="row">実施日</th>
     		<td><%= Time.parse(@massage.active_datetime.to_s).strftime("%Y年%m月%d日 %H時%M分")  %></td>
   		</tr>
+  		<% if @massage.end_flg %>
+  		  <tr>
+        <th scope="row"></th>
+        <td>すでに終了しています</td>
+      </tr>
+      <% end %>
   	</tbody>
 </table>
 
