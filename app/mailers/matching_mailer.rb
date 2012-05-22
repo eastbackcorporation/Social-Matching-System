@@ -22,9 +22,7 @@ class MatchingMailer < ActionMailer::Base
     end
     @subject = GlobalSetting[:mail_title_template]
     @url = "http://example.com/login"
-    #@email=receiver.email
-    #dummy
-    @email="receiver_sms@khn.sakura.ne.jp"
+    @email=receiver.email
     mail(:to => @email,
          :subject => @suject)
   end
