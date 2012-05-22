@@ -31,7 +31,7 @@ private
   def check_end_datetime
     @massages = Massage.all
     @massages.each do |m|
-      if  m.active_datetime <= DateTime.now
+      if  m.active_datetime < DateTime.now
         m.end_flg=true
         if m.request_status.name=="受付中"
           m.request_status=RequestStatus.to("不成立").first

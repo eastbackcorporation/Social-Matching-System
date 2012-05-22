@@ -150,6 +150,7 @@ protected
 
   #マッチングを繰り返す
   #一定時間内に依頼が成立しなかった場合、範囲を広げて再びマッチングする
+  # search.call を用いいてマッチング
   def repeat_matching(&search)
     @current_massage_id=@massage.id
 
@@ -159,10 +160,11 @@ protected
     #マッチング ループ
     while @massage.active_flg && @range<@maximum #終了条件
 
-      @massage=Massage.find(msg_id)
+      @massage=Massage.find(@current_massage_id)
       @matching_receivers=[]
       min_distance,max_distance=@range,@range+@step
 
+      #receiverの探索
       search.call(min_distance,max_distance)  #  => @matching_receivers << result
 
       #メール送信
@@ -173,7 +175,7 @@ protected
 
       @massage=Massage.find(@current_massage_id)
       #一時的なストップ
-      while @massage.matching_status.name=="検索停止" do
+      while @massage.matching_status.name == "検索停止" do
 
         sleep 5
         @massage=Massage.find(@current_massage_id)
@@ -232,9 +234,9 @@ protected
     matching_receiver_id, matching_receiver_distance= distance.min{ |a,b| a[1]<=>b[1] }
 
     #範囲条件の確認
-    if matching_receiver_distance && matching_receiver_dis <=max_distance
+    if matching_receiver_distance && matching_receiver_distance <= max_distance
       #マッチングしたユーザをする保存する
-      return self.save_matching_user(matching_receiver_id,matching_receiver_dis)
+      return self.save_matching_user(matching_receiver_id,matching_receiver_distance)
     else
       @massage.matching_count =  @massage.matching_count || 0
       @massage.matching_range = max_distance
