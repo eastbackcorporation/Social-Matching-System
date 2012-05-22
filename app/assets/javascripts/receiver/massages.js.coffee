@@ -3,7 +3,7 @@
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 $ ->
   timer = null
-  intervalTime = 5000
+  intervalTime = 10000
 
   locations=new Array();
 
@@ -70,7 +70,7 @@ $ ->
           console.log data
         error: (jqXHR, textStatus, errorThrown) ->
           console.log errorThrown
-          
+
     return
 
   error_callback = (p) ->
@@ -83,13 +83,13 @@ $ ->
     timer = setInterval ->
       geo_position_js.getCurrentPosition success_callback, error_callback
     , intervalTime
-    
+
     #画面ロード時に一度だけ位置情報を取得する場合
     #geo_position_js.getCurrentPosition success_callback, error_callback
   else
     console.log "Geolocation Functionality not available"
     clearInterval timer
-    
+
   #mobile画面用
   $("div#receiver_massage_index_mobile, div#receiver_massage_show_mobile, div#map_mobile_id").live "pageshow", ->
     if geo_position_js.init() && (typeof(current_user_id) != "undefined")
@@ -97,11 +97,11 @@ $ ->
       timer = setInterval ->
         geo_position_js.getCurrentPosition success_callback, error_callback
       , intervalTime
-      
+
       #画面ロード時に一度だけ位置情報を取得する場合
       #geo_position_js.getCurrentPosition success_callback, error_callback
     else
       console.log "Geolocation Functionality not available"
       clearInterval timer
-    
-    
+
+
