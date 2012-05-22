@@ -41,7 +41,7 @@ class Sender::MassagesController < MassagesController
   #依頼情報詳細表示
   def show
    @massage=Massage.find(params[:id])
-   @request_statuses=RequestStatus.all
+   @request_statuses=[RequestStatus.to("成立").first,RequestStatus.to("受付中").first,RequestStatus.to("中止").first]
    if mobile? then
       render :action => "show_mobile", :layout => 'mobile'
    end
@@ -85,10 +85,10 @@ class Sender::MassagesController < MassagesController
     @massage = Massage.find(params[:id])
     if @massage.update_attributes(:request_status_id=>params[:request_status])
       flash[:notice]="ステータス変更しました"
-      redirect_to(sender_massages_url)
+      redirect_to(sender_massage_url)
     else
       flash[:notice]="ステータス変更できませんでした"
-      redirect_to(sender_massages_url)
+      redirect_to(sender_massage_url)
     end
   end
 
