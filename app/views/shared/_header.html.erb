@@ -1,5 +1,5 @@
 <% if current_user %>
-  ようこそ, <%= current_user.login %> |
+  ようこそ, <%= getFullUserName(current_user) %> |
   <%if current_user.roles.sender%>
     <%= link_to '送信者画面へ',sender_massages_url %>
   <% end %>
