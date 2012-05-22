@@ -8,64 +8,67 @@
   <table class="massage_show fcenter">
 	 <tbody>
 		 <tr>
-            <th scope="row">カテゴリ</th>
-            <td><%= @massage.category.name %></td>
-        </tr>
-		<tr>
-            <th scope="row">依頼ステータス</th>
-            <td><%= @massage.request_status.name %></td>
-        </tr>
+      <th scope="row">カテゴリ</th>
+      <td><%= @massage.category.name %></td>
+     </tr>
+		 <tr>
+      <th scope="row">依頼ステータス</th>
+      <td><%= @massage.request_status.name %></td>
+     </tr>
     <tr>
-            <th scope="row">検索ステータス</th>
-            <td><%= @massage.matching_status.name %></td>
-        </tr>
-		<tr>
-            <th scope="row">作成日</th>
-            <td><%= Time.parse(@massage.created_at.to_s).strftime("%Y年%m月%d日 %H時%M分") %></td>
-        </tr>
-		<tr>
-            <th scope="row">有効期限</th>
-            <td><%= Time.parse(@massage.validated_datetime.to_s).strftime("%Y年%m月%d日 %H時%M分") %></td>
-        </tr>
-		<tr>
-            <th scope="row">実施日</th>
-            <td><%= Time.parse(@massage.active_datetime.to_s).strftime("%Y年%m月%d日 %H時%M分") %></td>
-        </tr>
-		<tr>
-            <th scope="row">依頼者</th>
-            <td><%= sender.family_name %> <%= sender.given_name %></td>
-        </tr>
-		<tr>
-            <th scope="row">電話番号</th>
-            <td><%= sender.phone_number %></td>
-        </tr>
+      <th scope="row">検索ステータス</th>
+      <td><%= @massage.matching_status.name %></td>
+    </tr>
     <tr>
-            <th scope="row">住所</th>
-            <td><%= @massage.address.prefecture+@massage.address.address1+@massage.address.address2 %></td>
-        </tr>
-        <% if @massage.end_flg %>
-          <tr>
-            <th scope="row"></th>
-            <td>すでに終了しています</td>
-          </tr>
-        <% end %>
+      <th scope="row">ステータス詳細</th>
+      <td><%=  StatusDescription.status(@massage.request_status.name , @massage.matching_status.name ).first.description %></td>
+    </tr>
+		<tr>
+      <th scope="row">作成日</th>
+      <td><%= Time.parse(@massage.created_at.to_s).strftime("%Y年%m月%d日 %H時%M分") %></td>
+    </tr>
+		<tr>
+      <th scope="row">有効期限</th>
+      <td><%= Time.parse(@massage.validated_datetime.to_s).strftime("%Y年%m月%d日 %H時%M分") %></td>
+    </tr>
+		<tr>
+      <th scope="row">実施日</th>
+      <td><%= Time.parse(@massage.active_datetime.to_s).strftime("%Y年%m月%d日 %H時%M分") %></td>
+    </tr>
+		<tr>
+    <th scope="row">依頼者</th>
+      <td><%= sender.family_name %> <%= sender.given_name %></td>
+    </tr>
+		<tr>
+      <th scope="row">電話番号</th>
+      <td><%= sender.phone_number %></td>
+    </tr>
+    <tr>
+      <th scope="row">住所</th>
+      <td><%= @massage.address.prefecture+@massage.address.address1+@massage.address.address2 %></td>
+    </tr>
+    <% if @massage.end_flg %>
+      <tr>
+        <th scope="row"></th>
+        <td>すでに終了しています</td>
+      </tr>
+    <% end %>
     </tbody>
-    <tfoot><tr>
-         <% unless @massage.end_flg%>
+    <tfoot>
+      <tr>
+        <% unless @massage.end_flg%>
           <%= form_tag({:action => :change_status},{:method => :put}) do %>
-            <% request_statuses = [] %>
-            <% ["成立","受付中","中止"].each do |rs| %>
-              <% request_statuses << [rs,RequestStatus.to(rs).first.id]%>
-            <% end %>
-            <th><%= select_tag("request_status",options_for_select( request_statuses )) %></th>
-            <td><%= submit_tag("ステータス変更") %></td>
+          <% request_statuses = [] %>
+          <% ["成立","受付中","中止"].each do |rs| %>
+            <% request_statuses << [rs,RequestStatus.to(rs).first.id]%>
+          <% end %>
+          <th><%= select_tag("request_status",options_for_select( request_statuses )) %></th>
+          <td><%= submit_tag("ステータス変更") %></td>
           <% end %>
         <% end %>
       </tr>
 	</tfoot>
   </table>
-
-
   <table class="massage_show fcenter">
     <tbody>
     <th scope="row">該当ユーザ名</th>
@@ -87,7 +90,7 @@
 
 <script type="text/javascript">
 	//Ajaxで位置情報をポストする際に同時に送信されるユーザID
-	var current_user_id = "<%= current_user.id %>";
+  var current_user_id = "<%= current_user.id %>";
 
 	//Goolge Map の作成
 	$(function(){

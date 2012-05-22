@@ -1,23 +1,6 @@
 <p id="notice"><%= notice %></p>
 
 <table class="massage_show">
-	<tfoot>
-        <tr>
-            <th scope="row"><%= link_to '戻る', sender_massages_path %></th>
-  			<td>
-  			<% unless @massage.end_flg%>
-          <%= form_tag({:action => :change_status},{:method => :put}) do %>
-            <% request_statuses = [] %>
-            <% ["成立","受付中","中止"].each do |rs| %>
-              <% request_statuses << [rs,RequestStatus.to(rs).first.id]%>
-            <% end %>
-            <th><%= select_tag("request_status",options_for_select( request_statuses )) %></th>
-            <td><%= submit_tag("ステータス変更") %></td>
-          <% end %>
-        <% end %>
-  			</td>
-        </tr>
-    </tfoot>
     <tbody>
   		<tr>
     		<th scope="row">カテゴリ</th>
@@ -27,6 +10,10 @@
     		<th scope="row">依頼ステータス</th>
     		<td><%= @massage.request_status.name %></td>
   		</tr>
+  		<tr>
+        <th scope="row">ステータス詳細</th>
+        <td><%=  StatusDescription.status(@massage.request_status.name , @massage.matching_status.name ).first.description %></td>
+      </tr>
   		<tr>
     		<th scope="row">現在の探索範囲</th>
     		<td><%= @massage.matching_range %>km</td>
@@ -54,5 +41,22 @@
       </tr>
       <% end %>
   	</tbody>
+  	<tfoot>
+        <tr>
+            <th scope="row"><%= link_to '戻る', sender_massages_path %></th>
+        <td>
+        <% unless @massage.end_flg%>
+          <%= form_tag({:action => :change_status},{:method => :put}) do %>
+            <% request_statuses = [] %>
+            <% ["成立","受付中","中止"].each do |rs| %>
+              <% request_statuses << [rs,RequestStatus.to(rs).first.id]%>
+            <% end %>
+            <th><%= select_tag("request_status",options_for_select( request_statuses )) %></th>
+            <td><%= submit_tag("ステータス変更") %></td>
+          <% end %>
+        <% end %>
+        </td>
+        </tr>
+    </tfoot>
 </table>
 

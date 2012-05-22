@@ -10,7 +10,6 @@ class MassagesController < ApplicationController
   after_filter :check_active
 
 private
-
   #応答有効期限チェック
   #有効期限を過ぎたmassageのmacthing_satatusを期限切れにする
   #-before filter用
@@ -33,7 +32,7 @@ private
     @massages.each do |m|
       if  m.active_datetime < DateTime.now
         m.end_flg=true
-        if m.request_status.name=="受付中"
+        if m.request_status.name == "受付中"
           m.request_status=RequestStatus.to("不成立").first
         end
         m.save
