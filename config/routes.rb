@@ -9,7 +9,7 @@ SocialMatchingSystem::Application.routes.draw do
 
   namespace :sender do
     #resources :users   現時点で使用してないコントローラ
-    #resources :addresses　現時点で使用してないコントローラ
+    resources :addresses
     resources :massages do
       put :change_status, :on => :member
     end
