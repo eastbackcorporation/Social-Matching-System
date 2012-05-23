@@ -10,7 +10,7 @@ admin.roles<<Role.admin
 
 3.times do |s|
   login="test_sender"+s.to_s
-  email=login+"@test.test"
+  email=login+"@example.com"
   test_sender = User.create(:login => login,
                           :email =>email,
                           :password => "test",
@@ -26,7 +26,7 @@ end
 
 10.times do |r|
   login="test_receiver"+r.to_s
-  email="test#{r}@test.jp"
+  email="test#{r}@example.com"
   test_receiver = User.create(:login => login,
                           :email => email,
                           :password => "test",
