@@ -12,6 +12,10 @@ class TopController < ApplicationController
       redirect_to sender_massages_url
     elsif current_user.roles.has(:receiver)
       redirect_to receiver_massages_url
+    else
+      current_user_session.destroy
+      flash[:notice]='エラー:あなたはどのロールも持っていません'
+      redirect_to :login
     end
   end
 end
