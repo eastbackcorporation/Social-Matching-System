@@ -41,6 +41,11 @@ class Admin::UsersController < ApplicationController
     end
   end
 
+  #ユーザのパスワード変更画面の表示
+  def edit_password
+    @admin_user = User.find(params[:id])
+  end
+
   #ユーザの新規登録
   def create
     @admin_user = User.new(
@@ -89,7 +94,6 @@ class Admin::UsersController < ApplicationController
         format.json { render json: @admin_user.errors, status: :unprocessable_entity }
       end
     end
-
   end
 
   #ユーザ情報の変更
@@ -98,23 +102,24 @@ class Admin::UsersController < ApplicationController
 
     #住所の変更
     addresses = params[:user][:addresses]
-    addresses.each_pair do |key, value|
-      if /^new/ =~ key
-        @admin_user.addresses.build(value)
-        #address.save
-      else
-        address = Address.find(key)
-        if address
-          if value["_delete"] && value["_delete"] == "1"
-            address.destroy
-          else
-            address.update_attributes(value)
+    if addresses
+      addresses.each_pair do |key, value|
+        if /^new/ =~ key
+          @admin_user.addresses.build(value)
+          #address.save
+        else
+          address = Address.find(key)
+          if address
+            if value["_delete"] && value["_delete"] == "1"
+              address.destroy
+            else
+              address.update_attributes(value)
+            end
           end
         end
       end
-
+      params[:user].delete('addresses')
     end
-    params[:user].delete('addresses')
 
     #Roleの変更
     @admin_user.roles.clear
@@ -137,6 +142,20 @@ class Admin::UsersController < ApplicationController
       end
     end
 
+  end
+
+  #ユーザのパスワードの変更
+  def update_password
+    @admin_user = User.find(params[:id])
+     respond_to do |format|
+      if @admin_user.update_attributes(params[:user])
+        format.html { redirect_to edit_admin_user_url(@admin_user), notice: 'Password was successfully updated.' }
+        format.json { head :no_content }
+      else
+        format.html { render action: "edit_password" }
+        format.json { render json: @admin_user.errors, status: :unprocessable_entity }
+      end
+    end
   end
 
   # ユーザーの削除

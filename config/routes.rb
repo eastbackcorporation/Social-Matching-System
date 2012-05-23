@@ -1,7 +1,10 @@
 SocialMatchingSystem::Application.routes.draw do
 
   namespace :admin do
-    resources :users
+    resources :users do
+      get :edit_password, :on => :member
+      put :update_password, :on => :member
+    end
     resources :massages do
       put :change_status, :on => :member
     end

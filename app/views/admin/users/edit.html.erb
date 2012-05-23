@@ -4,13 +4,15 @@
 
 
 	<div class="right_content">
-
-		<h1>ユーザの編集</h1>
-
+		<h1>ユーザ(<strong><%= @admin_user.login %></strong>)の編集</h1>
 		<%= form_for([:admin,@admin_user]) do |f| %>
-	   <%= f.label :email ,"メールアドレス" %>
-	 	 <%= f.text_field :email %>
+		<p id="notice"><%= notice %></p>
 		<br/>
+	    <%= f.label :email ,"メールアドレス" %>
+	 	  <%= f.text_field :email %>
+	 	<br/>
+	 	  <%= link_to 'パスワードの変更', edit_password_admin_user_path(@admin_user) %>
+	 	<br/>
 		  <%= f.label :family_name ,"氏" %>
 		  <%= f.text_field :family_name %>
 		<br/>
