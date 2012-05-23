@@ -20,8 +20,6 @@ SocialMatchingSystem::Application.configure do
     :address => "127.0.0.1",
     :port => 25,
     :domain => 'localhost.localdomain',
-    :user_name => "sample@sample.com",
-    :password => "password",
     :authentication => 'plain',
     :enable_starttls_auto => false,
   }

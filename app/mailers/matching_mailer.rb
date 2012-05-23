@@ -2,7 +2,6 @@
 
 #マッチング時に依頼情報を送信するためのメーラー
 class MatchingMailer < ActionMailer::Base
-  default from: "kou_honda@eastback.jp"
 
   #依頼情報の送信
   def matching_email(receiver,massage)
