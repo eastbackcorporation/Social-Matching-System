@@ -22,8 +22,10 @@ class MatchingMailer < ActionMailer::Base
     end
     @subject = GlobalSetting[:mail_title_template]
     @url = "http://example.com/login"
-    @email=receiver.email
-    mail(:to => @email,
+    @to=receiver.email
+    @from=massage.user.email
+    mail(:to => @to,
+         :from => @from,
          :subject => @suject)
   end
 end
