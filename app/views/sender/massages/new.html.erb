@@ -24,17 +24,19 @@
   	</ul>
     <%= link_to '新規の住所を登録する', new_sender_address_path %>
   </div>
+
   <div class="field">
-    <%= f.label :active_datetime ,"実施日時"%>
-    <%= f.datetime_select :active_datetime , :use_month_numbers => true,
+    <%= f.label :validated_datetime ,"有効期限日時"%>
+    <%= f.datetime_select :validated_datetime , :use_month_numbers => true,
       :order => [ :year, :month, :day ],
       :start_year => Time.current.year,
       :end_year => Time.current.year+1,
       :minute_step => 15 %>
   </div>
+
   <div class="field">
-    <%= f.label :validated_datetime ,"有効期限日時"%>
-    <%= f.datetime_select :validated_datetime , :use_month_numbers => true,
+    <%= f.label :active_datetime ,"実施日時"%>
+    <%= f.datetime_select :active_datetime , :use_month_numbers => true,
       :order => [ :year, :month, :day ],
       :start_year => Time.current.year,
       :end_year => Time.current.year+1,

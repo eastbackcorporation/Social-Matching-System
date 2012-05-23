@@ -24,17 +24,18 @@ class Admin::MassagesController < MassagesController
   #ステータスの変更
   def change_status
     @massage = Massage.find(params[:id])
-    unless @massage.end_flg
-      if @massage.update_attributes(:request_status_id=>params[:request_status])
+    if @massage.end_flg
+      flash[:notice]="終了しているメッセージです"
+      redirect_to(admin_massage_url)
+    else
+      @massage.update_attributes(:request_status_id=>params[:request_status])
+      if @massage.save
         flash[:notice]="ステータス変更しました"
         redirect_to(admin_massage_url)
       else
         flash[:notice]="ステータス変更できませんでした"
         redirect_to(admin_massage_url)
       end
-    else
-       flash[:notice]="終了しているメッセージです"
-       redirect_to(admin_massage_url)
     end
   end
 end

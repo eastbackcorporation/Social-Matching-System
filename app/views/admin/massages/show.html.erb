@@ -4,6 +4,7 @@
 
 
   <div class="right_content">
+  <%= flash[:notice] %>
   <% sender = User.find(@massage.user_id) %>
   <table class="massage_show fcenter">
 	 <tbody>
@@ -18,6 +19,14 @@
     <tr>
       <th scope="row">検索ステータス</th>
       <td><%= @massage.matching_status.name %></td>
+    </tr>
+    <tr>
+      <th scope="row">探索範囲</th>
+      <td><%= @massage.matching_range %></td>
+    </tr>
+    <tr>
+      <th scope="row">該当者数</th>
+      <td><%= @massage.matching_count %></td>
     </tr>
     <tr>
       <th scope="row">ステータス詳細</th>
@@ -59,10 +68,10 @@
         <% unless @massage.end_flg%>
           <%= form_tag({:action => :change_status},{:method => :put}) do %>
           <% request_statuses = [] %>
-          <% ["成立","受付中","中止"].each do |rs| %>
-            <% request_statuses << [rs,RequestStatus.to(rs).first.id]%>
+          <% RequestStatus.all.each do |rs| %>
+            <% request_statuses << [rs.name,rs.id]%>
           <% end %>
-          <th><%= select_tag("request_status",options_for_select( request_statuses )) %></th>
+          <th><%= select_tag("request_status",options_for_select( request_statuses,@massage.request_status.id )) %></th>
           <td><%= submit_tag("ステータス変更") %></td>
           <% end %>
         <% end %>
