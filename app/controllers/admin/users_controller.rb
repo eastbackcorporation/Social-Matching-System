@@ -137,6 +137,10 @@ class Admin::UsersController < ApplicationController
         format.html { redirect_to [:admin,@admin_user], notice: 'Address was successfully updated.' }
         format.json { head :no_content }
       else
+        @roles={}
+        @admin_user.roles.each do |r|
+          @roles[r.name] = r.id
+        end
         format.html { render action: "edit" }
         format.json { render json: @admin_user.errors, status: :unprocessable_entity }
       end
