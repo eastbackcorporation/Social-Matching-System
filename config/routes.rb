@@ -17,6 +17,8 @@ SocialMatchingSystem::Application.routes.draw do
     resources :addresses
     resources :massages do
       put :change_status, :on => :member
+      post :confirm, :on => :collection
+      post :new , :on => :member
     end
   end
 

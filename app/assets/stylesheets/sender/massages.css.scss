@@ -47,20 +47,20 @@ form#new_massage, form#new_address {
     background: #444;
     padding: 5px;
   }
-  
+
   ul {
     list-style:none;
     padding:0 0 0 10px;
-  
+
     li {
       margin-bottom: 15px;
       padding-bottom: 10px;
       border-bottom: 1px solid #D1D1D1;
     }
-  
+
     .radio { float:left; }
   }
-  
+
   input, textarea {
     width:439px;
     height:27px;
@@ -88,12 +88,12 @@ form#new_massage, form#new_address {
   #address_postal_code {
     width:100px;
   }
-  
+
   input[type="radio"] {
     width:50px;
     cursor:pointer;
   }
-  
+
   input[type="submit"] {
     width:127px;
     height:38px;
@@ -102,4 +102,12 @@ form#new_massage, form#new_address {
     @include blue_button;
     color:black;
   }
+}
+
+div.buttonGroup {
+  text-align: center;
+}
+
+div.buttonGroup form {
+  display: inline;
 }

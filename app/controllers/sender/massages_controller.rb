@@ -49,11 +49,21 @@ class Sender::MassagesController < MassagesController
   #新規依頼作成ページ表示
   def new
     @massage = Massage.new
-    @categories=Category.all
-    @addresses=Address.where(:user_id=>current_user.id)
-
+    @massage.user=current_user
+    @massage.attributes = params[:massage] if request.post?
     if mobile? then
       render :action => "new_mobile", :layout => 'mobile'
+    end
+  end
+
+  #新規依頼'確認'ページ表示
+  def confirm
+    @massage = Massage.new(params[:massage])
+    @massage.user=current_user
+    if @massage.valid?
+      render :action => 'confirm'
+    else
+      render :action => 'new'
     end
   end
 
