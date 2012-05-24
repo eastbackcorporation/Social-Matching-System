@@ -52,15 +52,15 @@
 				</a>
 			</li>
 		</ul>
-
-		<% unless MatchingUser.where(:user_id=>current_user.id,:massage_id=>@massage.id).first.reject_flg %>
-            <%= form_tag({:action => :reject},{:method => :put}) do %>
-        		<input name="commit" type="submit" value="お断りする" data-theme="e">
-      		<% end %>
-      	<% else %>
-      		<strong>[お断り済み]</strong>
-      	<% end %>
-
+    <% if @massage.request_status.name == "受付中"%>
+		  <% unless MatchingUser.where(:user_id=>current_user.id,:massage_id=>@massage.id).first.reject_flg %>
+        <%= form_tag({:action => :reject},{:method => :put}) do %>
+          <input name="commit" type="submit" value="お断りする" data-theme="e">
+        <% end %>
+      <% else %>
+        <strong>[お断り済み]</strong>
+      <% end %>
+    <% end %>
 
 	</div><!-- /content -->
 

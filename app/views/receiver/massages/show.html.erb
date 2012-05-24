@@ -4,15 +4,17 @@
 <table class="massage_show fleft">
 	<tfoot><tr>
     <th scope="row"><%= link_to '戻る', sender_massages_path %></th>
-    <td>
-      <% unless MatchingUser.where(:user_id=>current_user.id,:massage_id=>@massage.id).first.reject_flg %>
-        <%= form_tag({:action => :reject},{:method => :put}) do %>
-          <%= submit_tag("お断りする") %>
+    <% if @massage.request_status.name == "受付中"%>
+      <td>
+        <% unless MatchingUser.where(:user_id=>current_user.id,:massage_id=>@massage.id).first.reject_flg %>
+          <%= form_tag({:action => :reject},{:method => :put}) do %>
+            <%= submit_tag("お断りする") %>
+          <% end %>
+        <% else %>
+          <strong>[お断り済み]</strong>
         <% end %>
-     <% else %>
-      <strong>[お断り済み]</strong>
-     <% end %>
-     </td>
+      </td>
+    <% end %>
   </tr></tfoot>
 	<tbody>
 		<tr>
