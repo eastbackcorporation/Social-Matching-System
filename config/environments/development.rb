@@ -21,7 +21,7 @@ SocialMatchingSystem::Application.configure do
     :port => 25,
     :domain => 'localhost.localdomain',
     :authentication => 'plain',
-    :enable_starttls_auto => false,
+    :enable_starttls_auto => false
   }
   # Print deprecation notices to the Rails logger
   config.active_support.deprecation = :log
@@ -40,5 +40,5 @@ SocialMatchingSystem::Application.configure do
   config.assets.compress = false
 
   # Expands the lines which load the assets
-  config.assets.debug = true
+  config.assets.debug = false
 end
