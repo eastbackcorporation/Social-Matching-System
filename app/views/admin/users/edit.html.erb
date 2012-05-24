@@ -2,7 +2,6 @@
 
 	<%= render "admin/sidemenu" %>
 
-
 	<div class="right_content">
 		<h1>ユーザ(<strong><%= @admin_user.login %></strong>)の編集</h1>
 		<%= form_for([:admin,@admin_user]) do |f| %>
@@ -10,132 +9,139 @@
 		    <% if address.errors.any? %>
           <div id="error_explanation">
           <h2><%= pluralize(address.errors.count, "error") %> prohibited this address from being saved:</h2>
-
             <ul>
               <% address.errors.full_messages.each do |msg| %>
                 <li><%= msg %></li>
               <% end %>
-            </ul>
+           </ul>
           </div>
-       <% end %>
+        <% end %>
       <% end %>
-		<p id="notice"><%= notice %></p>
-		<br/>
+		  <p id="notice"><%= notice %></p>
+		  <br/>
 	    <%= f.label :email ,"メールアドレス" %>
 	 	  <%= f.text_field :email %>
-	 	<br/>
+	   	<br/>
 	 	  <%= link_to 'パスワードの変更', edit_password_admin_user_path(@admin_user) %>
-	 	<br/>
+	 	  <br/>
 		  <%= f.label :family_name ,"氏" %>
 		  <%= f.text_field :family_name %>
-		<br/>
+		  <br/>
 		  <%= f.label :given_name ,"名" %>
 		  <%= f.text_field :given_name %>
-		<br/>
+		  <br/>
+		  <%= f.label :family_name_kana ,"氏(カナ)" %>
+      <%= f.text_field :family_name_kana %>
+      <br/>
+      <%= f.label :given_name_kana ,"名(カナ)" %>
+      <%= f.text_field :given_name_kana %>
+      <br/>
+      <%= f.label :sex ,"性別" %>
+      <%= f.select :sex ,["男","女"] ,:selected => @admin_user.sex %>
+      <br/>
+      <%= f.label :phone_number ,"電話番号" %>
+      <%= f.text_field :phone_number  %>
+		  <p>
+  		  管理者：<%= check_box_tag "user[roles][admin][]", "1", @roles.has_key?('admin') %>
+  		  送信者：<%= check_box_tag "user[roles][sender][]", "2", @roles.has_key?('sender') %>
+  		  受信者：<%= check_box_tag "user[roles][receiver][]", "3", @roles.has_key?('receiver') %>
+		  </p>
+		  <!-- ネストした住所情報 -->
 
-		<p>
-  		管理者：<%= check_box_tag "user[roles][admin][]", "1", @roles.has_key?('admin') %>
-  		送信者：<%= check_box_tag "user[roles][sender][]", "2", @roles.has_key?('sender') %>
-  		受信者：<%= check_box_tag "user[roles][receiver][]", "3", @roles.has_key?('receiver') %>
-		</p>
-
-		<!-- ネストした住所情報 -->
-
-		<% if @addresses
-			@addresses.each do |address| %>
-			<hr/>
-				<%= f.fields_for "addresses[]",address do |f2| %>
-				<p>
-				  <%= f2.label :name ,"ラベル(実家、おじの家 等)" %>
+    <% if @addresses
+      @addresses.each do |address| %>
+      <hr/>
+        <%= f.fields_for "addresses[]",address do |f2| %>
+        <p>
+          <%= f2.label :name ,"ラベル(実家、おじの家 等)" %>
           <%= f2.text_field :name %>
           <br/>
           <%= f2.label :main ,"主たる住所か否か" %>
           <%= f2.check_box :main %>
           <br/>
-				  <%= f2.label :prefecture ,"都道府県" %>
-				  <%= f2.text_field :prefecture %>
-					<br/>
+          <%= f2.label :prefecture ,"都道府県" %>
+          <%= f2.text_field :prefecture %>
+          <br/>
           <%= f2.label :postal_code ,"郵便番号" %>
-				  <%= f2.text_field :postal_code %>
-					<br/>
-					<%= f2.label :address1 ,"市区町村" %>
-					<%= f2.text_field :address1 %>
-					<br/>
-					<%= f2.label :address2 ,"それ以降" %>
-					<%= f2.text_field :address2 %>
-					<br/>
-					削除：
-					<input type="checkbox" name="user[addresses][<%= address.id %>][_delete]" value=1>
-				</p>
-				<% end %>
-			<% end %>
-		<% end %>
+          <%= f2.text_field :postal_code %>
+          <br/>
+          <%= f2.label :address1 ,"市区町村" %>
+          <%= f2.text_field :address1 %>
+          <br/>
+          <%= f2.label :address2 ,"それ以降" %>
+          <%= f2.text_field :address2 %>
+          <br/>
+          削除：
+          <input type="checkbox" name="user[addresses][<%= address.id %>][_delete]" value=1>
+        </p>
+        <% end %>
+      <% end %>
+    <% end %>
 
-		<!-- 新規住所作成用 Form -->
-		<div id="addAddressForm">
-			<!-- Form template-->
-			<div id="addAddressForm_template">
-			  <label for="addAddressForm_#index#_postal_name">ラベル(実家、おじの家 等)</label>
+    <!-- 新規住所作成用 Form -->
+    <div id="addAddressForm">
+      <!-- Form template-->
+      <div id="addAddressForm_template">
+        <label for="addAddressForm_#index#_postal_name">ラベル(実家、おじの家 等)</label>
         <input id="addAddressForm_#index#_name" name="user[addresses][new_#index#][name]" type="text"/>
         <br>
         <label for="addAddressForm_#index#_postal_main">主たる住所か否か</label>
         <input id="addAddressForm_#index#_main" name="user[addresses][new_#index#][main]" type="text"/>
 
-				<label for="addAddressForm_#index#_prefecture">都道府県:</label>
-				<input id="addAddressForm_#index#_address" name="user[addresses][new_#index#][prefecture]" type="text"/>
-				<br>
-				<label for="addAddressForm_#index#_postal_code">郵便番号:</label>
-				<input id="addAddressForm_#index#_postal_code" name="user[addresses][new_#index#][postal_code]" type="text"/>
-				<br>
-				<label for="addAddressForm_#index#_postal_address1">市区町村</label>
-				<input id="addAddressForm_#index#_address1" name="user[addresses][new_#index#][address1]" type="text"/>
-				<br>
-				<label for="addAddressForm_#index#_postal_address2">それ以降</label>
-				<input id="addAddressForm_#index#_address2" name="user[addresses][new_#index#][address2]" type="text"/>
-				<br>
-				<a id="addAddressForm_remove_current">キャンセル <img class="delete" src="images/cross.png" width="16" height="16" border="0"> </a>
-			</div>
-			<!-- /Form template-->
+        <label for="addAddressForm_#index#_prefecture">都道府県:</label>
+        <input id="addAddressForm_#index#_address" name="user[addresses][new_#index#][prefecture]" type="text"/>
+        <br>
+        <label for="addAddressForm_#index#_postal_code">郵便番号:</label>
+        <input id="addAddressForm_#index#_postal_code" name="user[addresses][new_#index#][postal_code]" type="text"/>
+        <br>
+        <label for="addAddressForm_#index#_postal_address1">市区町村</label>
+        <input id="addAddressForm_#index#_address1" name="user[addresses][new_#index#][address1]" type="text"/>
+        <br>
+        <label for="addAddressForm_#index#_postal_address2">それ以降</label>
+        <input id="addAddressForm_#index#_address2" name="user[addresses][new_#index#][address2]" type="text"/>
+        <br>
+        <a id="addAddressForm_remove_current">キャンセル <img class="delete" src="images/cross.png" width="16" height="16" border="0"> </a>
+      </div>
+      <!-- /Form template-->
 
-			<!-- No forms template -->
-			<div id="addAddressForm_noforms_template">
+      <!-- No forms template -->
+      <div id="addAddressForm_noforms_template">
 
-			</div>
-			<!-- /No forms template-->
+      </div>
+      <!-- /No forms template-->
 
-			<!-- Controls -->
-			<div id="addAddressForm_controls">
-				<div id="addAddressForm_add">
-					<a><span>住所を新規作成</span></a>
-				</div>
-			</div>
-			<!-- /Controls -->
+      <!-- Controls -->
+      <div id="addAddressForm_controls">
+        <div id="addAddressForm_add">
+          <a><span>住所を新規作成</span></a>
+        </div>
+      </div>
+      <!-- /Controls -->
 
-		</div>
-		<!-- /新規住所作成用 Form -->
+    </div>
+    <!-- /新規住所作成用 Form -->
 
-		<%= f.submit %>
-		<% end %>
+    <%= f.submit %>
+    <% end %>
 
-	</div><!-- end of right content-->
+  </div><!-- end of right content-->
 </div>
 <!--end of center content -->
 
 <script type="text/javascript">
-	$(document).ready(function() {
+  $(document).ready(function() {
 
-    	var addAddressForm = $('#addAddressForm').sheepIt({
-        	separator: '',
-        	allowRemoveLast: true,
-        	allowRemoveCurrent: true,
-        	allowRemoveAll: false,
-        	allowAdd: true,
-        	allowAddN: false,
-        	maxFormsCount: 20,
-        	minFormsCount: 0,
-        	iniFormsCount: 0
-    	});
+      var addAddressForm = $('#addAddressForm').sheepIt({
+          separator: '',
+          allowRemoveLast: true,
+          allowRemoveCurrent: true,
+          allowRemoveAll: false,
+          allowAdd: true,
+          allowAddN: false,
+          maxFormsCount: 20,
+          minFormsCount: 0,
+          iniFormsCount: 0
+      });
 
-	});
+  });
 </script>
-

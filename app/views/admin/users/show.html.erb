@@ -24,6 +24,14 @@
             </td>
           </tr>
           <tr>
+            <th>氏名(カナ)</th>
+            <td>
+              <% if @admin_user.family_name_kana %>
+                <%= @admin_user.family_name_kana %> <%=@admin_user.given_name_kana  %>
+              <%else %> 未登録 <% end %>
+            </td>
+          </tr>
+          <tr>
             <th>電話番号</th>
             <td>
                <% if @admin_user.phone_number %>
@@ -41,7 +49,6 @@
               <% if @admin_user.roles.admin %> 管理者 <% end %>
               <% if @admin_user.roles.sender %> 依頼者 <% end %>
               <% if @admin_user.roles.receiver %> 受信者 <% end %>
-
             </td>
           </tr>
         </tbody>
