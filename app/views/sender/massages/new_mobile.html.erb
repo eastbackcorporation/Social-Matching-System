@@ -11,7 +11,7 @@
   	<%= form_for([:sender,@massage]) do |f| %>
     	<!-- ここにカテゴリ　-->
     	<% categories=[] %>
-    	<% @categories.each{ |e| categories<<[e.name,e.id]}%>
+    	<% Category.all.each{ |e| categories<<[e.name,e.id]}%>
     	<%= f.label :category_id ,"カテゴリ："%>
     	<%= f.select :category_id ,categories %>
 
