@@ -1,0 +1,16 @@
+<table class="massage_show">
+  <tbody>
+    <tr>
+      <th scope="row">ラベル</th>
+      <td><%= @address.name %></td>
+    </tr>
+    <tr>
+      <th scope="row">郵便番号</th>
+      <td><%= @address.postal_code %></td>
+    </tr>
+    <tr>
+      <th scope="row">住所</th>
+      <td><%= @address.prefecture %><%= @address.address1 %><%= @address.address2 %></td>
+    </tr>
+  </tbody>
+</table>

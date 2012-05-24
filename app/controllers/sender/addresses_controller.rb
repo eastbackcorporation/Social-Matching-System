@@ -18,6 +18,16 @@ class Sender::AddressesController < ApplicationController
    end
   end
 
+  #'確認'ページ表示
+  def confirm
+    @address = Address.new(params[:address])
+    if @address.valid?
+      render :action => 'confirm'
+    else
+      render :action => 'new'
+    end
+  end
+
   #新規住所の登録
   def create
     @address = Address.new(params[:address])

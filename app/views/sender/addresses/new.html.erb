@@ -1,7 +1,7 @@
 <h1>新規住所 </h1>
 
 
-<%= form_for([:sender,@address]) do |f| %>
+<%= form_for([:confirm,:sender,@address]) do |f| %>
   <% if @address.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@address.errors.count, "error") %> prohibited this address from being saved:</h2>
@@ -14,7 +14,7 @@
     </div>
   <% end %>
 
-	
+
  <div>
     <%= f.label :name ,"登録名-一例(母の家)"%>
     <%= f.text_field :name %>
@@ -40,7 +40,7 @@
     <%= f.text_field :address2 %>
   </div>
   <div class="actions">
-    <%= f.submit "作成" %>
+    <%= f.submit "確認画面へ" %>
   </div>
 <% end %>
 

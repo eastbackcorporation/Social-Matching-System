@@ -1,0 +1,6 @@
+<%= form_for( @address,:url => [:new,:sender,:address] ) do |f| %>
+  <% [:prefecture,:address1,:address2,:postal_code,:name].each do |attr| %>
+    <%= f.hidden_field attr %>
+  <% end %>
+  <%= f.submit '戻る' %>
+<% end %>

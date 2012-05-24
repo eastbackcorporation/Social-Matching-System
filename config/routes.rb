@@ -8,13 +8,17 @@ SocialMatchingSystem::Application.routes.draw do
     resources :massages do
       put :change_status, :on => :member
     end
+    resources :addresses, :only => %W[new edit create update]
     resources :global_settings,:only => %w[edit update]
     resources :receivers_locations,:only=>%W[index show]
   end
 
   namespace :sender do
     #resources :users   現時点で使用してないコントローラ
-    resources :addresses
+    resources :addresses do
+      post :confirm, :on => :collection
+      post :new , :on => :member
+    end
     resources :massages do
       put :change_status, :on => :member
       post :confirm, :on => :collection
