@@ -16,11 +16,13 @@ class Receiver::MassagesController < MassagesController
     ids = ""
 
     matching_users.each do |mu|
-      #mobile画面用
-      @massages << mu.massage
-      #PC画面(jqGrid)用
-      ids << "^" << mu.massage_id.to_s << "$"
-      ids << "|"
+      unless mu.massage.end_flg
+        #mobile画面用
+        @massages << mu.massage
+        #PC画面(jqGrid)用
+        ids << "^" << mu.massage_id.to_s << "$"
+        ids << "|"
+      end
     end
 
     if mobile? then

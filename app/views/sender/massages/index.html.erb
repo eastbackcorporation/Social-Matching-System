@@ -5,20 +5,16 @@
  		<%=raw jqgrid("依頼情報一覧", "SenderMessage", "/sender/massages",
 			[
 				{ :name => "id", :label => "id", :index => 'id',:align => 'center', :width => "55", :hidden => true },
-				{ :name => "category.name", :label => "カテゴリ", :index => 'category_id',:align => 'center', :width => "55" },
-				{ :name => "request_status.name", :label => "依頼ステータス", :index => 'request_status_id',:align => 'center', :width => "55" },
-        { :name => "matching_count", :label => "該当者数", :index => 'matching_count',:align => 'center', :width => "55" },
-				{ :name => "active_datetime",
-					:label => "発信日",
-					:index => 'active_datetime',
-					:align => 'center',
-					:sorttype => 'date',
-					:formatter => 'date',
-					:formatoptions => {
-						:srcformat => "UniversalSortableDateTime",
-						:newformat => 'Y年 m月d日 g時i分'
-					}
-				},
+				{ :name => "end_flg",
+          :label => "状況",
+          :align => 'center',
+          :width => "40",
+          :customFormatter => 'makeEndValue'
+        },
+				{ :name => "category.name", :label => "カテゴリ", :index => 'category_id',:align => 'center', :width => "40" },
+				{ :name => "request_status.name", :label => "依頼ステータス", :index => 'request_status_id',:align => 'center', :width => "40" },
+				{ :name => "matching_status.name", :label => "検索ステータス", :index => 'matching_status_id',:align => 'center', :width => "40" },
+        { :name => "matching_count", :label => "該当者数", :index => 'matching_count',:align => 'center', :width => "20" },
 				{ :name => "validated_datetime",
 					:label => "有効期限",
 					:index => 'validated_datetime',
@@ -30,12 +26,23 @@
 						:newformat => 'Y年 m月d日 g時i分'
 					}
 				},
+				{ :name => "active_datetime",
+          :label => "実施日",
+          :index => 'active_datetime',
+          :align => 'center',
+          :sorttype => 'date',
+          :formatter => 'date',
+          :formatoptions => {
+            :srcformat => "UniversalSortableDateTime",
+            :newformat => 'Y年 m月d日 g時i分'
+          }
+        },
 				{ :name => "id",
 					:label => "操作",
 					:search => false,
 					:sortable => false,
 					:align => 'center',
-					:width => "55",
+					:width => "60",
 					:customFormatter => 'makeLink'
 				}
 			],
@@ -67,4 +74,11 @@
 		url = url + cellvalue;
 		return "<a href='" + url + "'>詳細</a> | <a href='" + url + "' data-confirm='削除しますか?' data-method='delete' rel='nofollow'>削除</a>";
 	}
+	function makeEndValue(cellvalue, options, rowObject){
+   if(cellvalue == "true" ){
+     return "終了";
+   }else{
+     return "実施前";
+   }
+  }
 </script>

@@ -7,17 +7,6 @@
 				{ :name => "category.name", :label => "カテゴリ", :index => 'category_id',:align => 'center', :width => "55" },
 				{ :name => "request_status.name", :label => "依頼ステータス", :index => 'request_status_id',:align => 'center', :width => "55" },
         { :name => "matching_count", :label => "該当者数", :index => 'matching_count',:align => 'center', :width => "55" },
-        { :name => "active_datetime",
-					:label => "発信日",
-					:index => 'active_datetime',
-					:align => 'center',
-					:sorttype => 'date',
-					:formatter => 'date',
-					:formatoptions => {
-						:srcformat => "UniversalSortableDateTime",
-						:newformat => 'Y年 m月d日 g時i分'
-					}
-				},
 				{ :name => "validated_datetime",
 					:label => "有効期限",
 					:index => 'validated_datetime',
@@ -29,6 +18,17 @@
 						:newformat => 'Y年 m月d日 g時i分'
 					}
 				},
+				{ :name => "active_datetime",
+          :label => "実施日",
+          :index => 'active_datetime',
+          :align => 'center',
+          :sorttype => 'date',
+          :formatter => 'date',
+          :formatoptions => {
+            :srcformat => "UniversalSortableDateTime",
+            :newformat => 'Y年 m月d日 g時i分'
+          }
+        },
 				{ :name => "id",
 					:label => "操作",
 					:search => false,
