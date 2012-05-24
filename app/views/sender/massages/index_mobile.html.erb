@@ -2,26 +2,26 @@
 
 	<div data-role="header" data-position="fixed">
 		<%= link_to "ログアウト", :logout %>
-		<h1>依頼情報一覧</h1>		
+		<h1>依頼情報一覧</h1>
 		<% if current_user.roles.receiver %>
 			<a href="<%= receiver_massages_url %>">受信者画面へ</a>
 		<% end %>
 	</div><!-- /header -->
 
-	<div data-role="content">	
-		
+	<div data-role="content">
+
 		<ul data-role="listview" data-filter="true">
 			<% @massages.each do |massage| %>
 			<li>
 				<a href="<%= sender_massage_url(:id => massage.id) %>" data-transition="slide">
 					<p class="ui-li-aside"><%= Time.parse(massage[:active_datetime].to_s).strftime("%Y年%m月%d日") %></p>
 					<h1><%= massage.category.name %></h1>
-					<p>状態：<%= massage.status.name %>, 該当者数：<%= massage.matching_count %></p>
+					<p>依頼ステータス：<%= massage.request_status.name %>, 該当者数：<%= massage.matching_count %></p>
 				</a>
 			</li>
 			<% end %>
 		</ul>
-		
+
 	</div><!-- /content -->
 
 	<div data-role="footer" class="ui-bar" data-position="fixed">
@@ -35,7 +35,7 @@
 			$.mobile.changePage( "<%= sender_massages_url %>", {
 				allowSamePageTransition: true,
 				reloadPage: true
-			});			
+			});
 		});
 	});
 </script>

@@ -42,9 +42,9 @@
       <% end %>
   	</tbody>
   	<tfoot>
-        <tr>
-            <th scope="row"><%= link_to '戻る', sender_massages_path %></th>
-        <td>
+      <tr>
+        <th scope="row"><%= link_to '戻る', sender_massages_path %></th>
+      <td>
         <% unless @massage.end_flg%>
           <%= form_tag({:action => :change_status},{:method => :put}) do %>
             <% request_statuses = [] %>

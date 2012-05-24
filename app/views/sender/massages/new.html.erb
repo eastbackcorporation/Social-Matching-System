@@ -1,17 +1,27 @@
 <h1>新規の依頼</h1>
+  <% if @massage.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@massage.errors.count, "error") %> prohibited this address from being saved:</h2>
 
-  <%= form_for([:sender,@massage]) do |f| %>
+      <ul>
+      <% @massage.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <%= form_for([:confirm,:sender,@massage]) do |f| %>
   <div class="field">
     <!-- ここにカテゴリ　-->
     <% categories=[] %>
-    <% @categories.each{ |e| categories<<[e.name,e.id]}%>
+    <% Category.all.each{ |e| categories<<[e.name,e.id]}%>
     <%= f.label :category_id ,"カテゴリを選択して下さい"%>
     <%= f.select :category_id ,categories %>
   </div>
   <div class="field">
     <%= f.label :address_id ,"実施住所を選択して下さい"%>
   	<ul>
-    <% @addresses.each{ |a| %>
+    <% Address.where(:user_id=>current_user.id).each{ |a| %>
   		<li>
   			<div class="radio"><%= f.radio_button :address_id, a.id %></div>
   			<div>
@@ -47,7 +57,7 @@
     <%= f.text_field :longitude, :type => "hidden" %>
 
   <div class="actions">
-    <%= f.submit "作成する" %>
+    <%= f.submit "次へ" %>
   </div>
 <% end %>
 

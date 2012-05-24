@@ -4,8 +4,22 @@
 
 
 	<div class="right_content">
+	  <%= flash[:notice] %>
 		<h1>ユーザ(<strong><%= @admin_user.login %></strong>)の編集</h1>
 		<%= form_for([:admin,@admin_user]) do |f| %>
+		  <% @addresses.each do |address|%>
+		    <% if address.errors.any? %>
+          <div id="error_explanation">
+          <h2><%= pluralize(address.errors.count, "error") %> prohibited this address from being saved:</h2>
+
+            <ul>
+              <% address.errors.full_messages.each do |msg| %>
+                <li><%= msg %></li>
+              <% end %>
+            </ul>
+          </div>
+       <% end %>
+      <% end %>
 		<p id="notice"><%= notice %></p>
 		<br/>
 	    <%= f.label :email ,"メールアドレス" %>

@@ -17,13 +17,13 @@
 				<h1><%= @massage.request_status.name %></h1>
 			</li>
 			<li>
-				<p>現在の探索範囲</p>
-				<h1><%= @massage.matching_range %>km</h1>
-			</li>
-  			<li>
-    			<p>現在の該当者数</p>
-    			<h1><%= @massage.matching_count %>人</h1>
-  			</li>
+        <p>検索ステータス</p>
+        <h1><%= @massage.matching_status.name %></h1>
+      </li>
+  	  <li>
+    	  <p>現在の該当者数</p>
+    	  <h1><%= @massage.matching_count %>人</h1>
+  		</li>
 			<li>
 				<p>作成日</p>
 				<h1><%= Time.parse(@massage.created_at.to_s).strftime("%Y年%m月%d日 %H時%M分") %></h1>
@@ -40,8 +40,11 @@
 
 		<%= form_tag({:action => :change_status},{:method => :put}) do %>
 		  <% request_statuses = [] %>
-      <% @request_statuses.each{|rs| request_statuses << [rs.name ,rs.id]  }%>
-      <%= select_tag("request_status",options_for_select( request_statuses ))  %>
+      <% ["成立","受付中","中止"].each do |rs| %>
+        <% request_statuses << [rs,RequestStatus.to(rs).first.id]%>
+      <% end %>
+      <% default_value = @massage.request_status.id unless @massage.request_status.name == "不成立"%>
+      <%= select_tag("request_status",options_for_select( request_statuses , default_value ))  %>
 
       <input name="commit" type="submit" value="ステータス変更" data-theme="b">
     <% end %>
