@@ -13,10 +13,6 @@
       <td><%= Time.parse(@massage.validated_datetime.to_s).strftime("%Y年%m月%d日 %H時%M分") %></td>
     </tr>
     <tr>
-      <th scope="row">有効期限</th>
-      <td><%= Time.parse(@massage.validated_datetime.to_s).strftime("%Y年%m月%d日 %H時%M分") %></td>
-    </tr>
-    <tr>
       <th scope="row">実施日</th>
       <td><%= Time.parse(@massage.active_datetime.to_s).strftime("%Y年%m月%d日 %H時%M分")  %></td>
     </tr>
