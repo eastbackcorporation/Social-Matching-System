@@ -19,7 +19,7 @@ admin.roles<<Role.admin
                           :password => "test",
                           :password_confirmation => "test")
   test_sender.given_name="太郎"
-  test_sender.family_name="田中",
+  test_sender.family_name="田中"
   test_sender.given_name_kana="タロウ"
   test_sender.family_name_kana="タナカ"
   test_sender.sex="男"
@@ -38,7 +38,7 @@ end
                           :password_confirmation => "test")
 
   test_receiver.given_name="花子"
-  test_receiver.family_name="鈴木",
+  test_receiver.family_name="鈴木"
   test_receiver.given_name_kana="ハナコ"
   test_receiver.family_name_kana="スズキ"
   test_receiver.sex="女"
