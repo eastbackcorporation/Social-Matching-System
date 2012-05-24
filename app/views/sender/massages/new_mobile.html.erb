@@ -21,7 +21,7 @@
 		<label for="massage_address_id">実施住所：</label>
 		<select id="massage_address_id" name="massage[address_id]" data-native-menu="false">
 			<option data-pleceholder="true">住所を選択して下さい</option>
-    		<% @addresses.each{|a| %>
+    		<% Address.where(:user_id=>current_user.id).each{|a| %>
 			<option value="<%= a.id %>"><%= a.name %>: <%= a.prefecture %> <%= a.address1 %> <%= a.address2 %></option>
 			<% } %>
 		</select>
