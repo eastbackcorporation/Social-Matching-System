@@ -18,7 +18,7 @@
 <p>
   <%= label_tag :roles_admin_%>
   管理者：<%= check_box_tag "roles[admin][]", "1" %>
-  送信者：<%= check_box_tag "roles[sender][]", "2" %>
+  送信者：<%= check_box_tag "roles[sender][]", "2" ,true%>
   受信者：<%= check_box_tag "roles[receiver][]", "3" %>
 </p>
 <p>
@@ -39,7 +39,7 @@
 </p>
 <hr>
 <p>
-	
+
   <%= label_tag :prefecture ,"都道府県"%>
   <%= text_field_tag("prefecture") %>
   <%= label_tag :postal_code ,"郵便番号" %>
@@ -50,5 +50,5 @@
   <%= text_field_tag("address2") %>
   <%= label_tag :name ,"ラベル"%>
   <%= text_field_tag("name") %>
- 
+
 </p>
