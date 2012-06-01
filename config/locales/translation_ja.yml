@@ -1,0 +1,113 @@
+ja:
+  activerecord:
+    models:
+      address: 住所  #g
+      category: カテゴリ
+      global_setting: 全体設定  #g
+      massage: マッサージ  #g
+      matching_status: 検索の状況  #g
+      matching_user: 一致のユーザー  #g
+      receivers_location: 受信者の位置  #g
+      request_status: 依頼の状態  #g
+      role: 権限  #g
+      status: 状態  #g
+      status_description: 状態の記述  #g
+      user: ユーザー  #g
+
+    attributes:
+      address:
+        address1: 市区町村-番地
+        address2: 建物名・部屋番号
+        main: 主要  #g
+        massage: :activerecord.models.massage  #g
+        name: 登録名  #g
+        postal_code: 郵便番号  #g
+        prefecture: 都道府県  #g
+        user: :activerecord.models.user  #g
+
+      category:
+        massages: 依頼
+        name: 名前  #g
+
+      global_setting:
+        mail_template: メールテンプレート
+        mail_title_template: メールタイトル  #g
+        matching_interval: 一致間隔  #g
+        matching_number_limit: 一致する数の限界  #g
+        matching_range: 一致の範囲  #g
+        matching_step: 一致のステップ  #g
+        maximum_range: 最大射程  #g
+        name: 名前  #g
+        validated_time_interval: 認可された時間間隔  #g
+
+      massage:
+        active_datetime: 実施日時  #g
+        active_flg: 活動的なflg  #g
+        address: 住所
+        category: :activerecord.models.category  #g
+        description: 記述  #g
+        end_flg: 端のflg  #g
+        latitude: 緯度  #g
+        longitude: 経度  #g
+        matching_range: 一致の範囲  #g
+        matching_status: :activerecord.models.matching_status  #g
+        matching_users: 一致のユーザー  #g
+        request_status: :activerecord.models.request_status  #g
+        user: :activerecord.models.user  #g
+        users: ユーザー  #g
+        validated_datetime: 有効期限  #g
+
+      matching_status:
+        active_flg: 活動的なflg  #g
+        massages: 依頼  #g
+        name: 名前  #g
+        request_status: 要求状態  #g
+
+      matching_user:
+        distance: 間隔  #g
+        massage: :activerecord.models.massage  #g
+        reject_flg: 棄却物のflg  #g
+        user: :activerecord.models.user  #g
+
+      receivers_location:
+        latitude: 緯度  #g
+        longitude: 経度  #g
+        user: :activerecord.models.user  #g
+
+      request_status:
+        massages: 依頼  #g
+        matching_status: 一致の状態  #g
+        name: 名前  #g
+
+      role:
+        name: 名前  #g
+        users: ユーザー  #g
+
+      status:
+        active_flg: 活動的なflg  #g
+        massages: 依頼  #g
+        name: 名前  #g
+
+      status_description:
+        description: 記述  #g
+        matching_status: :activerecord.models.matching_status  #g
+        request_status: :activerecord.models.request_status  #g
+
+      user:
+        addresses: 住所  #g
+        crypted_password: パスワード確認  #g
+        date_of_birth: 誕生日  #g
+        email: 電子メール  #g
+        family_name: 姓  #g
+        family_name_kana: 姓のカナ  #g
+        given_name: 名  #g
+        given_name_kana: 名のカナ  #g
+        login: ログイン名  #g
+        massages: 依頼  #g
+        matching_users: 一致のユーザー  #g
+        password_salt: パスワード塩  #g
+        persistence_token: 持続トークン  #g
+        phone_number: 電話番号  #g
+        receivers_location: :activerecord.models.receivers_location  #g
+        roles: 権限  #g
+        sex: 性別  #g

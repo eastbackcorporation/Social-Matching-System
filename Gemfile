@@ -7,6 +7,7 @@ gem 'rails', '3.2.3'
 
 gem 'mysql2'
 gem 'authlogic'
+gem 'i18n_generators'
 
 
 # Gems used only for assets and not required
