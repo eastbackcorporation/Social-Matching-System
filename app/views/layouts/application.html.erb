@@ -1,53 +1,48 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<title>SocialMatchingSystem-だんだんマッチング-</title>
-		<%= stylesheet_link_tag    "application", :media => "all" %>
-		<%= javascript_include_tag "application" %>
-		<%= javascript_include_tag params[:controller] %>
-		
-		<%= javascript_include_tag "jquery.sheepItPlugin-1.0.0" %>
+  <head>
+    <title>SocialMatchingSystem-だんだんマッチング-</title>
+    <%= stylesheet_link_tag    "application", :media => "all" %>
+    <%= javascript_include_tag "application" %>
+    <%= javascript_include_tag params[:controller] %>
 
-		<%= javascript_include_tag "jquery.meio.mask" %>
-		<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
-		<%= javascript_include_tag "ajaxzip3-source" %>
-		
-		<%= jqgrid_javascripts %>
-		<%= jqgrid_stylesheets %>
+    <%= javascript_include_tag "jquery.sheepItPlugin-1.0.0" %>
 
-		<%= csrf_meta_tags %>
-	</head>
-	<body>
+    <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+    <%= javascript_include_tag "jquery.meio.mask" %>
+    <%= javascript_include_tag "ajaxzip3-source" %>
 
-		<div id="main_container">
+    <%= jqgrid_javascripts %>
+    <%= jqgrid_stylesheets %>
 
-			<div class="header">
-				<div class="logo">
-					<a href="#">Social Matching System - だんだんマッチング -</a>
-				</div>
+    <%= csrf_meta_tags %>
+  </head>
+  <body>
+    <div id="main_container">
+      <div class="header">
+        <div class="logo">
+          <a href="#">Social Matching System - だんだんマッチング -</a>
+        </div> <!-- end class="logo" -->
 
-				<div class="right_header">
-					<%= render "shared/header" %>
-				</div>
-			</div>
+        <div class="right_header">
+          <%= render "shared/header" %>
+        </div> <!-- end class="right_header" -->
+      </div> <!-- end class="header" -->
 
-			<div class="main_content">
-				<%= yield %>
-				<div class="clear"></div>
-			</div>
+      <div class="main_content">
+        <%= yield %>
+        <div class="clear"></div>
+      </div> <!-- end class="main_content" -->
 
-			<div class="footer">
+      <div class="footer">
+        <div class="left_footer">
+          Social Matching System | Powered by <a href="http://eastback.co.jp">EastBack</a>
+        </div> <!-- end class="footer" -->
 
-				<div class="left_footer">
-					Social Matching System | Powered by <a href="http://eastback.co.jp">EastBack</a>
-				</div>
-				<div class="right_footer">
-					<a href="http://eastback.co.jp">logo</a>
-				</div>
-
-			</div>
-
-		</div>
-
-	</body>
+        <div class="right_footer">
+          <a href="http://eastback.co.jp">logo</a>
+        </div>
+      </div>
+    </div>
+  </body>
 </html>

@@ -1,5 +1,5 @@
 <%= form_for( @massage,:url => [:new,:sender,:massage] ) do |f| %>
-  <% [ :category_id, :address_id, :active_datetime, :validated_datetime,:latitude,:longitude].each do |attr| %>
+  <% [ :category_id, :address_id, :active_datetime, :validated_datetime,:latitude,:longitude,:description].each do |attr| %>
     <%= f.hidden_field attr %>
   <% end %>
   <%= f.submit '戻る' %>

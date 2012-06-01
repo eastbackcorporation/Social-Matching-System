@@ -1,0 +1,84 @@
+<div class='menu'>
+  <!-- <%= link_to "一覧に戻る", sender_massages_path ,:class => "white_button" %> -->
+</div>
+<% if flash.now[:notice]%>
+  <p id="notice"><%= flash.now[:notice] %></p>
+<% else %>
+  <div class="echo">
+      <b>現在の受付状態に変更がありましたら、セレクトバーから変更してください。</b>
+  </div>
+<% end %>
+<table class="massage_show">
+    <caption>依頼の状況</caption>
+   　<tbody>
+      <th scope="row">現在の受付状態</th>
+        <td><%= render :partial => 'change_status' %></td>
+      </tr>
+      <tr>
+        <th scope="row">検索の状況</th>
+        <td><%= @massage.matching_status.name %></td>
+      </tr>
+      <tr>
+        <th scope="row">現在の状態の詳細</th>
+        <td><%=  StatusDescription.status(@massage.request_status.name , @massage.matching_status.name ).first.description %></td>
+      </tr>
+      <tr>
+        <th scope="row">現在の該当者数</th>
+        <td><%= @massage.matching_count %>人</td>
+      </tr>
+        <% if @massage.end_flg %>
+        <tr>
+        <th scope="row"></th>
+        <td>すでに終了しています</td>
+      </tr>
+      <% end %>
+    </tbody>
+</table>
+<table class="massage_show">
+    <caption>依頼内容の詳細</caption>
+   　<tbody>
+      <tr>
+        <th scope="row">実施日</th>
+        <td><%= Time.parse(@massage.active_datetime.to_s).strftime("%Y年%m月%d日 %H時%M分")  %> に実施</td>
+      </tr>
+  		<tr>
+    		<th scope="row">依頼の種類</th>
+    		<td><%= @massage.category.name %></td>
+  		</tr>
+
+      <tr>
+        <th scope="row">実施住所</th>
+        <td>
+          <span><%= @massage.address.postal_code %> </span>
+          <span class="addressStr"><%= @massage.address.prefecture %><%= @massage.address.address1 %><%= @massage.address.address2 %></span>
+        </td>
+      </tr>
+  		<tr>
+        <th scope="row">依頼内容の詳細・備考</th>
+        <td>
+          <% if @massage.description %>
+           　<%= @massage.description %>
+          <% else %>
+            とくになし
+          <% end %>
+        </td>
+      </tr>
+      <tr>
+        <th scope="row">有効期限</th>
+        <td><%= Time.parse(@massage.validated_datetime.to_s).strftime("%Y年%m月%d日 %H時%M分") %>　まで有効</td>
+      </tr>
+      <tr>
+        <th scope="row">登録日</th>
+        <td><%= Time.parse(@massage.created_at.to_s).strftime("%Y年%m月%d日 %H時%M分") %>　に登録</td>
+      </tr>
+  		<% if @massage.end_flg %>
+  		  <tr>
+        <th scope="row"></th>
+        <td>すでに終了しています</td>
+      </tr>
+      <% end %>
+  	</tbody>
+</table>
+
+
+

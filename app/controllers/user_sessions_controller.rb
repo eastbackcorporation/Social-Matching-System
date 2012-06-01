@@ -18,7 +18,7 @@ class UserSessionsController < ApplicationController
   def create
     @user_session = UserSession.new(params[:user_session])
     if @user_session.save
-      flash[:notice] = "Login successful!"
+      flash[:notice] = "ログインしました"
       redirect_to top_index_url
     else
       render :action => :new
@@ -28,7 +28,7 @@ class UserSessionsController < ApplicationController
   #ログアウト
   def destroy
     current_user_session.destroy
-    flash[:notice] = "Logout successful!"
+    flash[:notice] = "ログアウトしました"
     redirect_back_or_default :login
   end
 end

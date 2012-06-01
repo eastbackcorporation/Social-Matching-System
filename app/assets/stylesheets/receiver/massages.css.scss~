@@ -39,6 +39,9 @@ table.massage_show{
         linear,
         left bottom,
         right top,
+        //color-stop(0.02, rgb(158,217,41)),
+        //color-stop(0.51, rgb(139,198,66)),
+        //color-stop(0.87, rgb(123,192,67))
         color-stop(0.02, rgb(158,217,41)),
         color-stop(0.51, rgb(139,198,66)),
         color-stop(0.87, rgb(123,192,67))
@@ -80,7 +83,7 @@ table.massage_show{
       text-shadow:1px 1px 1px #fff;
     }
     input {
-      @include red_button;
+      //@include red_button;
     }
 }
 

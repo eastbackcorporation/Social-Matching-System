@@ -1,4 +1,5 @@
 <%= @errors %>
+
 <p>
   <%= label_tag :login %><br />
   <%= text_field_tag("login") %>
@@ -40,15 +41,23 @@
 <hr>
 <p>
 
-  <%= label_tag :prefecture ,"都道府県"%>
-  <%= text_field_tag("prefecture") %>
   <%= label_tag :postal_code ,"郵便番号" %>
-  <%= text_field_tag("postal_code") %>
-  <%= label_tag :address1 ,"アドレス１"%>
+  <%= text_field_tag("postal_code",'',{:alt => "postal_code", :onKeyUp => "AjaxZip3.zip2addr(this,'','prefecture','address1','address2');"}) %>
+  <% prefectures =[]%>
+  <%"北海道 青森県 岩手県 宮城県 秋田県 山形県 福島県 東京都 神奈川県 埼玉県 千葉県 茨城県 栃木県 群馬県 山梨県 新潟県 長野県 富山県 石川県 福井県 愛知県 岐阜県 静岡県 三重県 大阪府 兵庫県 京都府 滋賀県 奈良県 和歌山県 鳥取県 島根県 岡山県 広島県 山口県 徳島県 香川県 愛媛県 高知県 福岡県 佐賀県 長崎県 熊本県 大分県 宮崎県 鹿児島県 沖縄県".split(" ").each do |name| %>
+  <%  prefectures << name %>
+  <% end %>
+  <%= label_tag :prefecture ,"都道府県"%>
+  <%= select_tag :prefecture, options_for_select( prefectures ) %>
+  <%= label_tag :address1 ,"市区町村-丁目"%>
   <%= text_field_tag("address1") %>
-  <%= label_tag :address2 ,"アドレス２" %>
+  <%= label_tag :address2 ,"それ以降" %>
   <%= text_field_tag("address2") %>
-  <%= label_tag :name ,"ラベル"%>
+  <%= label_tag :name ,"登録名 (例.実家,親戚の家など)"%>
   <%= text_field_tag("name") %>
 
 </p>
+<script>
+  $.mask.masks.postal_code = {mask: '999-9999'}
+  $('#postal_code').setMask();
+</script>

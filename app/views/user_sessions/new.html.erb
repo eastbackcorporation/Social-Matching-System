@@ -1,15 +1,17 @@
-<div class="wrapper">
-  <p id="notice"><%= notice %></p>
-	<%= form_for @user_session do |f| %>
-	<%= f.label :login %>
-	<%= f.text_field :login %>
+<div class="user_session">
+  <div class="wrapper">
+    <p id="notice"><%= notice %></p>
+	 <%= form_for @user_session do |f| %>
+	 <%= f.label :login ,"ログイン名"%>
+	 <%= f.text_field :login %>
 
-	<%= f.label :password %>
-	<%= f.password_field :password %>
+	 <%= f.label :password ,"パスワード"%>
+	 <%= f.password_field :password %>
 
-  <%= f.check_box :remember_me %>
-  ￼<%= f.label :remember_me, "次回から自動ログイン", :class => "plain" %>
+    <%= f.check_box :remember_me %>
+  ￼ <%= f.label :remember_me, "次回から自動ログイン", :class => "plain" %>
 
-	<%= f.submit "ログイン", :id=>"submit" %>
-	<% end %>
+	 <%= f.submit "ログイン", :id=>"submit" %>
+	 <% end %>
+  </div>
 </div>

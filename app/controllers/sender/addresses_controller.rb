@@ -35,7 +35,7 @@ class Sender::AddressesController < ApplicationController
 
      respond_to do |format|
       if @address.save
-        format.html { redirect_to new_sender_massage_url, notice: 'Address was successfully created.' }
+        format.html { redirect_to new_sender_massage_url, notice: '新規住所を登録しました' }
         format.json { render json: @address, status: :created, location: @address }
       else
         format.html { render action: "new" }

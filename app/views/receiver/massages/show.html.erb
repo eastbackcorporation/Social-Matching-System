@@ -1,9 +1,11 @@
+<div class='menu'>
+  <%= link_to "一覧に戻る", receiver_massages_path ,:class => "white_button" %>
+</div>
 <p id="notice"><%= notice %></p>
 
 <% sender = User.find(@massage.user_id) %>
 <table class="massage_show fleft">
 	<tfoot><tr>
-    <th scope="row"><%= link_to '戻る', sender_massages_path %></th>
     <% if @massage.request_status.name == "受付中"%>
       <td>
         <% unless MatchingUser.where(:user_id=>current_user.id,:massage_id=>@massage.id).first.reject_flg %>
@@ -17,6 +19,10 @@
     <% end %>
   </tr></tfoot>
 	<tbody>
+	  <tr>
+      <th scope="row">有効期限</th>
+      <td><%= Time.parse(@massage.validated_datetime.to_s).strftime("%Y年%m月%d日 %H時%M分") %></td>
+    </tr>
 		<tr>
       <th scope="row">カテゴリ</th>
       <td><%= @massage.category.name %></td>
@@ -28,14 +34,6 @@
     <tr>
       <th scope="row">ステータス詳細</th>
       <td><%=  StatusDescription.status(@massage.request_status.name , @massage.matching_status.name ).first.description %></td>
-    </tr>
-		<tr>
-      <th scope="row">作成日</th>
-      <td><%= Time.parse(@massage.created_at.to_s).strftime("%Y年%m月%d日 %H時%M分") %></td>
-    </tr>
-		<tr>
-      <th scope="row">有効期限</th>
-      <td><%= Time.parse(@massage.validated_datetime.to_s).strftime("%Y年%m月%d日 %H時%M分") %></td>
     </tr>
 		<tr>
       <th scope="row">実施日</th>
@@ -63,7 +61,7 @@
 <table class="massage_show fleft">
 	<tr>
     <th scope="row">実施場所</th>
-		<td><div id="map" style="width: 400px; height: 300px"></div></td>
+		<td><div id="map" style="width: 300px; height: 300px"></div></td>
 	</tr>
 </table>
 

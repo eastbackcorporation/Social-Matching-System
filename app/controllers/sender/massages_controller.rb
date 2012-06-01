@@ -11,8 +11,9 @@ class Sender::MassagesController < MassagesController
   respond_to :html,:json
 
   # ユーザの発信した依頼情報一覧
+  #実施前の依頼のみ表示
   def index
-    @massages=Massage.where(:user_id=>current_user.id)
+    @massages=Massage.where(:user_id=>current_user.id,:end_flg=>false)
 
     ids = ""
 
@@ -38,6 +39,8 @@ class Sender::MassagesController < MassagesController
     end
   end
 
+
+
   #依頼情報詳細表示
   def show
    @massage=Massage.find(params[:id])
@@ -60,7 +63,16 @@ class Sender::MassagesController < MassagesController
   def confirm
     @massage = Massage.new(params[:massage])
     @massage.user=current_user
-    if @massage.valid?
+
+    #TODO
+    #ここでは、有効期限と実施日の順序関係をvalidateしている。
+    #可能な限りモデル側に実装すべきである
+    if  @massage.active_datetime < @massage.validated_datetime
+        @categories=Category.all
+        @addresses=Address.where(:user_id=>current_user.id)
+        flash[:notice] =  "有効期限より実施日後にすることはできません"
+        render :action => :new
+    elsif @massage.valid?
       render :action => 'confirm'
     else
       render :action => 'new'
@@ -85,11 +97,13 @@ class Sender::MassagesController < MassagesController
           format.html { redirect_to(sender_massages_url) }
           format.json { render json: @massage, status: :created, location: @massage }
         end
+        flash[:notice]="依頼を登録しました！"
         format.html { redirect_to [:sender,@massage] }
         format.json { render json: @massage, status: :created, location: @massage }
       else
         @categories=Category.all
         @addresses=Address.where(:user_id=>current_user.id)
+        flash[:notice]="依頼の登録に失敗しました！"
         format.html { render :new  }
         format.json { render json: @massage.errors, status: :unprocessable_entity }
       end

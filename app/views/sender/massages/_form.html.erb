@@ -1,0 +1,131 @@
+<%= form_for([:confirm,:sender,@massage]) do |f| %>
+  <% if @massage.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@massage.errors.count, "error") %> prohibited this address from being saved:</h2>
+      <ul>
+        <% @massage.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% else %>
+    <div class="echo">
+      <b>依頼の内容を記入してください。
+      記入し終わったら、下の<u>確認ボタン</u>を押してください。</b>
+    </div>
+  <% end %>
+
+  <p id="notice"><%= flash.now[:notice] %></p>
+
+  <div class="field">
+    <ul id="form_list">
+      <li>
+      <%= f.label :active_datetime ,"実施日時"%>
+      依頼の内容を開始する日時を指定してください <br />
+      <%= f.datetime_select :active_datetime ,
+        :order => [ :year, :month, :day ],
+        :start_year => Time.current.year,
+        :end_year => Time.current.year+1,
+        :use_month_names => %w(1月 2月 3月 4月 5月 6月 7月 8月 9月 10月 11月 12月) ,
+        :use_month_numbers => true,
+        :date_separator => "/",
+        :minute_step => 15 %>
+        <strong>から実施</strong>
+      </li>
+      <li>
+        <% categories=[] %>
+        <% Category.all.each{ |e| categories<<[e.name,e.id]}%>
+        <%= f.label :category_id ,"依頼の種類"%>
+        <%= f.select :category_id , categories , :include_blank => true %>
+        <br />
+        <%= link_to '依頼の種類の詳しい説明' %>
+      </li>
+      <li>
+        <%= f.label :address_id ,"実施住所"%>
+        依頼を実施する場所の住所を選択してください
+        <% addresses=Address.where(:user_id=>current_user.id) %>
+        <% if addresses %>
+          <ul id="address_list">
+            <% addresses.each do |a| %>
+              <li>
+              <div class="radio"><%= f.radio_button :address_id, a.id %></div>
+
+              <div>
+                <%= a.name %> -
+                <span><%= a.postal_code %> </span>
+                <span class="addressStr"><%= a.prefecture %><%= a.address1 %><%= a.address2 %></span>
+              </div>
+            </li>
+            <% end %>
+            </ul> <!-- end id="address_litt" -->
+        <% else %>
+          住所が登録されていません
+        <% end %>
+        <%= link_to '新規の住所を登録する場合はこちら', new_sender_address_path %>
+      </li>
+      <li>
+        <%= f.label :validated_datetime ,"有効期限日時"%>
+          この依頼を受け付ける有効期限です。
+          有効期限は実施日以前にしてください<br />
+        <%= f.datetime_select :validated_datetime , :use_month_numbers => true,
+          :order => [ :year, :month, :day ],
+          :start_year => Time.current.year,
+          :end_year => Time.current.year+1,
+          :minute_step => 15 %>
+          <strong>まで有効</strong>
+      </li>
+      <li>
+        <%= f.label :description ,"備考欄"%>
+        依頼内容の詳しい説明や伝言などがある場合は<br />
+        <strong>下のチェックボックスをクリックして</strong>,フォームに記入ください。<br />
+        <input type="checkbox" id="show_description" value=0>
+        </input>
+        <div id="description">
+          <%= f.text_area :description  , :size => "10x20" %>
+        </div>
+      </li>
+    </div><!-- end class="form"-->
+
+    <%= f.text_field :latitude, :type => "hidden" %>
+    <%= f.text_field :longitude, :type => "hidden" %>
+
+    <div class="buttonGroup">
+      <div class="actions">
+        <%= form_tag( :action => "index" ) do %>
+          <%= submit_tag "キャンセル" %>
+        <% end %>
+        <%= f.submit "確認" %>
+      </div>
+    </div>
+  </ul> <!-- end form list -->
+<% end %>
+
+
+<script type="text/javascript">
+  // フォーム #fm に対して検証ルールを登録
+  $('#new_massage').validate({
+    errorClass: 'invalid',    // エラー メッセージを表示する際に使用するスタイル
+    // それぞれの項目に適用される検証ルール
+    rules: {
+      'massage' :{
+        "checkDate": ["#massage_active_datetime","#massage_validated_datetime"]
+      }
+    }
+  });
+  jQuery.validator.addMethod("checkDate",
+    function(value, element, params) {
+      if ($(params[0]).val() >= $(params[1]).val()) {
+        return true;
+      } else {
+        return this.optional(element);
+      }
+    },
+    "時刻の指定が間違っています。"
+  );
+  $("#description").hide();
+  $(function() {
+    $("#show_description").click(function() {
+      $("#description").slideToggle(this.checked);
+    })
+  });
+</script>

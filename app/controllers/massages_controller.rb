@@ -21,23 +21,31 @@ private
         m.save
       end
     end
+    logger.debug "end check_validated_datetime"
   end
 
   #終了チェック
   #実施日時(active_datetime)を過ぎたmassageには終了フラグ(end_flg)を立てる
   #また終了時にrequest_statusが受付中ならば、不成立にする
   #-before filter用
+  #TODO 　06/01 バグ発見 うまく動作していない
   def check_end_datetime
+    logger.debug "begin check_end_datetime"
     @massages = Massage.all
     @massages.each do |m|
       if  m.active_datetime < DateTime.now
-        m.end_flg=true
+        m.update_attributes(:end_flg => true )
         if m.request_status.name == "受付中"
-          m.request_status=RequestStatus.to("不成立").first
+          m.update_attributes(:request_status_id=>RequestStatus.to("不成立").first.id)
         end
-        m.save
+        if m.save
+          logger.debug "save check_validated_datetime"
+        else
+          logger.debug " not save check_validated_datetime"
+        end
       end
     end
+    logger.debug "end check_validated_datetime"
   end
 
   #massageの状態チェック

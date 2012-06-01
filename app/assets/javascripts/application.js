@@ -14,3 +14,4 @@
 //= require jquery-ui
 //= require jquery_ujs
 //= require_tree ./geo
+//= require jquery.validate.min

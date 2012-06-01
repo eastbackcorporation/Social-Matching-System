@@ -2,6 +2,16 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+//Mixins
+@mixin yellow_button {
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0.00, #e5e696), color-stop(1.00, #d1d35f));
+  background: -webkit-linear-gradient(top, #e5e696 0%, #d1d35f 100%);
+  background: -moz-linear-gradient(top, #e5e696 0%, #d1d35f 100%);
+  background: -o-linear-gradient(top, #e5e696 0%, #d1d35f 100%);
+  background: -ms-linear-gradient(top, #e5e696 0%, #d1d35f 100%);
+  background: linear-gradient(to bottom, #e5e696 0%, #d1d35f 100%);
+}
+
 @mixin blue_button {
   font-weight: bold;
   background: -webkit-gradient(linear, left top, left bottom, color-stop(0.00, #70b6f2), color-stop(0.50, #54a3ee), color-stop(0.51, #3690f0), color-stop(1.00, #1a62db));
@@ -12,24 +22,94 @@
   background: linear-gradient(to bottom, #70b6f2 0%, #54a3ee 50%, #3690f0 51%, #1a62db 100%);
 }
 
-
-body {
-  margin:0 auto;
-  display:block;
-  color:#3a3a3a;
+@mixin green_button {
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0.00, #cade97), color-stop(0.49, #9bbb50), color-stop(1.00, #388235));
+  background: -webkit-linear-gradient(top, #cade97 0%, #9bbb50 49%, #388235 100%);
+  background: -moz-linear-gradient(top, #cade97 0%, #9bbb50 49%, #388235 100%);
+  background: -o-linear-gradient(top, #cade97 0%, #9bbb50 49%, #388235 100%);
+  background: -ms-linear-gradient(top, #cade97 0%, #9bbb50 49%, #388235 100%);
+  background: linear-gradient(to bottom, #cade97 0%, #9bbb50 49%, #388235 100%);
 }
 
-h1 {
-  width:498px;
-  height:40px;
-  letter-spacing:1px;
-  font-size:1.8em;
-  margin:0 auto;
+@mixin white_button {
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(1.00, #dddddd), color-stop(0.00, #fffafa));
+  background: -webkit-linear-gradient(top, #fffafa 0%, #dddddd 100%);
+  background: -moz-linear-gradient(top, #fffafa 0%, #dddddd 100%);
+  background: -o-linear-gradient(top, #fffafa 0%, #dddddd 100%);
+  background: -ms-linear-gradient(top, #fffafa 0%, #dddddd 100%);
+  background: linear-gradient(to bottom, #fffafa 0%, #dddddd 100%);
 }
+
+@mixin gray_button {
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(1.00, #777775), color-stop(0.00, #999999));
+  background: -webkit-linear-gradient(top, #777775 0%, #999999 100%);
+  background: -moz-linear-gradient(top, #777775 0%, #999999 100%);
+  background: -o-linear-gradient(top, #777775 0%, #999999 100%);
+  background: -ms-linear-gradient(top, #777775 0%, #999999 100%);
+  background: linear-gradient(to bottom, #777775 0%, #999999 100%);
+}
+
+.menu{
+  margin:0px 0;
+  padding:0;
+  width:195px;
+  float:right;
+  //clear:both;
+
+  a{
+    color: #111 !important;
+    text-align: center;
+    width:185px;
+    height:31px;
+    margin:0 0 10px 0;
+    line-height:35px;
+    padding:0px 0 0 10px;
+    display: inline-block;
+    font-size: 13px;
+    font-weight: bold;
+    color: #111;
+    text-shadow: 0 -1px 1px rgba(0, 0, 0, 0.4), 0 1px 1px rgba(255, 255, 255, 0.5);
+    letter-spacing: 0;
+    border: none;
+    box-shadow: inset 0 -1px 1px rgba(0, 0, 0, 0.9), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+    border-radius: 6px;
+    text-decoration: none;
+    display:inline
+
+    &.yellow_button {
+      @include yellow_button;
+    }
+
+    &.green_button {
+      @include green_button;
+    }
+
+    &.blue_button {
+      @include blue_button;
+    }
+    &.white_button{
+      @include white_button;
+    }
+
+    &.gray_button{
+      @include gray_button;
+    }
+  }
+}
+
 
 form#new_massage, form#new_address {
-  width:459px;
-  margin:0 auto;
+  width:90%;
+  margin: 0 auto;
+
+  h5{
+    font-size:15px;
+    //font-family: Gergia,'arial narrow',sans-serif;
+    color:#111111;
+    font-weight:normal;
+    padding:15px 0 5px 20px;
+    margin:0px;
+  }
 
   label {
     display:block;
@@ -42,23 +122,41 @@ form#new_massage, form#new_address {
 
   select {
     border: 1px solid black;
-    font-size: 14px;
+    font-size: 18px;
     color: white;
     background: #444;
     padding: 5px;
   }
 
   ul {
+    //border: 1px solid #C0C0CC;
+    border: 1px solid #D6E5E6;
     list-style:none;
     padding:0 0 0 10px;
+    background:#FCFDFD;
 
     li {
       margin-bottom: 15px;
       padding-bottom: 10px;
-      border-bottom: 1px solid #D1D1D1;
+      //border-bottom: 1px solid #D1D1D1;
+      border-bottom: 1px solid #CAE8E9;
     }
-
+    p{
+      font-size:15px;
+      //font-family: Gergia,'arial narrow',sans-serif;
+      color:#111111;
+      font-weight:normal;
+      padding:15px 0 5px 20px;
+      margin:0px;
+    }
     .radio { float:left; }
+  }
+  ul#address_list{
+    //background:#F7FAFA;
+    li{
+      background:#F7FAFA;
+      border-bottom:none;
+    }
   }
 
   input, textarea {
@@ -71,7 +169,7 @@ form#new_massage, form#new_address {
     border:1px solid #dedede;
     padding:10px;
     margin-top:3px;
-    font-size:0.9em;
+    font-size:15px;
     color:#3a3a3a;
   }
 
@@ -104,8 +202,41 @@ form#new_massage, form#new_address {
   }
 }
 
+
 div.buttonGroup {
   text-align: center;
+  width:90%;
+  margin: 0 auto;
+  a{
+    color: #111 !important;
+    text-align: center;
+    width:185px;
+    height:31px;
+    margin:0 0 10px 0;
+    line-height:35px;
+    padding:0px 0 0 10px;
+    display: inline-block;
+    font-size: 13px;
+    font-weight: bold;
+    color: #111;
+    text-shadow: 0 -1px 1px rgba(0, 0, 0, 0.4), 0 1px 1px rgba(255, 255, 255, 0.5);
+    letter-spacing: 0;
+    border: none;
+    box-shadow: inset 0 -1px 1px rgba(0, 0, 0, 0.9), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+    border-radius: 6px;
+    text-decoration: none;
+    display:inline;
+    @include blue_button;
+  }
+}
+
+
+div.echo{
+  width:720px;
+  margin: 0 auto;
+  border: 1px solid #C0C0C0;
+  padding: 5px 5px 5px 5px;
+  background: #ffffff;
 }
 
 div.buttonGroup form {

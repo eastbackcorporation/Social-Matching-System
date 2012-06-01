@@ -1,69 +1,61 @@
 <div class="block">
-  <div class="content">
-
+  <div class="menu">
+    <%= link_to "新規依頼登録",new_sender_massage_url,:class => "white_button" %>
+  </div>
+  <div class="index_content">
+    <h2>あなたの依頼一覧</h2>
 
  		<%=raw jqgrid("依頼情報一覧", "SenderMessage", "/sender/massages",
 			[
-				{ :name => "id", :label => "id", :index => 'id',:align => 'center', :width => "55", :hidden => true },
-				{ :name => "end_flg",
-          :label => "状況",
-          :align => 'center',
-          :width => "40",
-          :customFormatter => 'makeEndValue'
-        },
-				{ :name => "category.name", :label => "カテゴリ", :index => 'category_id',:align => 'center', :width => "40" },
-				{ :name => "request_status.name", :label => "依頼ステータス", :index => 'request_status_id',:align => 'center', :width => "40" },
-				{ :name => "matching_status.name", :label => "検索ステータス", :index => 'matching_status_id',:align => 'center', :width => "40" },
-        { :name => "matching_count", :label => "該当者数", :index => 'matching_count',:align => 'center', :width => "20" },
+				{ :name => "id", :label => "id", :index => 'id', :width => :auto, :hidden => true },
+				{ :name => "category.name", :label => "カテゴリ", :align => "center",:width => 50 ,:index => 'category_id'},
+				{ :name => "request_status.name", :label => "依頼状況", :align => "center",:width => 70,:index => 'request_status_id'},
+				{ :name => "matching_status.name", :label => "検索状況", :align => "center",:width => 70,:index => 'matching_status_id' },
+        { :name => "matching_count", :label => "該当者数",:align => "center", :width => 40,:index => 'matching_count'},
 				{ :name => "validated_datetime",
 					:label => "有効期限",
 					:index => 'validated_datetime',
 					:align => 'center',
+					:width => 140,
 					:sorttype => 'date',
 					:formatter => 'date',
 					:formatoptions => {
 						:srcformat => "UniversalSortableDateTime",
-						:newformat => 'Y年 m月d日 G時i分'
+						:newformat => 'Y/m/d/G:i'
 					}
 				},
 				{ :name => "active_datetime",
           :label => "実施日",
           :index => 'active_datetime',
           :align => 'center',
+          :width => 140,
           :sorttype => 'date',
           :formatter => 'date',
           :formatoptions => {
             :srcformat => "UniversalSortableDateTime",
-            :newformat => 'Y年 m月d日 g時i分'
+            :newformat => 'Y/m/d/G:i'
           }
         },
 				{ :name => "id",
 					:label => "操作",
+					:align => "center",
 					:search => false,
 					:sortable => false,
-					:align => 'center',
-					:width => "60",
 					:customFormatter => 'makeLink'
 				}
 			],
 			{
-				:autowidth => true,
+				:width => 790,
 				:edit => false,
 				:add => false,
 				:view => false,
 				:delete => false,
 				:rowNum	=> 30,
 				:rowList => [10,20,30,50],
-				:height => 300,
+				:height => 400,
 			}
 		) %>
-
-  		<a href="<%= new_sender_massage_url %>">新規作成</a>
-
-
 </div>
-
-
 
 <script type="text/javascript">
 	//Ajaxで位置情報をポストする際に同時に送信されるユーザID
@@ -72,7 +64,7 @@
 	function makeLink(cellvalue, options, rowObject){
 		var url = "<%= sender_massage_url(:id => "") %>";
 		url = url + cellvalue;
-		return "<a href='" + url + "'>詳細</a> | <a href='" + url + "' data-confirm='削除しますか?' data-method='delete' rel='nofollow'>削除</a>";
+		return "<a href='" + url + "'>詳細</a>";
 	}
 	function makeEndValue(cellvalue, options, rowObject){
    if(cellvalue == "true" ){

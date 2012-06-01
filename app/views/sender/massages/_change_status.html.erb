@@ -1,0 +1,13 @@
+<% if @massage.end_flg %>
+  <%=  @massage.request_status.name %>
+<% else %>
+  <%= form_tag({:action => :change_status},{:method => :put}) do %>
+    <% request_statuses = [] %>
+    <% ["成立","受付中","中止"].each do |rs| %>
+      <% request_statuses << [rs,RequestStatus.to(rs).first.id]%>
+    <% end %>
+    <% default_value = @massage.request_status.id unless @massage.request_status.name == "不成立"%>
+    <%= select_tag("request_status",options_for_select( request_statuses , default_value )) %>
+    <%= submit_tag("変更") %>
+  <% end %>
+<% end %>

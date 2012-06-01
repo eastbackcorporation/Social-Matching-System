@@ -27,47 +27,49 @@
   background: linear-gradient(to bottom, #70b6f2 0%, #54a3ee 50%, #3690f0 51%, #1a62db 100%);
 }
 
-// Styles
-.wrapper {
-  margin: 0 auto;
-  position: relative;
-  width: 320px;
-}
-
-h2 {
-  font-size: 1em;
-  text-align: center;
-}
-
-form#new_user_session {
-  background-color: #fff;
-  margin: 25px auto 0;
-  padding: 25px 10px;
-  text-align: center;
-  width: 260px;  
-  @include border-radius(20px);
-  @include box-shadow(2px 2px 10px #ccc);
-  
-  label {
-    display: block;
-    font-size: 1.1em;
-    font-weight: bold;
-    letter-spacing: -0.025em;
-    margin: 0 0 5px 15px;
-    text-align: left;      
+.user_session{
+  // Styles
+  .wrapper {
+    margin: 0 auto;
+    position: relative;
+    width: 320px;
   }
-  
-  input#user_session_login, input#user_session_password {
-    background-color: #eaeaea;
-    background: -moz-linear-gradient(top, #ffffff, #eaeaea);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0.0, #ffffff), color-stop(1.0, #eaeaea));
-    border: 1px solid #cacaca;
-    color: #444;
-    font-size: 1.4em;
-    margin: 0 0 25px;
-    padding: 8px 10px;
-    width: 240px;
-    @include border-radius(6px);
+
+  h2 {
+    font-size: 1em;
+    text-align: center;
+  }
+
+  form#new_user_session {
+    background-color: #fff;
+    margin: 25px auto 0;
+    padding: 25px 10px;
+    text-align: center;
+    width: 260px;
+    @include border-radius(20px);
+    @include box-shadow(2px 2px 10px #ccc);
+
+    label {
+      display: block;
+      font-size: 1.1em;
+      font-weight: bold;
+      letter-spacing: -0.025em;
+      margin: 0 0 5px 15px;
+      text-align: left;
+    }
+
+    input#user_session_login, input#user_session_password {
+      background-color: #eaeaea;
+      background: -moz-linear-gradient(top, #ffffff, #eaeaea);
+      background: -webkit-gradient(linear, left top, left bottom, color-stop(0.0, #ffffff), color-stop(1.0, #eaeaea));
+      border: 1px solid #cacaca;
+      color: #444;
+      font-size: 1.4em;
+      margin: 0 0 25px;
+      padding: 8px 10px;
+      width: 240px;
+      @include border-radius(6px);
+    }
   }
 }
 
