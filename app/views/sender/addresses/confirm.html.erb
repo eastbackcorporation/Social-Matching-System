@@ -1,9 +1,13 @@
 <h2>入力情報の確認</h2>
-<p id="notice"><%= notice %></p>
 
-<%= render :partial => 'record' %>
-
+<div id="massage_form">
+  <div class="echo">
+    <b>入力情報を確認してください。</b><br />
+    <b>内容がよろしければ、下の<u>登録</u>を押して、住所を登録してください</b>
+  </div>
+  <%= render :partial => '/sender/addresses/shared/record' %>
+</div>
 <div class="buttonGroup">
-  <%= render :partial => 'button_to_back' %>
-  <%= render :partial => 'button_to_submit' %>
+  <%= render :partial => '/sender/addresses/shared/button_to_back' %>
+  <%= render :partial => '/sender/addresses/shared/button_to_submit' %>
 </div>

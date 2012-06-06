@@ -1,7 +1,12 @@
+
+@import "config";
+@import "button";
+
+//標準の定義
 body {
-  background-color: #fff;
   padding:0;
   color: #333;
+  background-color:#f7f7f7;
   font-family: Arial, Helvetica, sans-serif;
   font-size: 13px;
   line-height: 18px;
@@ -28,15 +33,23 @@ div {
   &.field, &.actions {
     margin-bottom: 10px;
   }
+  .echo{
+    width:$table_width;
+    font-size:14px;
+    //border: 1px solid #C0C0C0;
+    margin:5px 30px auto;
+    padding:10px auto;
+    background: #ffffff;
+  }
 }
 
 
 h2 {
   font-size:20px;
   color:#256c89;
-  font-weight:normal;
+  font-weight:bold;
   padding:0px 0 15px 0;
-  margin:0px;
+  margin:5px;
   clear:both;
 }
 
@@ -59,16 +72,20 @@ h5{
   margin:0px;
   clear:both;
 }
+//部品の定義
+
 #main_container {
   margin:0 auto;
-  width:810px;
+  padding:5px auto;
+  width:$total_width;
+  background-color:white;
   padding:0px 0 0px 0;
 }
 
 .header {
-  width:810px;
+  width:$total_width;
   height:100px;
-  //background-color: #eef;
+  background-color:#ffffff;
 }
 
 .header_login {
@@ -91,7 +108,7 @@ h5{
   float:right;
   text-align:right;
   padding:40px 0 0 0;
-
+  font-size:15px;
   a {
     margin:0 5px 0 5px;
     text-decoration:none;
@@ -101,14 +118,6 @@ h5{
       padding-right:18px;
     }
   }
-}
-
-.main_content {
-  clear:both;
-  margin:0 auto;
-  width:810px;
-  height:auto;
-  padding:0px 0 50px 0;
 }
 
 .footer {
@@ -155,163 +164,7 @@ h5{
   padding:15px 10px 0 0;
 }
 
-//admin/user.css.scssから移動
-//Mixins
-@mixin yellow_button {
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0.00, #e5e696), color-stop(1.00, #d1d35f));
-  background: -webkit-linear-gradient(top, #e5e696 0%, #d1d35f 100%);
-  background: -moz-linear-gradient(top, #e5e696 0%, #d1d35f 100%);
-  background: -o-linear-gradient(top, #e5e696 0%, #d1d35f 100%);
-  background: -ms-linear-gradient(top, #e5e696 0%, #d1d35f 100%);
-  background: linear-gradient(to bottom, #e5e696 0%, #d1d35f 100%);
-}
-
-@mixin green_button {
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0.00, #cade97), color-stop(0.49, #9bbb50), color-stop(1.00, #388235));
-  background: -webkit-linear-gradient(top, #cade97 0%, #9bbb50 49%, #388235 100%);
-  background: -moz-linear-gradient(top, #cade97 0%, #9bbb50 49%, #388235 100%);
-  background: -o-linear-gradient(top, #cade97 0%, #9bbb50 49%, #388235 100%);
-  background: -ms-linear-gradient(top, #cade97 0%, #9bbb50 49%, #388235 100%);
-  background: linear-gradient(to bottom, #cade97 0%, #9bbb50 49%, #388235 100%);
-}
-
-@mixin blue_button {
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(1.00, #7a99cd), color-stop(0.00, #d1e0fa));
-  background: -webkit-linear-gradient(top, #d1e0fa 0%, #7a99cd 100%);
-  background: -moz-linear-gradient(top, #d1e0fa 0%, #7a99cd 100%);
-  background: -o-linear-gradient(top, #d1e0fa 0%, #7a99cd 100%);
-  background: -ms-linear-gradient(top, #d1e0fa 0%, #7a99cd 100%);
-  background: linear-gradient(to bottom, #d1e0fa 0%, #7a99cd 100%);
-}
-
-@mixin white_button {
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(1.00, #dddddd), color-stop(0.00, #fffafa));
-  background: -webkit-linear-gradient(top, #fffafa 0%, #dddddd 100%);
-  background: -moz-linear-gradient(top, #fffafa 0%, #dddddd 100%);
-  background: -o-linear-gradient(top, #fffafa 0%, #dddddd 100%);
-  background: -ms-linear-gradient(top, #fffafa 0%, #dddddd 100%);
-  background: linear-gradient(to bottom, #fffafa 0%, #dddddd 100%);
-}
-
-.index_content {
-  clear:both;
-  .ui-jqgrid tr.jqgrow td {
-    font-size:16px;
-    //font-family: Gergia,'arial narrow',sans-serif;
-    font-family:'ヒラギノ角ゴ Pro W3','Hiragino Kaku Gothic Pro','メイリオ',Meiryo,'ＭＳ Ｐゴシック',sans-serif;
-  }
-}
-
-//Styles
-.center_content {
-  clear:both;
-}
-
-.left_content {
-  width:195px;
-  float:left;
-  padding:30px 0 0 20px;
-}
-
-.right_content {
-  width:625px;
-  float:left;
-  padding:30px 0 0 30px;
-
-  form {
-    width: 540px;
-    margin: 4px auto;
-    background-color: #eee;
-    padding: 10px;
-    border: solid 1px #ccc;
-  }
-  ul {
-    list-style:none;
-    margin:0; padding:0;
-  }
-  li {
-    list-style:none;
-    margin:0; padding:6px;
-    clear:both;
-  }
-  label {
-    display:block;
-    font-weight:bold;
-    color:#666;
-  }
-  li span {
-    float:left;
-    margin:0 5px 0 0; padding:0;
-  }
-  li span label {
-    color:#999;
-    font-weight:normal;
-    font-size:80%;
-  }
-  input.field,
-    textarea {
-      background:#fff url("img/css/fieldborder.png") repeat-x 0 0;
-      border:1px solid #ddd;
-      border-top-color:#ccc;
-      border-left-color:#ccc;
-      padding:3px;
-  }
-  textarea {
-    width:100%;
-  }
-}
-
-.sidebarmenu{
-  margin:0px 0;
-  padding:0;
-  width:195px;
-
-  a {
-    color: #111 !important;
-    text-align: center;
-    width:185px;
-    height:31px;
-    margin:0 0 10px 0;
-    line-height:35px;
-    padding:0px 0 0 10px;
-    display: inline-block;
-    font-size: 13px;
-    font-weight: bold;
-    color: #111;
-    text-shadow: 0 -1px 1px rgba(0, 0, 0, 0.4), 0 1px 1px rgba(255, 255, 255, 0.5);
-    letter-spacing: 0;
-    border: none;
-    box-shadow: inset 0 -1px 1px rgba(0, 0, 0, 0.9), inset 0 1px 0 rgba(255, 255, 255, 0.4);
-    border-radius: 6px;
-    text-decoration: none;
-
-    &.yellow_button {
-      @include yellow_button;
-    }
-
-    &.green_button {
-      @include green_button;
-    }
-
-    &.blue_button {
-      @include blue_button;
-    }
-    &.white_button{
-      @include white_button;
-    }
-
-    &.menuitem_red {
-      &:hover {
-
-      }
-
-      &:visited,&:active {
-
-      }
-    }
-  }
-}
-
+//ノート/エラー表示用
 
 #notice {
   color: green;
@@ -346,8 +199,3 @@ h5{
     list-style: square;
   }
 }
-
-
-
-
-

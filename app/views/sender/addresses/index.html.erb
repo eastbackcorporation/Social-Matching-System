@@ -1,21 +1,41 @@
-<h1>あなたに関係する住所</h1>
+<div class="block">
+  <%= render "sender/menu" %>
 
-<table>
-  <tr>
-    <th>登録名</th>
-    <th>郵便番号</th>
-    <th>都道府県</th>
-    <th>市区町村</th>
-    <th>それ以降</th>
-  </tr>
+  <h2>あなたに関係する住所一覧</h2>
+  <div class="index_content">
+    <div id="index_head">
 
-<% @addresses.each do |address| %>
-  <tr>
-    <td><%= address.name %></td>
-    <td><%= address.postal_code %></td>
-    <td><%= address.prefecture %></td>
-    <td><%= address.address1 %></td>
-    <td><%= address.address2 %></td>
-
-<% end %>
-</table>
+    </div>
+    <table id="index_massages">
+      <thead>
+        <tr>
+          <th>登録名</th>
+          <th>郵便番号</th>
+          <th>都道府県</th>
+          <th>市区町村-町名</th>
+          <th>建物名等</th>
+          <th>詳細</th>
+        </tr>
+      </thead>
+      <% @addresses.each do |address| %>
+        <tr>
+          <td><%= address.name %></td>
+          <td><%= address.postal_code %></td>
+          <td><%= address.prefecture %></td>
+          <td><%= address.address1 %></td>
+          <td>
+            <% if address.address2 != "" %>
+              <%= address.address2 %>
+            <% else %>
+              なし
+            <% end %>
+          </td>
+          <td>
+	    <%= link_to "変更" ,[:sender,address],:method => :edit %> |
+            <%= link_to "削除" ,[:sender,address],:method => :delete ,:confrim => "削除してもよろしいですか？" %>
+	  </td>
+        </tr>
+      <% end %>
+    </table>
+  </div>
+</div>

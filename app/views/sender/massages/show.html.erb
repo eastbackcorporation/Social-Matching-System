@@ -1,18 +1,20 @@
 <div class='menu'>
   <!-- <%= link_to "一覧に戻る", sender_massages_path ,:class => "white_button" %> -->
 </div>
-<% if flash.now[:notice]%>
-  <p id="notice"><%= flash.now[:notice] %></p>
-<% else %>
-  <div class="echo">
+
+<div id="massage_show">
+  <% if flash.now[:notice]%>
+    <p id="notice"><%= flash.now[:notice] %></p>
+  <% else %>
+    <div class="echo">
       <b>現在の受付状態に変更がありましたら、セレクトバーから変更してください。</b>
-  </div>
-<% end %>
-<table class="massage_show">
-    <caption>依頼の状況</caption>
+    </div>
+  <% end %>
+  <table  class="form_list">
+    <caption>現在の依頼の状況</caption>
    　<tbody>
       <th scope="row">現在の受付状態</th>
-        <td><%= render :partial => 'change_status' %></td>
+        <td><%= render :partial => '/sender/massages/shared/change_status' %></td>
       </tr>
       <tr>
         <th scope="row">検索の状況</th>
@@ -33,8 +35,8 @@
       </tr>
       <% end %>
     </tbody>
-</table>
-<table class="massage_show">
+  </table>
+  <table class="form_list">
     <caption>依頼内容の詳細</caption>
    　<tbody>
       <tr>
@@ -51,10 +53,15 @@
         <td>
           <span><%= @massage.address.postal_code %> </span>
           <span class="addressStr"><%= @massage.address.prefecture %><%= @massage.address.address1 %><%= @massage.address.address2 %></span>
+          <input type="hidden" id="address_latitude" value="<%= @massage.latitude %>">
+          <input type="hidden" id="address_longitude" value="<%= @massage.longitude  %>">
+          <br />地図を表示<input type="checkbox" id="show_map" value=0></input>
+          <div id="map" style="width: 300px; height: 300px"></div>
+          </div>
         </td>
       </tr>
   		<tr>
-        <th scope="row">依頼内容の詳細・備考</th>
+        <th scope="row">備考</th>
         <td>
           <% if @massage.description %>
            　<%= @massage.description %>
@@ -64,8 +71,8 @@
         </td>
       </tr>
       <tr>
-        <th scope="row">有効期限</th>
-        <td><%= Time.parse(@massage.validated_datetime.to_s).strftime("%Y年%m月%d日 %H時%M分") %>　まで有効</td>
+        <th scope="row">受付期限期限</th>
+        <td><%= Time.parse(@massage.validated_datetime.to_s).strftime("%Y年%m月%d日 %H時%M分") %>　まで受付</td>
       </tr>
       <tr>
         <th scope="row">登録日</th>
@@ -78,7 +85,30 @@
       </tr>
       <% end %>
   	</tbody>
-</table>
+  </table>
+</div>
 
+<script type="text/javascript">
+  //Ajaxで位置情報をポストする際に同時に送信されるユーザID
+  var current_user_id = "<%= current_user.id %>";
 
+  //Goolge Map の作成
 
+  $("#map").hide();
+  $(function() {
+    $("#show_map").click(function() {
+      $("#map").slideToggle(this.checked);
+      var myLatlng = new google.maps.LatLng(<%= @massage.latitude %>,<%= @massage.longitude %>);
+      var myOptions = {
+        zoom: 13,
+        center: myLatlng,
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+      };
+      var map = new google.maps.Map(document.getElementById("map"), myOptions);
+      var marker = new google.maps.Marker({
+        position: myLatlng,
+        map: map,
+      });
+    })
+  });
+</script>

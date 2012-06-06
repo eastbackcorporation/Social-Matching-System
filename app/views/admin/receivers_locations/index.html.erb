@@ -2,19 +2,21 @@
 
   <%= render "admin/sidemenu" %>
 
-  <div class="right_content">
+  <div class="index_content">
+
     <%=raw jqgrid("位置情報一覧", "ReceiversLocations", "/admin/receivers_locations",
       [
         { :name => "id", :label => "id", :index => 'id', :width => "70", :hidden => true },
-        { :name => "user.login", :label => "ログイン名", :index => 'user_id', :width => 80 },
-        { :name => "latitude", :label => "緯度", :width => 50 },
-        { :name => "longitude", :label => "経度", :width => 50 },
-        { :name => "updated_at", :label => "更新日時", :width => 100 ,
+        { :name => "user.login", :label => "ログイン名", :index => 'user_id', :align => "center", :width => 50 },
+        { :name => "latitude", :label => "緯度", :align => "center", :width => 50 },
+        { :name => "longitude", :label => "経度", :align => "center", :width => 50 },
+        { :name => "updated_at", :label => "更新日時",:align => "center", :width => 70 ,
           :sorttype => 'date',
           :formatter => 'date',
+          :align => "center",
           :formatoptions => {
             :srcformat => "UniversalSortableDateTime",
-            :newformat => 'Y年 m月d日 G時i分'
+            :newformat => 'Y/m/d G:i'
           }},
           { :name => "id",
           :label => "地図",

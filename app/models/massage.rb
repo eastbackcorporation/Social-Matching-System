@@ -13,12 +13,12 @@ class Massage < ActiveRecord::Base
   has_many :matching_users, :dependent => :destroy
   has_many :users ,:through =>:matching_users
 
-  validates :category_id ,:user_id,:address_id,:latitude,:longitude,:presence =>true
+  validates :category_id ,:user_id,:address_id,:presence =>true#:latitude,:longitude,:presence =>true
 
   #現在時刻より前は拒否する
-  validates_each :active_datetime,:validated_datetime do |record, attr, value|
-    if value < DateTime.now
-      record.errors.add attr, "を現在時刻より後に設定してください"
-    end
-  end
+  #validates_each :active_datetime,:validated_datetime do |record, attr, value|
+  #  if value < DateTime.now
+  #    record.errors.add attr, "を現在時刻より後に設定してください"
+  #  end
+  #end
 end

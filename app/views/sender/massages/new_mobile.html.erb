@@ -9,6 +9,10 @@
 
 	<div data-role="fieldcontain">
   	<%= form_for([:sender,@massage]) do |f| %>
+  	 <!-- 実施日時 -->
+     <%= render "datetime_mobile", {:legend => "実施日時", :id => "massage_active_datetime", :name => "massage[active_datetime(%index%)]" } %>
+     <div class="divider"></div>
+
     	<!-- ここにカテゴリ　-->
     	<% categories=[] %>
     	<% Category.all.each{ |e| categories<<[e.name,e.id]}%>
@@ -28,25 +32,20 @@
 
 		<a href="<%= new_sender_address_url %>" data-role="button" data-transition="slide" data-theme="e" data-inline="true" data-icon="plus">新規の住所を登録する</a>
 
-
-
     <!-- 有効期限日時 -->
     <%= render "datetime_mobile", {:legend => "有効期限日時", :id => "massage_validated_datetime", :name => "massage[validated_datetime(%index%)]" } %>
-
-
 		<div class="divider"></div>
 
 
-		<!-- 実施日時 -->
-		<%= render "datetime_mobile", {:legend => "実施日時", :id => "massage_active_datetime", :name => "massage[active_datetime(%index%)]" } %>
+    <!-- 実施日時 -->
+    <%= f.label :description ,"詳細・備考:"%>
+    <%= f.text_area :description %>
+    <div class="divider"></div>
 
 
-		<div class="divider"></div>
 
     <%= f.text_field :latitude, :type => "hidden" %>
     <%= f.text_field :longitude, :type => "hidden" %>
-
-
 		<div class="divider"></div>
 
 		<input name="commit" type="submit" value="作成する" data-theme="b">

@@ -13,7 +13,21 @@ class Sender::MassagesController < MassagesController
   # ユーザの発信した依頼情報一覧
   #実施前の依頼のみ表示
   def index
-    @massages=Massage.where(:user_id=>current_user.id,:end_flg=>false)
+    @massages=Massage.where(:user_id=>current_user.id,:end_flg=>false).paginate(:page => params[:page],:per_page=>10)
+
+    if mobile? then
+      render :action => "index_mobile", :layout => 'mobile'
+    else
+      respond_with() do |format|
+        format.json {render json:@massage , location:@massage}
+      end
+    end
+  end
+
+  # ユーザの発信した依頼情報一覧
+  #実施前の依頼も表示
+  def all_index
+    @massages=Massage.where(:user_id=>current_user.id).paginate(:page => params[:page],:per_page=>10)
 
     ids = ""
 
@@ -26,20 +40,11 @@ class Sender::MassagesController < MassagesController
     if mobile? then
       render :action => "index_mobile", :layout => 'mobile'
     else
-      #jqGridでフィルターにかけるパラメータとして、id=># {ids}を設定する
-      if ids != ""
-        ids[-1,1] = ""
-        params[:id] = ids
-      else
-        return
-      end
       respond_with() do |format|
-        format.json {render :json => filter_on_params(Massage)}
+        format.json {render json:@massage,location:@massage}
       end
     end
   end
-
-
 
   #依頼情報詳細表示
   def show

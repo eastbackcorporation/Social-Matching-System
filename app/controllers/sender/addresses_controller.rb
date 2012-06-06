@@ -18,6 +18,11 @@ class Sender::AddressesController < ApplicationController
    end
   end
 
+  #住所の編集画面
+  def edit
+    @address = Address.find(params[:id])
+  end
+
   #'確認'ページ表示
   def confirm
     @address = Address.new(params[:address])
@@ -41,6 +46,32 @@ class Sender::AddressesController < ApplicationController
         format.html { render action: "new" }
         format.json { render json: @address.errors, status: :unprocessable_entity }
       end
+    end
+  end
+
+  #住所情報変更
+  def update
+    @address = Address.find(params[:id])
+
+    respond_to do |format|
+      if @address.update_attributes(params[:address])
+        format.html { redirect_to [:admin,@address], notice: '住所を更新しました' }
+        format.json { head :no_content }
+      else
+        format.html { render action: "edit" }
+        format.json { render json: @address.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  #住所情報削除
+  def destroy
+    @address = Address.find(params[:id])
+    @address.destroy
+
+    respond_to do |format|
+      format.html { redirect_to sender_addresses_url }
+      format.json { head :no_content }
     end
   end
 end

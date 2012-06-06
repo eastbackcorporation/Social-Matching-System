@@ -1,0 +1,157 @@
+<%= form_for([:confirm,:sender,@massage]) do |f| %>
+  <% if @massage.errors.any? %>
+    <div id="error_explanation">
+      <h2>入力項目に<%= pluralize(@massage.errors.count, "") %> 箇所の誤りがあります</h2>
+      <ul>
+        <% @massage.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <p id="notice"><%= flash.now[:notice] %></p>
+
+  <div class="field">
+    <table class="form_list">
+      <tr>
+        <th rowspan="2">
+          <%= f.label :active_datetime ,"実施日時"%>
+        </th>
+        <td class="setsumei">依頼の内容を開始する日時を指定してください。</td>
+      </tr>
+      <tr>
+        <td>
+          <%= f.datetime_select :active_datetime ,
+          :order => [ :year, :month, :day ],
+          :start_year => Time.current.year ,
+          :end_year => Time.current.year+1 ,
+          :use_month_names => %w(1月 2月 3月 4月 5月 6月 7月 8月 9月 10月 11月 12月) ,
+          :use_month_numbers => true,
+          :date_separator => "/",
+          :minute_step => 15 %>
+        </td>
+      </tr>
+      <tr>
+        <% categories=[] %>
+        <% Category.all.each{ |e| categories<<[e.name,e.id]}%>
+        <th rowspan="2"><%= f.label :category_id ,"依頼の種類"%></th>
+        <td class="setsumei">依頼の内容の種類を選択してください。</td>
+      </tr>
+      <tr><td><%= f.select :category_id , categories , :include_blank => true %></td></tr>
+      <tr>
+        <th rowspan="2">
+          <%= f.label :address_id ,"実施住所"%>
+        </th>
+        <td class="setsumei">
+          依頼を実施する場所の住所を選択してください。
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <% addresses=[] %>
+          <% Address.where(:user_id=>current_user.id).each {|a| addresses << [a.name,a.id]} %>
+          <% if addresses %>
+            <%= f.select :address_id , addresses , :include_blank => true %>
+          <% else %>
+            住所が登録されていません
+          <% end %>
+          <div id="address_show"></div> <br />
+          <%= link_to '新規の住所を登録する', new_sender_address_path %>
+        </td>
+        <% Address.where(:user_id=>current_user.id).each do |a| %>
+          <% address = a.postal_code + a.prefecture + a.address1 + a.address2 %>
+          <input type="hidden" id="hidden_address_<%= a.id %>" value="<%= address %>">
+        <% end %>
+      </tr>
+      <tr>
+        <th rowspan="2>
+          <%= f.label :validated_datetime ,"受付期限日時"%>
+        </th>
+        <td class="setsumei">この依頼を受け付ける有効期限です。受付期限は実施日以前にしてください。</td>
+      <tr>
+        <td>
+          <%= f.datetime_select :validated_datetime , :use_month_numbers => true,
+            :order => [ :year, :month, :day ],
+            :start_year => Time.current.year,
+            :end_year => Time.current.year+1,
+            :date_separator => "/",
+            :minute_step => 15 %>
+        </td>
+      </tr>
+      <tr>
+        <th><%= f.label :description ,"備考欄"%></th>
+        <td>
+          依頼内容の詳しい説明や伝言などがある場合は<br />
+          <strong>下のチェックボックスをクリックして</strong>,フォームに記入ください。<br />
+          <input type="checkbox" id="show_description" value=0>
+          </input>
+          <div id="description">
+            <%= f.text_area :description  , :size => "10x20" %>
+          </div>
+        </td>
+      </tr>
+     </table>
+    </div><!-- end class="form"-->
+
+    <%= f.text_field :latitude, :type => "hidden" ,:val => '0' %>
+    <%= f.text_field :longitude, :type => "hidden",:val => '0' %>
+
+    <div class="buttonGroup">
+      <div class="actions">
+
+        <input type="button" value="キャンセル" onClick="location.href='/sender/massages'">
+        <%= f.submit "確認" %>
+      </div>
+    </div>
+  </ul> <!-- end form list -->
+<% end %>
+
+
+<script type="text/javascript">
+  // フォーム #fm に対して検証ルールを登録
+  $('#new_massage').validate({
+    errorClass: 'invalid',    // エラー メッセージを表示する際に使用するスタイル
+    // それぞれの項目に適用される検証ルール
+    rules: {
+      'massage' :{
+        "checkDate": ["#massage_active_datetime","#massage_validated_datetime"]
+      }
+    }
+  });
+  jQuery.validator.addMethod("checkDate",
+    function(value, element, params) {
+      if ($(params[0]).val() >= $(params[1]).val()) {
+        return true;
+      } else {
+        return this.optional(element);
+      }
+    },
+    "時刻の指定が間違っています。"
+  );
+  $("#massage_address_id").ready(function() {
+    var address_id = $("#massage_address_id option:selected").val();
+    var address =$("#hidden_address_"+address_id).val();
+    if(address_id==0){
+      $("#address_show").text("");
+    }else{
+      $("#address_show").text(address);
+    }
+  });
+  $("#massage_address_id").bind('change', function() {
+    var address_id = $("#massage_address_id option:selected").val();
+    var address =$("#hidden_address_"+address_id).val();
+    if(address_id==0){
+      $("#address_show").text("");
+    }else{
+      $("#address_show").text(address);
+    }
+  });
+
+  $("#description").hide();
+  $(function() {
+    $("#show_description").click(function() {
+      $("#description").slideToggle(this.checked);
+    })
+  });
+</script>

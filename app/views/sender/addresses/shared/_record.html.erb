@@ -1,0 +1,45 @@
+<%= form_for([:confirm,:sender,@address]) do |f| %>
+  <% if @address.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@address.errors.count, "error") %> prohibited this address from being saved:</h2>
+      <ul>
+        <% @address.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% else %>
+
+  <% end %>
+
+  <div class="field">
+    <table class="form_list">
+      <tr>
+        <th><%= f.label :name ,"登録名"%></th>
+        <td><%= @address.name %></td>
+      </tr>
+      <tr>
+        <th><%= f.label :postal_code,"郵便番号" %></th>
+        <td><%= @address.postal_code %></td>
+      </tr>
+      <tr>
+        <th><%= f.label :prefecture ,"都道府県"%></th>
+        <td><%= @address.prefecture %></td>
+      </tr>
+      <tr>
+        <th><%= f.label :address1 ,"市区町村番地" %></th>
+        <td><%= @address.address1 %></td>
+      </tr>
+      <tr>
+        <th><%= f.label :address2 ,"建物名・部屋番号" %></th>
+        <td>
+          <% if @address.address2 == "" %>
+            なし
+          <% else %>
+            <%= @address.address2 %>
+          <% end %>
+        </td>
+      </tr>
+    </table> <!-- end id="form_list" -->
+  </div> <!-- end class="form" -->
+<% end %>

@@ -1,58 +1,22 @@
 <div class="block">
-	<div class="content">
-
-		<%=raw jqgrid("依頼情報一覧", "ReceiverMessage", "/receiver/massages",
-			[
-				{ :name => "id", :label => "id", :index => 'id',:align => 'center', :width => "55", :hidden => true },
-				{ :name => "category.name", :label => "カテゴリ", :index => 'category_id',:align => 'center', :width => "55" },
-				{ :name => "request_status.name", :label => "依頼ステータス", :index => 'request_status_id',:align => 'center', :width => "55" },
-        { :name => "matching_count", :label => "該当者数", :index => 'matching_count',:align => 'center', :width => "55" },
-				{ :name => "validated_datetime",
-					:label => "有効期限",
-					:index => 'validated_datetime',
-					:align => 'center',
-					:sorttype => 'date',
-					:formatter => 'date',
-					:formatoptions => {
-						:srcformat => "UniversalSortableDateTime",
-						:newformat => 'Y年 m月d日 g時i分'
-					}
-				},
-				{ :name => "active_datetime",
-          :label => "実施日",
-          :index => 'active_datetime',
-          :align => 'center',
-          :sorttype => 'date',
-          :formatter => 'date',
-          :formatoptions => {
-            :srcformat => "UniversalSortableDateTime",
-            :newformat => 'Y年 m月d日 g時i分'
-          }
-        },
-				{ :name => "id",
-					:label => "操作",
-					:search => false,
-					:sortable => false,
-					:align => 'center',
-					:width => "55",
-					:customFormatter => 'makeLink'
-				}
-			],
-			{
-				:autowidth => true,
-				:edit => false,
-				:add => false,
-				:view => false,
-				:delete => false,
-				:rowNum	=> 30,
-				:rowList => [10,20,30,50],
-				:height => 300,
-			}
-		) %>
-
+	<div class="index_content">
+    <table id="index_massages">
+      <thead>
+        <tr><th>依頼の種類</th><th>受付状況</th><th>検索状況</th><th>受付期限日時</th><th>実施日</th><th>リンク</th></tr>
+      </thead>
+      <% @massages.each do |m| %>
+        <tr>
+          <td><%= m.category.name %></td>
+          <td><%= m.request_status.name %></td>
+          <td><%= m.matching_status.name %></td>
+          <td><%= Time.parse(m.validated_datetime.to_s).strftime("%m月%d日 %H時%M分") %></td>
+          <td><%= Time.parse(m.active_datetime.to_s).strftime("%m月%d日 %H時%M分") %></td>
+          <td><%= link_to("詳細",receiver_massage_path(m.id)) %></td>
+        </tr>
+      <% end %>
+    </table>
 	</div>
 </div>
-
 <script type="text/javascript">
 	//Ajaxで位置情報をポストする際に同時に送信されるユーザID
 	var current_user_id = "<%= current_user.id %>";

@@ -1,3 +1,10 @@
-<h2>新規の依頼登録</h2>
+<h2>新規の依頼登録シート</h2>
 
-<%= render :partial => 'form' %>
+<div id="massage_form">
+  <div class="echo">
+    <b>依頼の内容を記入してください。
+    記入し終わったら、下の<u>確認ボタン</u>を押してください。</b>
+  </div>
+
+  <%= render :partial => '/sender/massages/shared/form' %>
+</div>

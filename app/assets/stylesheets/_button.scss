@@ -1,0 +1,46 @@
+//Mixins
+@mixin yellow_button {
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0.00, #e5e696), color-stop(1.00, #d1d35f));
+  background: -webkit-linear-gradient(top, #e5e696 0%, #d1d35f 100%);
+  background: -moz-linear-gradient(top, #e5e696 0%, #d1d35f 100%);
+  background: -o-linear-gradient(top, #e5e696 0%, #d1d35f 100%);
+  background: -ms-linear-gradient(top, #e5e696 0%, #d1d35f 100%);
+  background: linear-gradient(to bottom, #e5e696 0%, #d1d35f 100%);
+}
+
+@mixin blue_button {
+  font-weight: bold;
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0.00, #70b6f2), color-stop(0.50, #54a3ee), color-stop(0.51, #3690f0), color-stop(1.00, #1a62db));
+  background: -webkit-linear-gradient(top, #70b6f2 0%, #54a3ee 50%, #3690f0 51%, #1a62db 100%);
+  background: -moz-linear-gradient(top, #70b6f2 0%, #54a3ee 50%, #3690f0 51%, #1a62db 100%);
+  background: -o-linear-gradient(top, #70b6f2 0%, #54a3ee 50%, #3690f0 51%, #1a62db 100%);
+  background: -ms-linear-gradient(top, #70b6f2 0%, #54a3ee 50%, #3690f0 51%, #1a62db 100%);
+  background: linear-gradient(to bottom, #70b6f2 0%, #54a3ee 50%, #3690f0 51%, #1a62db 100%);
+}
+
+@mixin green_button {
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0.00, #cade97), color-stop(0.49, #9bbb50), color-stop(1.00, #388235));
+  background: -webkit-linear-gradient(top, #cade97 0%, #9bbb50 49%, #388235 100%);
+  background: -moz-linear-gradient(top, #cade97 0%, #9bbb50 49%, #388235 100%);
+  background: -o-linear-gradient(top, #cade97 0%, #9bbb50 49%, #388235 100%);
+  background: -ms-linear-gradient(top, #cade97 0%, #9bbb50 49%, #388235 100%);
+  background: linear-gradient(to bottom, #cade97 0%, #9bbb50 49%, #388235 100%);
+}
+
+@mixin white_button {
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(1.00, #dddddd), color-stop(0.00, #fffafa));
+  background: -webkit-linear-gradient(top, #fffafa 0%, #dddddd 100%);
+  background: -moz-linear-gradient(top, #fffafa 0%, #dddddd 100%);
+  background: -o-linear-gradient(top, #fffafa 0%, #dddddd 100%);
+  background: -ms-linear-gradient(top, #fffafa 0%, #dddddd 100%);
+  background: linear-gradient(to bottom, #fffafa 0%, #dddddd 100%);
+}
+
+@mixin gray_button {
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(1.00, #777775), color-stop(0.00, #999999));
+  background: -webkit-linear-gradient(top, #777775 0%, #999999 100%);
+  background: -moz-linear-gradient(top, #777775 0%, #999999 100%);
+  background: -o-linear-gradient(top, #777775 0%, #999999 100%);
+  background: -ms-linear-gradient(top, #777775 0%, #999999 100%);
+  background: linear-gradient(to bottom, #777775 0%, #999999 100%);
+}

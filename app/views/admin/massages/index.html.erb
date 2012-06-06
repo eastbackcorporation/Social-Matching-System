@@ -2,7 +2,7 @@
 
 	<%= render "admin/sidemenu" %>
 
-	<div class="right_content">
+	<div class="index_content">
     <%=raw jqgrid("依頼情報一覧", "Message", "/admin/massages",
       [
         { :name => "id", :label => "id", :index => 'id',:align => 'center', :width => "35", :hidden => true },
@@ -15,27 +15,28 @@
         { :name => "category.name", :label => "カテゴリ", :index => 'category_id',:align => 'center', :width => "45" },
         { :name => "request_status.name", :label => "依頼ステータス", :index => 'request_status_id',:align => 'center', :width => "50" },
         { :name => "matching_status.name", :label => "検索ステータス", :index => 'matching_status_id',:align => 'center', :width => "50" },
-        { :name => "matching_count", :label => "該当者数",:align => 'center', :width => "25" },
         { :name => "validated_datetime",
           :label => "有効期限",
           :index => 'validated_datetime',
           :align => 'center',
+           :width => "100",
           :sorttype => 'date',
           :formatter => 'date',
           :formatoptions => {
             :srcformat => "UniversalSortableDateTime",
-            :newformat => 'Y年 m月d日 G時i分'
+            :newformat => 'Y/m/d G:i'
           }
         },
         { :name => "active_datetime",
           :label => "実施日",
           :index => 'active_datetime',
           :align => 'center',
+           :width => "100",
           :sorttype => 'date',
           :formatter => 'date',
           :formatoptions => {
             :srcformat => "UniversalSortableDateTime",
-            :newformat => 'Y年 m月d日 G時i分'
+            :newformat => 'Y/m/d G;i'
           }
         },
         { :name => "id",

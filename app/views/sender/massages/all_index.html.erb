@@ -1,17 +1,18 @@
 <div class="block">
   <div class="menu">
-    <%= render "sender/menu" %>
+    <%= render 'sender/menu' %>
   </div>
   <h2>あなたの依頼一覧</h2>
   <div class="index_content">
     <div id="index_head">
-      <input type="checkbox" id="update_check">過去の依頼も表示
+      <input type="checkbox" id="update_check" checked>過去の依頼も表示
       <input type="button" value="更新" id="update_button">
     </div>
     <table id="index_massages">
       <thead>
         <tr><th>依頼の種類</th><th>受付状況</th><th>検索状況</th><th>受付期限日時</th><th>実施日</th><th>リンク</th></tr>
       </thead>
+      <tbody>
       <% @massages.each do |m| %>
         <tr>
           <td><%= m.category.name %></td>
@@ -22,6 +23,7 @@
           <td><%= link_to("詳細",sender_massage_path(m.id)) %></td>
         </tr>
       <% end %>
+      </tbody>
     </table>
     <%= will_paginate(@massages,:previous_label => "前", :next_label => "次") %>
   </div>
@@ -42,3 +44,4 @@
     }
   });
 </script>
+

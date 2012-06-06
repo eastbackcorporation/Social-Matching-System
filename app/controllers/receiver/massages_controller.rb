@@ -17,24 +17,13 @@ class Receiver::MassagesController < MassagesController
 
     matching_users.each do |mu|
       unless mu.massage.end_flg
-        #mobile画面用
         @massages << mu.massage
-        #PC画面(jqGrid)用
-        ids << "^" << mu.massage_id.to_s << "$"
-        ids << "|"
       end
     end
 
     if mobile? then
       render :action => "index_mobile", :layout => 'mobile'
     else
-      #jqGridでフィルターにかけるパラメータとして、id=>#{ids}を設定する
-      if ids != ""
-        ids[-1,1] = ""
-        params[:id] = ids
-      else
-        return
-      end
       respond_with() do |format|
         format.json {render :json => filter_on_params(Massage)}
       end
