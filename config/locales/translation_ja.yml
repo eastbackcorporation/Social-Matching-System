@@ -4,7 +4,7 @@ ja:
       address: 住所  #g
       category: カテゴリ
       global_setting: 全体設定  #g
-      massage: マッサージ  #g
+      massage: 依頼  #g
       matching_status: 検索の状況  #g
       matching_user: 一致のユーザー  #g
       receivers_location: 受信者の位置  #g
@@ -44,7 +44,9 @@ ja:
         active_datetime: 実施日時  #g
         active_flg: 活動的なflg  #g
         address: 住所
-        category: :activerecord.models.category  #g
+        address_id: 住所
+        category: 依頼の種類  #g
+        category_id: 依頼の種類
         description: 記述  #g
         end_flg: 端のflg  #g
         latitude: 緯度  #g

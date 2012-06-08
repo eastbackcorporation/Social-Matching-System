@@ -1,5 +1,35 @@
 <div class="menu">
-  <%= link_to "新規依頼登録",new_sender_massage_url,:class => "white_button" %>
-  <%= link_to "新規住所登録",new_sender_address_url,:class => "blue_button" %>
-  <%= link_to "住所一覧",sender_addresses_url,:class => "green_button" %>
+  <ul>
+    <% active_bar1 = "green_button"%>
+    <% active_bar2 = "blue_button"%>
+    <% non_active_bar = "gray_button" %>
+    <li>
+      <%if request.path_info == '/sender/massages' || request.path_info == '/sender/massages/all_index' %>
+        <a class="<%= active_bar1 %>" href="<%= sender_massages_url %>">依頼一覧</a>
+      <% else %>
+        <a class="<%= non_active_bar %>" href="<%= sender_massages_url %>">依頼一覧</a>
+      <% end %>
+    </li>
+    <li>
+      <%if request.path_info == '/sender/massages/new'  || request.path_info == '/sender/massages/confirm' %>
+        <a class="<%= active_bar1 %>" href="<%= new_sender_massage_url %>">新規依頼登録</a>
+      <% else %>
+        <a class="<%= non_active_bar %>" href="<%= new_sender_massage_url %>">新規依頼登録</a>
+      <% end %>
+    </li>
+    <li>
+      <%if request.path_info == '/sender/addresses' %>
+        <a class="<%= active_bar2 %>" href="<%= sender_addresses_url %>">住所一覧</a>
+      <% else %>
+        <a class="<%= non_active_bar %>" href="<%= sender_addresses_url %>">住所一覧</a>
+      <% end %>
+    </li>
+    <li>
+      <%if request.path_info == '/sender/addresses/new' || request.path_info == '/sender/massage/confirm' %>
+        <a class="<%= active_bar2 %>" href="<%= new_sender_address_url %>">新規住所登録</a>
+      <% else %>
+        <a class="<%= non_active_bar %>" href="<%= new_sender_address_url %>">新規住所登録</a>
+      <% end %>
+    </li>
+  </ul>
 </div>

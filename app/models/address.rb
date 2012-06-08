@@ -5,7 +5,7 @@ class Address < ActiveRecord::Base
   attr_accessible :user_id, :prefecture,:address1,:address2,:postal_code,:main,:name
   #acts_as_authentic
   belongs_to :user
-  has_one :massage
+  has_many :massages
 
 
   validates_format_of :postal_code ,:with=> /^[0-9]{3}-[0-9]{4}$/,:massage => "郵便番号が正しくありません"

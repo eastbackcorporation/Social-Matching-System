@@ -56,7 +56,7 @@
           <% else %>
             住所が登録されていません
           <% end %>
-          <div id="address_show"></div> <br />
+          <div id="address_show"></div>
           <%= link_to '新規の住所を登録する', new_sender_address_path %>
         </td>
         <% Address.where(:user_id=>current_user.id).each do |a| %>
@@ -87,7 +87,7 @@
           <input type="checkbox" id="show_description" value=0>
           </input>
           <div id="description">
-            <%= f.text_area :description  , :size => "10x20" %>
+            <%= f.text_area :description ,:type => "hidden", :size => "10x20" %>
           </div>
         </td>
       </tr>
@@ -119,7 +119,7 @@
       }
     }
   });
-  jQuery.validator.addMethod("checkDate",
+  $.validator.addMethod("checkDate",
     function(value, element, params) {
       if ($(params[0]).val() >= $(params[1]).val()) {
         return true;
@@ -129,29 +129,5 @@
     },
     "時刻の指定が間違っています。"
   );
-  $("#massage_address_id").ready(function() {
-    var address_id = $("#massage_address_id option:selected").val();
-    var address =$("#hidden_address_"+address_id).val();
-    if(address_id==0){
-      $("#address_show").text("");
-    }else{
-      $("#address_show").text(address);
-    }
-  });
-  $("#massage_address_id").bind('change', function() {
-    var address_id = $("#massage_address_id option:selected").val();
-    var address =$("#hidden_address_"+address_id).val();
-    if(address_id==0){
-      $("#address_show").text("");
-    }else{
-      $("#address_show").text(address);
-    }
-  });
 
-  $("#description").hide();
-  $(function() {
-    $("#show_description").click(function() {
-      $("#description").slideToggle(this.checked);
-    })
-  });
 </script>

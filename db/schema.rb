@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120522061005) do
+ActiveRecord::Schema.define(:version => 20120529050739) do
 
   create_table "addresses", :force => true do |t|
     t.integer  "user_id",     :null => false
@@ -50,8 +50,8 @@ ActiveRecord::Schema.define(:version => 20120522061005) do
     t.integer  "user_id"
     t.datetime "validated_datetime"
     t.datetime "active_datetime"
-    t.string   "latitude"
-    t.string   "longitude"
+    t.string   "latitude",                              :null => false
+    t.string   "longitude",                             :null => false
     t.datetime "created_at",                            :null => false
     t.datetime "updated_at",                            :null => false
     t.integer  "address_id"
@@ -61,6 +61,7 @@ ActiveRecord::Schema.define(:version => 20120522061005) do
     t.integer  "matching_status_id",                    :null => false
     t.integer  "request_status_id",                     :null => false
     t.boolean  "end_flg",            :default => false
+    t.text     "description"
   end
 
   create_table "matching_statuses", :force => true do |t|

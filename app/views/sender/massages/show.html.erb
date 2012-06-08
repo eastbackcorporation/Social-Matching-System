@@ -1,10 +1,14 @@
-<div class='menu'>
-  <!-- <%= link_to "一覧に戻る", sender_massages_path ,:class => "white_button" %> -->
+<div class="menu">
+    <%= render "sender/menu" %>
 </div>
 
-<div id="massage_show">
+<h2>依頼の詳細</h2>
+
+<div id="massage_form">
   <% if flash.now[:notice]%>
-    <p id="notice"><%= flash.now[:notice] %></p>
+    <div class="echo">
+      <b><%= flash.now[:notice] %></b>
+    </div>
   <% else %>
     <div class="echo">
       <b>現在の受付状態に変更がありましたら、セレクトバーから変更してください。</b>
@@ -13,7 +17,8 @@
   <table  class="form_list">
     <caption>現在の依頼の状況</caption>
    　<tbody>
-      <th scope="row">現在の受付状態</th>
+      <tr>
+        <th scope="row">現在の受付状態</th>
         <td><%= render :partial => '/sender/massages/shared/change_status' %></td>
       </tr>
       <tr>
@@ -49,8 +54,12 @@
   		</tr>
 
       <tr>
-        <th scope="row">実施住所</th>
+        <th rowspan="2">実施住所</th>
+        <td><strong>名前</strong> <%= @massage.address.name %></td>
+      </tr>
+      <tr>
         <td>
+          <strong>住所 </strong>
           <span><%= @massage.address.postal_code %> </span>
           <span class="addressStr"><%= @massage.address.prefecture %><%= @massage.address.address1 %><%= @massage.address.address2 %></span>
           <input type="hidden" id="address_latitude" value="<%= @massage.latitude %>">
@@ -86,29 +95,9 @@
       <% end %>
   	</tbody>
   </table>
+
+  <!-- javascript用-->
+  <input type="hidden" id="userid" value="<%= current_user.id %>">
+  <input type="hidden" id="latitude" value="<%= @massage.latitude %>">
+  <input type="hidden" id="longitude" value="<%= @massage.longitude %>">
 </div>
-
-<script type="text/javascript">
-  //Ajaxで位置情報をポストする際に同時に送信されるユーザID
-  var current_user_id = "<%= current_user.id %>";
-
-  //Goolge Map の作成
-
-  $("#map").hide();
-  $(function() {
-    $("#show_map").click(function() {
-      $("#map").slideToggle(this.checked);
-      var myLatlng = new google.maps.LatLng(<%= @massage.latitude %>,<%= @massage.longitude %>);
-      var myOptions = {
-        zoom: 13,
-        center: myLatlng,
-        mapTypeId: google.maps.MapTypeId.ROADMAP
-      };
-      var map = new google.maps.Map(document.getElementById("map"), myOptions);
-      var marker = new google.maps.Marker({
-        position: myLatlng,
-        map: map,
-      });
-    })
-  });
-</script>

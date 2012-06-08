@@ -20,13 +20,19 @@
   <body>
     <div id="main_container">
       <div class="header">
-        <div class="logo">
-          <a href="#">Social Matching System - だんだんマッチング -</a>
-        </div> <!-- end class="logo" -->
+        <div class="top_header">
+          <div class="left_header">
+            <%= render "shared/left_header" %>
+          </div> <!-- end class="left_header" -->
 
-        <div class="right_header">
-          <%= render "shared/header" %>
-        </div> <!-- end class="right_header" -->
+          <div class="right_header">
+            <%= render "shared/right_header" %>
+          </div> <!-- end class="right_header" -->
+        </div>
+
+        <div class="logo">
+          <a href="#">- <%= GlobalSetting[:name] %> -</a>
+        </div> <!-- end class="logo" -->
       </div> <!-- end class="header" -->
 
       <div class="main_content">
@@ -40,7 +46,7 @@
         </div> <!-- end class="footer" -->
 
         <div class="right_footer">
-          <a href="http://eastback.co.jp">logo</a>
+          <a href="http://eastback.co.jp"></a>
         </div>
       </div>
     </div>

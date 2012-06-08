@@ -40,7 +40,7 @@ class Sender::AddressesController < ApplicationController
 
      respond_to do |format|
       if @address.save
-        format.html { redirect_to new_sender_massage_url, notice: '新規住所を登録しました' }
+        format.html { redirect_to sender_addresses_url, notice: '新規住所を登録しました' }
         format.json { render json: @address, status: :created, location: @address }
       else
         format.html { render action: "new" }
@@ -55,7 +55,7 @@ class Sender::AddressesController < ApplicationController
 
     respond_to do |format|
       if @address.update_attributes(params[:address])
-        format.html { redirect_to [:admin,@address], notice: '住所を更新しました' }
+        format.html { redirect_to sender_addresses_path, notice: '住所を更新しました' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
@@ -67,7 +67,9 @@ class Sender::AddressesController < ApplicationController
   #住所情報削除
   def destroy
     @address = Address.find(params[:id])
-    @address.destroy
+    if @address.massages.size==0
+      @address.destroy
+    end
 
     respond_to do |format|
       format.html { redirect_to sender_addresses_url }

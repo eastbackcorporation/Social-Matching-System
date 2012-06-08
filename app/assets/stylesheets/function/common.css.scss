@@ -78,51 +78,85 @@ h5{
   margin:0 auto;
   padding:5px auto;
   width:$total_width;
-  background-color:white;
+  background-color:rgba(198, 233, 247, 0.10);
+  //background: -webkit-gradient(linear, left top, left bottom, color-stop(0.00,rgba(198, 233, 247, 0.31)),  color-stop(1.00, rgba(198, 233, 247, 0.31)));
   padding:0px 0 0px 0;
 }
 
 .header {
   width:$total_width;
-  height:100px;
-  background-color:#ffffff;
+  height:90px;
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0.00,rgba(198, 233, 247, 0.50)),  color-stop(1.00,rgba(198, 233, 247, 0.50)));
 }
+
 
 .header_login {
   width:600px;
   margin:auto;
 }
 
-.logo {
-  float:left;
-  padding:35px 0 0 0;
 
+.top_header{
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(1.00, rgba(198, 233, 247, 0.50)), color-stop(0.00, rgba(198, 233, 247, 0.80)));
+  width:$total_width;
+  height:30px;
+}
+
+.left_header {
+  //width:400px;
+  float:left;
+  text-align:left;
+  padding:5px 5px 0;
+  font-size:15px;
   a {
-    text-decoration: none;
-    font-size: 1.2em;
+    margin:0 0 0 0;
+    text-decoration:none;
+    padding-left:10px;
   }
+  a:link { color: #0000ff ; }
+  a:visited { color: #0000ff ; }
 }
 
 .right_header {
   //width:400px;
   float:right;
   text-align:right;
-  padding:40px 0 0 0;
+  padding:5px 0 0 0;
   font-size:15px;
   a {
     margin:0 5px 0 5px;
     text-decoration:none;
 
     &.logout {
-      background:url(asset-path('common/user_logout.png', image)) no-repeat right;
+      //background:url(asset-path('common/logput.png', image)) no-repeat right;
       padding-right:18px;
     }
   }
+  a:link { color: #0000ff ; }
+  a:visited { color: #0000ff ; }
 }
+
+.logo {
+  clear:both;
+  float:left;
+  padding:15px 0 0 5px;
+
+  a {
+    text-decoration: none;
+    font-size: 20px;
+    font-weight: bold;
+  }
+  a:link { color: #0000ff ; }
+  a:visited { color: #0000ff ; }
+}
+
+
 
 .footer {
   width:810px;
   height:87px;
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0.00,rgba(198, 233, 247, 0.10)),  color-stop(1.00,rgba(198, 233, 247, 0.31)));
+
 }
 
 .footer_login {

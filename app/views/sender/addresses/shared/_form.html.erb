@@ -17,7 +17,7 @@
         <td class="setsumei">登録する住所の呼び名を決めてください。</td>
       </tr>
       <tr>
-        <td>
+        <td  class="form">
           <%= f.text_field :name %><br />
           (例.実家、親戚の家、○○公園etc)
         </td>
@@ -26,7 +26,7 @@
         <td class="setsumei">郵便番号を半角数字で記入してください。</td>
       </tr>
       <tr>
-        <td>
+        <td class="form">
           <%= f.text_field :postal_code, :alt => "postal_code" %>
           <button type="button" id="zip2addr">郵便番号から住所挿入</button><br />
           (例.690-0817)
@@ -43,14 +43,14 @@
         </tr>
         <tr>
           <th><%= f.label :address1 ,"市区町村-町名-番地" %></th>
-          <td>
+          <td class="form">
             <%= f.text_field :address1 %><br />
             (例.松江市北陵町1-2)
           </td>
         </tr>
         <tr>
-          <th><%= f.label :address2 ,"建物名・階数・部屋番号"%></th>
-          <td>
+          <th><%= f.label :address2 ,"建物名/部屋番号等"%></th>
+          <td class="form">
             <%= f.text_field :address2 %><br />
             (例.テクノアーク島根 3階)-空欄でも可
           </td>

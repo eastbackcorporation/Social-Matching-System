@@ -28,20 +28,4 @@
     <%= will_paginate(@massages,:previous_label => "前", :next_label => "次") %>
   </div>
 </div>
-<script>
-  $("#update_button").click(function(){
-    if($('#update_check').attr('checked')){
-      location.href="<%= all_index_sender_massages_url %>";
-    }else{
-      location.href="<%= sender_massages_url %>";
-    }
-  });
-  $("#update_check").change(function(){
-    if($(this).attr('checked')){
-      location.href="<%= all_index_sender_massages_url %>";
-    }else{
-      location.href="<%= sender_massages_url %>";
-    }
-  });
-</script>
 

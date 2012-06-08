@@ -17,12 +17,14 @@ SocialMatchingSystem::Application.routes.draw do
     #resources :users   現時点で使用してないコントローラ
     resources :addresses do
       post :confirm, :on => :collection
+      put :confirm, :on => :member
       post :new , :on => :member
     end
     resources :massages do
       put :change_status, :on => :member
       post :confirm, :on => :collection
       post :new , :on => :member
+      get :all_index , :on => :collection
     end
   end
 

@@ -19,21 +19,25 @@
       </thead>
       <% @addresses.each do |address| %>
         <tr>
-          <td><%= address.name %></td>
-          <td><%= address.postal_code %></td>
-          <td><%= address.prefecture %></td>
-          <td><%= address.address1 %></td>
-          <td>
+          <td id="address_name"><%= address.name %></td>
+          <td id="address_postal_code"><%= address.postal_code %></td>
+          <td id="address_prefecture"><%= address.prefecture %></td>
+          <td id="address_address1"><%= address.address1 %></td>
+          <td id="address_address2">
             <% if address.address2 != "" %>
               <%= address.address2 %>
             <% else %>
               なし
             <% end %>
           </td>
-          <td>
-	    <%= link_to "変更" ,[:sender,address],:method => :edit %> |
-            <%= link_to "削除" ,[:sender,address],:method => :delete ,:confrim => "削除してもよろしいですか？" %>
-	  </td>
+          <td id="address_links">
+	          <%= link_to "変更" ,[:edit,:sender,address] %> |
+	          <% if address.massages.size== 1 %>
+	           <%= link_to "削除" ,[:sender,address],:method => :delete ,:confirm => "削除してもよろしいですか？" %>
+	          <% else %>
+              削除不可
+            <% end %>
+	        </td>
         </tr>
       <% end %>
     </table>

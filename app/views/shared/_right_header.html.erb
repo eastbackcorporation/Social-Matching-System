@@ -1,0 +1,6 @@
+<% if current_user %>
+  <%= getFullUserName(current_user) %>さん
+  (<%= current_user.email %>) |
+  <%= link_to "ログアウト", :logout, :class=>"logout" %>
+
+<% end %>

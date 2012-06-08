@@ -8,32 +8,42 @@
   background: linear-gradient(to bottom, #e5e696 0%, #d1d35f 100%);
 }
 
+
 @mixin blue_button {
+  $color_tag1:#70b6f2;
+  $color_tag2:#54a3ee;
+  $color_tag3:#3690f0;
+  $color_tag4:#1a62db;
   font-weight: bold;
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0.00, #70b6f2), color-stop(0.50, #54a3ee), color-stop(0.51, #3690f0), color-stop(1.00, #1a62db));
-  background: -webkit-linear-gradient(top, #70b6f2 0%, #54a3ee 50%, #3690f0 51%, #1a62db 100%);
-  background: -moz-linear-gradient(top, #70b6f2 0%, #54a3ee 50%, #3690f0 51%, #1a62db 100%);
-  background: -o-linear-gradient(top, #70b6f2 0%, #54a3ee 50%, #3690f0 51%, #1a62db 100%);
-  background: -ms-linear-gradient(top, #70b6f2 0%, #54a3ee 50%, #3690f0 51%, #1a62db 100%);
-  background: linear-gradient(to bottom, #70b6f2 0%, #54a3ee 50%, #3690f0 51%, #1a62db 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0.00, $color_tag1), color-stop(0.50, $color_tag2), color-stop(0.51, $color_tag3), color-stop(1.00,$color_tag4));
+  background: -webkit-linear-gradient(top, $color_tag1 0%, $color_tag2 50%, $color_tag3 51%, $color_tag4 100%);
+  background: -moz-linear-gradient(top, $color_tag1 0%, $color_tag2 50%, $color_tag3 51%, $color_tag4 100%);
+  background: -o-linear-gradient(top, $color_tag1 0%, $color_tag2 50%, $color_tag3 51%, $color_tag4 100%);
+  background: -ms-linear-gradient(top,$color_tag1 0%, $color_tag2 50%, $color_tag3 51%, $color_tag4 100%);
+  background: linear-gradient(to bottom, $color_tag1 0%, $color_tag2 50%, $color_tag3 51%, $color_tag4 100%);
 }
 
 @mixin green_button {
+  $color_tag1:#cade97;
+  $color_tag2:#9bbb50;
+  $color_tag3:#388235;
   background: -webkit-gradient(linear, left top, left bottom, color-stop(0.00, #cade97), color-stop(0.49, #9bbb50), color-stop(1.00, #388235));
-  background: -webkit-linear-gradient(top, #cade97 0%, #9bbb50 49%, #388235 100%);
-  background: -moz-linear-gradient(top, #cade97 0%, #9bbb50 49%, #388235 100%);
-  background: -o-linear-gradient(top, #cade97 0%, #9bbb50 49%, #388235 100%);
-  background: -ms-linear-gradient(top, #cade97 0%, #9bbb50 49%, #388235 100%);
-  background: linear-gradient(to bottom, #cade97 0%, #9bbb50 49%, #388235 100%);
+  background: -webkit-linear-gradient(top, $color_tag1 0%, $color_tag2 49%, $color_tag3 100%);
+  background: -moz-linear-gradient(top,  $color_tag1 0%, $color_tag2 49%, $color_tag3 100%);
+  background: -o-linear-gradient(top,  $color_tag1 0%, $color_tag2 49%, $color_tag3 100%);
+  background: -ms-linear-gradient(top,  $color_tag1 0%, $color_tag2 49%, $color_tag3 100%);
+  background: linear-gradient(to bottom,  $color_tag1 0%, $color_tag2 49%, $color_tag3 100%);
 }
 
 @mixin white_button {
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(1.00, #dddddd), color-stop(0.00, #fffafa));
-  background: -webkit-linear-gradient(top, #fffafa 0%, #dddddd 100%);
-  background: -moz-linear-gradient(top, #fffafa 0%, #dddddd 100%);
-  background: -o-linear-gradient(top, #fffafa 0%, #dddddd 100%);
-  background: -ms-linear-gradient(top, #fffafa 0%, #dddddd 100%);
-  background: linear-gradient(to bottom, #fffafa 0%, #dddddd 100%);
+  $color_tag1:#fffafa;
+  $color_tag2:#dddddd;
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(1.00,  $color_tag2), color-stop(0.00, $color_tag1));
+  background: -webkit-linear-gradient(top, $color_tag1 0%,  $color_tag2 100%);
+  background: -moz-linear-gradient(top, $color_tag1 0%,  $color_tag2 100%);
+  background: -o-linear-gradient(top, $color_tag1 0%,  $color_tag2 100%);
+  background: -ms-linear-gradient(top, $color_tag1 0%,  $color_tag2 100%);
+  background: linear-gradient(to bottom, $color_tag1 0%,  $color_tag2 100%);
 }
 
 @mixin gray_button {

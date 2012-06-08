@@ -5,39 +5,44 @@
 <%= form_for([:sender,@massage]) do |f2| %>
   <div class="field">
     <table class="form_list">
+      <tbody>
       <tr>
-        <th><%= f2.label :active_datetime ,"実施日時"%></th>
-        <td><p> <%= Time.parse(@massage.active_datetime.to_s).strftime("%Y年%m月%d日 %H時%M分") %> <strong>から実施</strong></p></td>
+        <th>実施日時</th>
+        <td><%= Time.parse(@massage.active_datetime.to_s).strftime("%Y年%m月%d日 %H時%M分") %> <strong>から実施</strong></td>
       </tr>
       <tr>
-        <th><%= f2.label :category_id ,"依頼の種類"%></th>
-        <td><p> <%= @massage.category.name %></p></td>
+        <th>依頼の種類</th>
+        <td><%= @massage.category.name %></td>
       </tr>
       <tr>
-        <th><%= f2.label :address ,"実施住所"%></th>
+        <th rowspan="2">実施住所</th>
+        <td><strong>名前</strong> -<%= @massage.address.name %>-</td>
+      </tr>
+      <tr>
         <td>
-          <p> <%= @massage.address.name %> -
+            <strong>住所 </strong>
             <%= @massage.address.postal_code %>
             <%= @massage.address.prefecture %><%= @massage.address.address1 %><%= @massage.address.address2 %>
-          </p>
+
         </td>
       </tr>
       <tr>
-        <th><%= f2.label :validated_datetime ,"受付期限日時"%></th>
+        <th>受付期限日時</th>
         <td>
-          <p> <%= Time.parse(@massage.validated_datetime.to_s).strftime("%Y年%m月%d日 %H時%M分") %>　<strong>まで有効</strong></p>
+           <%= Time.parse(@massage.validated_datetime.to_s).strftime("%Y年%m月%d日 %H時%M分") %>　<strong>まで有効</strong>
         </td>
       </tr>
       <tr>
-        <th><%= f2.label :description ,"備考"%></th>
+        <th>備考</th>
         <td>
           <% if @massage.description == ""%>
-            <p> なし </p>
+            なし
           <% else %>
             <%= @massage.description %>
           <% end %>
         </td>
       </tr>
+      </tbody>
     </table> <!-- end form list -->
   </div>
   <%= f2.text_field :latitude, :type => "hidden" %>
