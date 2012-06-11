@@ -1,0 +1,215 @@
+// Place all the styles related to the massages controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+
+@import "config";
+@import "button";
+
+div#massage_form{
+  clear:both;
+  width:$total_width auto;
+  border: 1px solid #D6E5E6;
+  background:#FCFDFD;
+  padding:5px 5px 30px;
+  margin:$content_margin;
+}
+
+table.form_list{
+  border-collapse:collapse;
+  color:#555;
+  width:$table_width;
+  line-height: 1.4em;
+  font-style: normal;
+  font-size:15px;
+  border-collapse: separate;
+  border-spacing: 2px;
+  margin: 1% auto;
+
+  caption {
+    font-size:130%;
+    color:#256c89;
+    font-weight:bold;
+    margin:5px;
+  }
+
+  div#address_show{
+    margin:5px 0 5px auto;
+  }
+  th, td{
+    border:1px solid #D6E5E6;
+    color:#555;
+    font-size:16px;
+  }
+  th{
+    width:$th_width;
+    color:#2676AC;
+    font-weight:bold;
+    margin:auto;
+    background:rgba(198, 233, 247, 0.61);
+  }
+  td{
+    width:$td_width;
+    background:$td_color;
+    padding:5px;
+  }
+  td.setsumei{
+    background:#FAFCFF;
+  }
+  td.form{
+    padding:5px;
+  }
+  tr {
+    background:#FCFDFD;
+    padding:auto;
+    margin:auto;
+  }
+
+  p{
+    font-size:18px;
+    color:#111111;
+    font-weight:bold;
+    padding:15px 0 15px 30px;
+    margin:0 0 0 20px;
+  }
+
+  label {
+    display:block;
+    margin:auto;
+    letter-spacing:2px;
+    font-size:1.1em;
+    font-weight:bold;
+  }
+
+  select {
+    border: 1px solid black;
+    font-size: 18px;
+    color: white;
+    background: #444;
+    padding: 5px;
+  }
+  button{
+    font-size:14px;
+  }
+  input, textarea {
+    width:439px;
+    height:$form_font_size;
+    background:$form_color;
+    border-radius:5px;
+    -moz-border-radius:5px;
+    -webkit-border-radius:5px;
+    border:1px solid #dedede;
+    padding:10px;
+    margin:3px;
+    font-size:$form_font_size;
+    color:#3a3a3a;
+  }
+  input#address_postal_code {
+    width:100px;
+  }
+  textarea#massage_description{
+    width:439px;
+    height:100px;
+  }
+  input[type="submit"] {
+    width:auto;
+    height:auto;
+    font-size: 18px;
+    padding: 5px;
+    cursor:pointer;
+    padding: 5px;
+    @include white_button;
+  }
+  input:focus, textarea:focus {
+    border:1px solid #97d6eb;
+  }
+  .tipped {
+    color: #cacaca;
+  }
+  ul {
+    //border: 1px solid #C0C0CC;
+    border: 1px solid #D6E5E6;
+    list-style:none;
+    padding:0 0 0 10px;
+    background:#FCFDFD;
+
+    li {
+      margin-bottom: 15px;
+      padding-bottom: 10px;
+      //border-bottom: 1px solid #D1D1D1;
+      border-bottom: 1px solid #CAE8E9;
+    }
+    p{
+      font-size:15px;
+      width:50%;
+      //font-family: Gergia,'arial narrow',sans-serif;
+      background:#efefef;
+      color:#111111;
+      font-weight:normal;
+      padding:15px 0 15px 30px;
+      margin:0 0 0 20px;
+    }
+    .radio { float:left; }
+  }
+  ul#address_list{
+    //background:#F7FAFA;
+    li{
+      background:#F7FAFA;
+      border-bottom:none;
+      font-size:18px;
+    }
+  }
+}
+
+div.buttonGroup {
+  text-align: center;
+  width:90%;
+  margin: 0 auto;
+
+  a{
+    color: #111 !important;
+    text-align: center;
+    width:185px;
+    height:31px;
+    margin:0 0 10px 0;
+    line-height:35px;
+    padding:0px 0 0 10px;
+    display: inline-block;
+    font-size: 13px;
+    font-weight: bold;
+    color: #111;
+    text-shadow: 0 -1px 1px rgba(0, 0, 0, 0.4), 0 1px 1px rgba(255, 255, 255, 0.5);
+    letter-spacing: 0;
+    border: none;
+    box-shadow: inset 0 -1px 1px rgba(0, 0, 0, 0.9), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+    border-radius: 6px;
+    text-decoration: none;
+    display:inline;
+    @include blue_button;
+  }
+
+  form {
+    display: inline;
+  }
+  input, textarea {
+    width:439px;
+    height:27px;
+    background:#efefef;
+    border-radius:5px;
+    -moz-border-radius:5px;
+    -webkit-border-radius:5px;
+    border:1px solid #dedede;
+    padding:10px;
+    margin-top:3px;
+    font-size:15px;
+    color:#3a3a3a;
+  }
+  input[type="submit"],input[type="button"] {
+    width:127px;
+    height:38px;
+    margin-top:30px;
+    cursor:pointer;
+    @include blue_button;
+    color:black;
+  }
+}

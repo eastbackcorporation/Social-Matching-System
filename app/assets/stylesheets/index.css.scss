@@ -1,0 +1,121 @@
+// Place all the styles related to the massages controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+
+@import "config";
+@import "button";
+
+
+.index_content {
+  clear:both;
+  border: 1px solid #EEE8E8;
+  padding:10px 5px 30px;
+  margin:$content_margin;
+  background-color:#FCFDFD;
+  .ui-jqgrid tr.jqgrow td {
+    font-size:16px;
+    //font-family: Gergia,'arial narrow',sans-serif;
+    font-family:'ヒラギノ角ゴ Pro W3','Hiragino Kaku Gothic Pro','メイリオ',Meiryo,'ＭＳ Ｐゴシック',sans-serif;
+  }
+
+  a{
+    text-decoration:none;
+    font-size:16px;
+  }
+  div#index_head{
+    float:right;
+    margin:0 15px;
+    font-size:16px;
+  }
+  div#index_head input{
+    font-size:18px;
+  }
+
+  table#index_massages{
+    border-collapse:collapse;
+    color:#555;
+    width:95%;
+
+    line-height: 1.4em;
+    font-style: normal;
+    font-size:18px;
+    margin: 1% auto;
+
+
+    caption,col{
+      font-size:130%;
+      color:#256c89;
+      font-weight:bold;
+      margin:5px;
+    }
+
+    th, td {
+      border:1px solid #D6E5E6;
+      font-size:16px;
+      text-align:center;
+      padding:2px ;
+      height:auto;
+    }
+
+    td#address_name{ width:120px; }
+    td#address_postal_code{ width:80px; }
+    td#address_prefecture{ width:75px; }
+    td#address_address1{ width:auto; }
+    td#address_address2{ width:auto; }
+
+    td#links{
+      width:120;
+      font-size:20px;
+      a{
+        font-size:16px;
+        width:127px;
+        height:38px;
+        cursor:pointer;
+        border:1px solid #777777;
+        //padding: 4px 5px 3px 5px;
+      }
+    }
+
+    thead th {
+      color:$th_color;
+      font-weight:bold;
+      //background:rgba(198, 233, 247, 0.61);
+      background: -webkit-gradient(linear, left top, left bottom, color-stop(1.00, rgba(148, 183, 197, 0.90)), color-stop(0.00, rgba(198, 233, 247, 0.90)));
+      //background: -webkit-gradient(linear, left top, left bottom, color-stop(0.00, rgba(47, 47, 47, 0.50)), color-stop(1.00, rgba(247, 247, 247, 0.90)));
+    }
+    tbody tr {
+      background:$td_color;
+    }
+  }
+}
+
+
+div.pagination {
+  text-align: center;
+  clear:both;
+
+  a {
+    background-color: #2676AC;
+    color: #fff;
+    padding: 5px;
+  }
+  select {
+    border: 1px solid black;
+    font-size: 12px;
+    color: white;
+    background: #444;
+    padding: 5px;
+  }
+
+  em {
+    background-color: #ccc;
+    font-weight: bold;
+    font-style: normal;
+    padding: 5px;
+  }
+  span.disabled {
+    background-color: #ccc;
+    padding: 5px;
+  }
+}

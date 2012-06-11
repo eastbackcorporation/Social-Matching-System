@@ -35,7 +35,7 @@ div {
   }
   .echo{
     width:$table_width;
-    font-size:14px;
+    font-size:16px;
     //border: 1px solid #C0C0C0;
     margin:5px 30px auto;
     padding:10px auto;
@@ -45,11 +45,14 @@ div {
 
 
 h2 {
+  width:auto;
   font-size:20px;
   color:#256c89;
   font-weight:bold;
   padding:0px 0 15px 0;
   margin:5px;
+  margin-left:20px;
+  //border: 1px solid #C0C0C0;
   clear:both;
 }
 
@@ -78,15 +81,16 @@ h5{
   margin:0 auto;
   padding:5px auto;
   width:$total_width;
-  background-color:rgba(198, 233, 247, 0.10);
-  //background: -webkit-gradient(linear, left top, left bottom, color-stop(0.00,rgba(198, 233, 247, 0.31)),  color-stop(1.00, rgba(198, 233, 247, 0.31)));
+  //background-color:rgba(198, 233, 247, 0.10);
+  //background-color:#507AAA;
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0.00,rgba(80, 122, 170, 1.00)), color-stop(0.70, rgba(80, 122, 170, 1.00)), color-stop(1.00, rgba(80, 122, 170, 0.60)));
   padding:0px 0 0px 0;
 }
 
 .header {
   width:$total_width;
-  height:90px;
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0.00,rgba(198, 233, 247, 0.50)),  color-stop(1.00,rgba(198, 233, 247, 0.50)));
+  height:50px;
+  //background: -webkit-gradient(linear, left top, left bottom, color-stop(0.00,rgba(198, 233, 247, 0.50)),  color-stop(1.00,rgba(198, 233, 247, 0.50)));
 }
 
 
@@ -97,9 +101,10 @@ h5{
 
 
 .top_header{
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(1.00, rgba(198, 233, 247, 0.50)), color-stop(0.00, rgba(198, 233, 247, 0.80)));
+  //background: -webkit-gradient(linear, left top, left bottom, color-stop(1.00, rgba(198, 233, 247, 0.80)), color-stop(0.00, rgba(198, 233, 247, 0.80)));
+  //background: -webkit-gradient(linear, left top, left bottom, color-stop(1.00, rgba(233, 233, 233, 0.80)), color-stop(0.00, rgba(233, 233, 233, 0.80)));
   width:$total_width;
-  height:30px;
+  height:50px;
 }
 
 .left_header {
@@ -113,8 +118,8 @@ h5{
     text-decoration:none;
     padding-left:10px;
   }
-  a:link { color: #0000ff ; }
-  a:visited { color: #0000ff ; }
+  a:link { color:$header_link_color ; }
+  a:visited { color:$header_link_color ; }
 }
 
 .right_header {
@@ -123,31 +128,38 @@ h5{
   text-align:right;
   padding:5px 0 0 0;
   font-size:15px;
+  color:$header_font_color;
+  font-family: Verdana, sans-serif;
   a {
     margin:0 5px 0 5px;
     text-decoration:none;
-
+    width:auto;
     &.logout {
       //background:url(asset-path('common/logput.png', image)) no-repeat right;
-      padding-right:18px;
+      cursor:pointer;
+      border:2px solid #FC6060;
+      //background-color:rgba(250, 119, 119, 0.81);
+      background: -webkit-gradient(linear, left top, left bottom, color-stop(1.00, rgba(255, 33, 55, 0.80)), color-stop(0.00, rgba(255, 33, 55, 1.00)));
     }
   }
-  a:link { color: #0000ff ; }
-  a:visited { color: #0000ff ; }
+  //a:link { color:$header_link_color ; }
+  //a:visited { color:$header_link_color; }
+  a:link { color:$header_font_color; }
+  a:visited { color:$header_font_color; }
 }
 
 .logo {
   clear:both;
   float:left;
-  padding:15px 0 0 5px;
+  padding:10px 0 0 5px;
 
   a {
     text-decoration: none;
     font-size: 20px;
     font-weight: bold;
   }
-  a:link { color: #0000ff ; }
-  a:visited { color: #0000ff ; }
+  a:link { color:$header_font_color ; }
+  a:visited { color:$header_font_color ; }
 }
 
 
@@ -155,7 +167,7 @@ h5{
 .footer {
   width:810px;
   height:87px;
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0.00,rgba(198, 233, 247, 0.10)),  color-stop(1.00,rgba(198, 233, 247, 0.31)));
+  //background: -webkit-gradient(linear, left top, left bottom, color-stop(0.00,rgba(198, 233, 247, 0.10)),  color-stop(1.00,rgba(198, 233, 247, 0.81)));
 
 }
 
@@ -215,6 +227,7 @@ h5{
   border: 2px solid red;
   padding: 7px;
   padding-bottom: 0;
+  margin:5px 23px auto;
   margin-bottom: 20px;
   background-color: #f0f0f0;
 
@@ -222,14 +235,14 @@ h5{
     text-align: left;
     font-weight: bold;
     padding: 5px 5px 5px 15px;
-    font-size: 12px;
+    font-size:$font_size;
     margin: -7px;
     margin-bottom: 0px;
     background-color: #c00;
     color: #fff;
   }
   ul li {
-    font-size: 12px;
+    font-size:$font_size;
     list-style: square;
   }
 }

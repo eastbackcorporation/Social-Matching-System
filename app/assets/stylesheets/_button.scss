@@ -47,10 +47,12 @@
 }
 
 @mixin gray_button {
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(1.00, #777775), color-stop(0.00, #999999));
-  background: -webkit-linear-gradient(top, #777775 0%, #999999 100%);
-  background: -moz-linear-gradient(top, #777775 0%, #999999 100%);
-  background: -o-linear-gradient(top, #777775 0%, #999999 100%);
-  background: -ms-linear-gradient(top, #777775 0%, #999999 100%);
-  background: linear-gradient(to bottom, #777775 0%, #999999 100%);
+  $color_tag1:#999996;
+  $color_tag2:#eeeeee;
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(1.00, $color_tag1), color-stop(0.00, $color_tag2));
+  background: -webkit-linear-gradient(top, $color_tag1 0%,$color_tag2 100%);
+  background: -moz-linear-gradient(top, $color_tag1 0%, $color_tag2 100%);
+  background: -o-linear-gradient(top, $color_tag1 0%, $color_tag2 100%);
+  background: -ms-linear-gradient(top, $color_tag1 0%, $color_tag2 100%);
+  background: linear-gradient(to bottom, $color_tag1 0%, $color_tag2 100%);
 }
