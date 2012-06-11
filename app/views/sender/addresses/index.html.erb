@@ -1,8 +1,8 @@
 <div class="block">
   <%= render "sender/menu" %>
 
-  <h2>あなたに関係する住所一覧</h2>
   <div class="index_content">
+    <h2>あなたに関係する住所一覧</h2>
     <div id="index_head">
 
     </div>
@@ -14,7 +14,7 @@
           <th>都道府県</th>
           <th>市区町村-町名</th>
           <th>建物名等</th>
-          <th>詳細</th>
+          <th>リンク</th>
         </tr>
       </thead>
       <% @addresses.each do |address| %>
@@ -30,12 +30,12 @@
               なし
             <% end %>
           </td>
-          <td id="address_links">
+          <td id="links">
 	          <%= link_to "変更" ,[:edit,:sender,address] %> |
-	          <% if address.massages.size== 1 %>
-	           <%= link_to "削除" ,[:sender,address],:method => :delete ,:confirm => "削除してもよろしいですか？" %>
+	          <% if address.massages.size == 0%>
+	             <%= link_to "削除" ,[:sender,address],:method => :delete ,:confirm => "削除してもよろしいですか？" %>
 	          <% else %>
-              削除不可
+              <a onclick="window.alert('関連する依頼があるため、削除することはできません');" >削除</a>
             <% end %>
 	        </td>
         </tr>

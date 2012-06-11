@@ -7,7 +7,7 @@ class Sender::AddressesController < ApplicationController
 
   #現在の保持している住所一覧
   def index
-    @addresses =Address.where(:user_id=>current_user.id)
+    @addresses =Address.where(:user_id=>current_user.id,:deletion_flg=>false)
   end
 
   #新規住所の登録画面
@@ -65,10 +65,16 @@ class Sender::AddressesController < ApplicationController
   end
 
   #住所情報削除
+  #実際には削除せず、削除フラグを立てる
   def destroy
+
     @address = Address.find(params[:id])
     if @address.massages.size==0
-      @address.destroy
+      @address.deletion_flg=true
+      @address.save
+
+      #備考.実際にデータから削除するうに仕様変更した際は下を行う。
+      # @address.destroy
     end
 
     respond_to do |format|
