@@ -22,7 +22,9 @@
       <div class="header">
         <div class="top_header">
           <div class="left_header">
-            <%= render "shared/left_header" %>
+            <div class="logo">
+              <a href="#"> <%= GlobalSetting[:name] %> </a>
+            </div> <!-- end class="logo" -->
           </div> <!-- end class="left_header" -->
 
           <div class="right_header">
@@ -30,9 +32,7 @@
           </div> <!-- end class="right_header" -->
         </div>
 
-        <div class="logo">
-          <a href="#">- <%= GlobalSetting[:name] %> -</a>
-        </div> <!-- end class="logo" -->
+
       </div> <!-- end class="header" -->
 
       <div class="main_content">

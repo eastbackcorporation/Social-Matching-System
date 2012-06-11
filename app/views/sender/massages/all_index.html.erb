@@ -2,8 +2,8 @@
   <div class="menu">
     <%= render 'sender/menu' %>
   </div>
-  <h2>あなたの依頼一覧</h2>
   <div class="index_content">
+    <h2>あなたの依頼一覧</h2>
     <div id="index_head">
       <input type="checkbox" id="update_check" checked>過去の依頼も表示
       <input type="button" value="更新" id="update_button">
@@ -20,7 +20,7 @@
           <td><%= m.matching_status.name %></td>
           <td><%= Time.parse(m.validated_datetime.to_s).strftime("%m月%d日 %H時%M分") %></td>
           <td><%= Time.parse(m.active_datetime.to_s).strftime("%m月%d日 %H時%M分") %></td>
-          <td><%= link_to("詳細",sender_massage_path(m.id)) %></td>
+          <td id="links"><%= link_to("詳細",sender_massage_path(m.id)) %></td>
         </tr>
       <% end %>
       </tbody>

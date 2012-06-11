@@ -1,6 +1,6 @@
 <div class="echo">
   <b>入力情報をご確認ください。</b><br />
-  <b>内容がよろしければ、下の<u>登録</u>を押して、依頼を登録してください</b>
+  <b>内容がよろしければ、下の<a href="#submit">登録</a>を押して、依頼を登録してください</b>
 </div>
 <%= form_for([:sender,@massage]) do |f2| %>
   <div class="field">
@@ -16,7 +16,7 @@
       </tr>
       <tr>
         <th rowspan="2">実施住所</th>
-        <td><strong>名前</strong> -<%= @massage.address.name %>-</td>
+        <td><strong>名前</strong> <%= @massage.address.name %></td>
       </tr>
       <tr>
         <td>

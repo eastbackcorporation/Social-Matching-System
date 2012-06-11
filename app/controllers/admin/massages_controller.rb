@@ -9,7 +9,7 @@ class Admin::MassagesController < MassagesController
 
   #依頼情報一覧表示
   def index
-    @massages=Massage.all
+    @massages=Massage.paginate(:page => params[:page],:per_page=>10)
     respond_with() do |format|
         format.json {render :json => filter_on_params(Massage)}
     end

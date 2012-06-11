@@ -3,19 +3,19 @@
     <%= link_to '送信者TOP',sender_massages_url %>
   <% end %>
   <% if request.path_info =~ /\/sender\/massages*/ %>
-    => <%= link_to '依頼一覧',sender_massages_url %>
+    > <%= link_to '依頼一覧',sender_massages_url %>
     <% if request.path_info =~ /\/sender\/massages\/new/  || request.path_info =~ /\/sender\/massages\/confirm/%>
-      => <%= link_to '新規依頼',new_sender_massage_url %>
+      > <%= link_to '新規依頼',new_sender_massage_url %>
     <% elsif request.path_info =~ /\/sender\/massages\/\d/ %>
-       => <%= link_to '依頼詳細',request.path_info %>
+       > <%= link_to '依頼詳細',request.path_info %>
     <% end %>
   <% else request.path_info =~ /\/sender\/address*/%>
-    => <%= link_to '住所一覧',sender_addresses_url %>
+    > <%= link_to '住所一覧',sender_addresses_url %>
      <% if request.path_info =~ /\/sender\/addresses\/new/  || request.path_info =~ /\/sender\/addresses\/cofirm/%>
-      => <%= link_to '新規住所',new_sender_address_url %>
+      > <%= link_to '新規住所',new_sender_address_url %>
     <% end %>
   <% end %>
   <%if current_user.roles.receiver%>
-    => <%= link_to '受信者TOP',receiver_massages_url %>
+    > <%= link_to '受信者TOP',receiver_massages_url %>
   <% end %>
 <% end %>

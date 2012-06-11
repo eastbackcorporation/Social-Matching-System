@@ -2,12 +2,13 @@
     <%= render "sender/menu" %>
 </div>
 
-<h2>入力情報の確認</h2>
-
 <div id="massage_form">
+  <h2>入力情報の確認</h2>
   <%= render :partial => '/sender/massages/shared/record' %>
-</div>
-<div class="buttonGroup">
-  <%= render :partial => '/sender/massages/shared/button_to_back' %>
-  <%= render :partial => '/sender/massages/shared/button_to_submit' %>
+  <div class="actions" id="submit">
+    <div class="buttonGroup">
+      <%= render :partial => '/sender/massages/shared/button_to_back' %>
+      <%= render :partial => '/sender/massages/shared/button_to_submit' %>
+    </div>
+  </div>
 </div>

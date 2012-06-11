@@ -12,9 +12,9 @@
     </li>
     <li>
       <%if request.path_info == '/sender/massages/new'  || request.path_info == '/sender/massages/confirm' %>
-        <a class="<%= active_bar1 %>" href="<%= new_sender_massage_url %>">新規依頼登録</a>
+        <a class="<%= active_bar1 %>" href="<%= new_sender_massage_url %>">新規依頼</a>
       <% else %>
-        <a class="<%= non_active_bar %>" href="<%= new_sender_massage_url %>">新規依頼登録</a>
+        <a class="<%= non_active_bar %>" href="<%= new_sender_massage_url %>">新規依頼</a>
       <% end %>
     </li>
     <li>
@@ -26,9 +26,9 @@
     </li>
     <li>
       <%if request.path_info == '/sender/addresses/new' || request.path_info == '/sender/massage/confirm' %>
-        <a class="<%= active_bar2 %>" href="<%= new_sender_address_url %>">新規住所登録</a>
+        <a class="<%= active_bar2 %>" href="<%= new_sender_address_url %>">新規住所</a>
       <% else %>
-        <a class="<%= non_active_bar %>" href="<%= new_sender_address_url %>">新規住所登録</a>
+        <a class="<%= non_active_bar %>" href="<%= new_sender_address_url %>">新規住所</a>
       <% end %>
     </li>
   </ul>

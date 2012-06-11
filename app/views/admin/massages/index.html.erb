@@ -1,81 +1,28 @@
-<div class="center_content">
-
-	<%= render "admin/sidemenu" %>
-
-	<div class="index_content">
-    <%=raw jqgrid("依頼情報一覧", "Message", "/admin/massages",
-      [
-        { :name => "id", :label => "id", :index => 'id',:align => 'center', :width => "35", :hidden => true },
-        { :name => "end_flg",
-          :label => "状況",
-          :align => 'center',
-          :width => "45",
-          :customFormatter => 'makeEndValue'
-        },
-        { :name => "category.name", :label => "カテゴリ", :index => 'category_id',:align => 'center', :width => "45" },
-        { :name => "request_status.name", :label => "依頼ステータス", :index => 'request_status_id',:align => 'center', :width => "50" },
-        { :name => "matching_status.name", :label => "検索ステータス", :index => 'matching_status_id',:align => 'center', :width => "50" },
-        { :name => "validated_datetime",
-          :label => "有効期限",
-          :index => 'validated_datetime',
-          :align => 'center',
-           :width => "100",
-          :sorttype => 'date',
-          :formatter => 'date',
-          :formatoptions => {
-            :srcformat => "UniversalSortableDateTime",
-            :newformat => 'Y/m/d G:i'
-          }
-        },
-        { :name => "active_datetime",
-          :label => "実施日",
-          :index => 'active_datetime',
-          :align => 'center',
-           :width => "100",
-          :sorttype => 'date',
-          :formatter => 'date',
-          :formatoptions => {
-            :srcformat => "UniversalSortableDateTime",
-            :newformat => 'Y/m/d G;i'
-          }
-        },
-        { :name => "id",
-          :label => "操作",
-          :search => false,
-          :sortable => false,
-          :align => 'center',
-          :width => "55",
-          :customFormatter => 'makeLink'
-        }
-      ],
-      {
-        :autowidth => true,
-        :edit => false,
-        :add => false,
-        :view => false,
-        :delete => false,
-        :rowNum => 30,
-        :rowList => [10,20,30,50],
-        :height => 300,
-      }
-    ) %>
-	</div><!-- end of right content-->
+<div class="block">
+  <div class="menu">
+    <%= render "admin/sidemenu" %>
+  </div>
+  <h2>あなたの依頼一覧</h2>
+  <div class="index_content">
+    <div id="index_head">
+      <input type="checkbox" id="update_check">過去の依頼も表示
+      <input type="button" value="更新" id="update_button">
+    </div>
+    <table id="index_massages">
+      <thead>
+        <tr><th>依頼の種類</th><th>受付状況</th><th>検索状況</th><th>受付期限日時</th><th>実施日</th><th>リンク</th></tr>
+      </thead>
+      <% @massages.each do |m| %>
+        <tr>
+          <td><%= m.category.name %></td>
+          <td><%= m.request_status.name %></td>
+          <td><%= m.matching_status.name %></td>
+          <td><%= Time.parse(m.validated_datetime.to_s).strftime("%m月%d日 %H時%M分") %></td>
+          <td><%= Time.parse(m.active_datetime.to_s).strftime("%m月%d日 %H時%M分") %></td>
+          <td><%= link_to("詳細",admin_massage_path(m.id)) %></td>
+        </tr>
+      <% end %>
+    </table>
+    <%= will_paginate(@massages,:previous_label => "前", :next_label => "次") %>
+  </div>
 </div>
-<!--end of center content -->
-
-<script type="text/javascript">
-	function makeLink(cellvalue, options, rowObject){
-		var url = "/admin/massages/"
-		showUrl = url + cellvalue;
-		editUrl = url + cellvalue + "/edit"
-		return "<a href='" + showUrl + "'>詳細</a>";
-	}
-	function makeEndValue(cellvalue, options, rowObject){
-	 if(cellvalue == "true" ){
-	   return "終了";
-	 }else{
-	   return "実施前";
-	 }
-	}
-</script>
-

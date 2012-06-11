@@ -97,9 +97,9 @@
     <%= f.text_field :latitude, :type => "hidden" ,:val => '0' %>
     <%= f.text_field :longitude, :type => "hidden",:val => '0' %>
 
-    <div class="buttonGroup">
-      <div class="actions">
 
+    <div class="actions" id="submit">
+      <div class="buttonGroup">
         <input type="button" value="キャンセル" onClick="location.href='/sender/massages'">
         <%= f.submit "確認" %>
       </div>
@@ -129,5 +129,4 @@
     },
     "時刻の指定が間違っています。"
   );
-
 </script>
