@@ -1,6 +1,16 @@
 <% if current_user %>
   <%= getFullUserName(current_user) %>さん
-  (<%= current_user.email %>) |
-  <%= link_to "ログアウト", :logout, :class=>"logout" %>
+  (<%= current_user.email %>)
+
+  <% roles = [] %>
+  <% roles_ja={"sender"=>"送信者","receiver"=>"受信者"}%>
+  <% current_user.roles.each do |r| %>
+    <% roles << [ roles_ja[r.name] , r.name ] %>
+  <% end %>
+  <% current_role=request.path_info.split('/')[1] %>
+  <% unless current_role == "admin"%>
+    <%= select_tag("role_change", options_for_select(roles,current_role) ) %>
+  <% end %>
+  |  <%= link_to "ログアウト", :logout, :class=>"logout" %>
 
 <% end %>
