@@ -14,4 +14,6 @@
 //= require jquery-ui
 //= require jquery_ujs
 //= require_tree ./geo
+//= require_tree ./common
 //= require jquery.validate.min
+//= require jquery.formtips.1.2.5

@@ -13,8 +13,8 @@ class Sender::MassagesController < MassagesController
   # ユーザの発信した依頼情報一覧
   #実施前の依頼のみ表示
   def index
-    @massages=Massage.where(:user_id=>current_user.id,:end_flg=>false).paginate(:page => params[:page],:per_page=>10)
-
+    @massages=Massage.where(:user_id=>current_user.id,:end_flg=>false)
+    @massages=@massages.order(:validated_datetime).paginate(:page => params[:page],:per_page=>10)
     if mobile? then
       render :action => "index_mobile", :layout => 'mobile'
     else
@@ -27,7 +27,8 @@ class Sender::MassagesController < MassagesController
   # ユーザの発信した依頼情報一覧
   #実施前の依頼も表示
   def all_index
-    @massages=Massage.where(:user_id=>current_user.id).paginate(:page => params[:page],:per_page=>10)
+    @massages=Massage.where(:user_id=>current_user.id)
+    @massages=@massages.order(:validated_datetime).paginate(:page => params[:page],:per_page=>10)
 
     ids = ""
 

@@ -8,11 +8,9 @@ class Admin::UsersController < ApplicationController
 
   respond_to :html,:json
 
-  include ActiveModel::MassAssignmentSecurity
-  attr_accessible :addresses_attributes, :user_id, :prefecture,:address1,:address2,:postal_code,:main,:name
-
   #ユーザの一覧表示
   def index
+    @admin_users= User.paginate(:page => params[:page],:per_page=>10)
     respond_with() do |format|
       format.json {render :json => filter_on_params(User)}
     end

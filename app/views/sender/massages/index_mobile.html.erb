@@ -16,7 +16,7 @@
 				<a href="<%= sender_massage_url(:id => massage.id) %>" data-transition="slide">
 					<p class="ui-li-aside"><%= Time.parse(massage[:active_datetime].to_s).strftime("%Y年%m月%d日") %></p>
 					<h1><%= massage.category.name %></h1>
-					<p>依頼ステータス：<%= massage.request_status.name %>, 該当者数：<%= massage.matching_count %></p>
+					<p>受付状況：<%= massage.request_status.name %>, 検索状況：<%= massage.matching_status.name %></p>
 				</a>
 			</li>
 			<% end %>

@@ -1,5 +1,9 @@
 <div class="block">
 	<div class="index_content">
+	  <h2>あなたに来ている依頼一覧</h2>
+	  <% unless @receivers_locations %>
+      <h3>依頼はありません</h3>
+    <% end %>
     <table id="index_massages">
       <thead>
         <tr><th>依頼の種類</th><th>受付状況</th><th>検索状況</th><th>受付期限日時</th><th>実施日</th><th>リンク</th></tr>

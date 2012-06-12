@@ -1,51 +1,84 @@
-<div class="center_content">
-
-  <%= render "admin/sidemenu" %>
-
-  <div class="right_content">
-      <h2><%= @global_setting.name %>の設定編集</h2>
-      <%= form_for([:admin, @global_setting]) do |f| %>
-        <%= f.submit '更新', :class => "button", :confirm => "更新します。よろしいですか？" %>
-
-        <div>
-          <%= f.label :name, "システム名："  %>
-          <%= f.text_field :name %>
-        </div>
-        <hr>
-        <div>
-          <%= f.label :matching_number_limit, "同時最大マッチング人数："  %>
-          <%= f.text_field :matching_number_limit %>
-        </div>
-        <div>
-          <%= f.label :validated_time_interval, "位置情報を有効とする時間(ex現在から??分前までに更新された位置情報は有効)："  %>
-          <%= f.text_field :validated_time_interval %>
-        </div>
-        <div>
-          <%= f.label :matching_range, "基準マッチング範囲：km"  %>
-          <%= f.text_field :matching_range %>
-        </div>
-        <div>
-          <%= f.label :maximum_range, "最大マッチング範囲：km"  %>
-          <%= f.text_field :maximum_range %>
-        </div>
-        <div>
-          <%= f.label :matching_step, "再マッチング時の拡大範囲：km"  %>
-          <%= f.text_field :matching_step %>
-        </div>
-        <div>
-          <%= f.label :matching_interval, "再マッチングする時間の間隔 :秒"  %>
-          <%= f.text_field :matching_interval %>
-        </div>
-        <hr>
-        <div>
-          <%= f.label :mail_title_template,"依頼メールのタイトル"%>
-          <%= f.text_field :mail_title_template %>
-        </div>
-        <br>
-        <div>
-          <%= f.label :mail_template,"依頼メールの文章"%>
-          <%= f.text_area :mail_template ,:size => "40x10"%>
-        </div>
-        <% end %>
-  </div>
+<div class="menu">
+    <%= render "admin/sidemenu" %>
 </div>
+
+
+<div class="index_content">
+  <h2><%= @global_setting.name %>の設定の編集</h1>
+
+  <%= form_for([:admin,@global_setting]) do |f| %>
+  <div class="field">
+    <table id="index_massages">
+        <tr>
+          <th><%= f.label :name, "システム名："  %></th>
+          <td><%= f.text_field :name %></td>
+        </tr>
+        <tr>
+          <th><%= f.label :matching_number_limit, "同時最大マッチング人数："  %></th>
+          <td><%= f.text_field :matching_number_limit %></td>
+        </tr>
+        <tr>
+          <th>
+            <%= f.label :validated_time_interval, "位置情報の有効時間："  %>
+            <input type="checkbox" id="validated_time_interval_check" >
+          </th>
+          <td><%= f.text_field :validated_time_interval %></td>
+        </tr>
+        <tr>
+          <th><%= f.label :matching_range, "基準マッチング範囲：km"  %></th>
+          <td><%= f.text_field :matching_range %></td>
+        </tr>
+        <tr>
+          <th><%= f.label :maximum_range, "最大マッチング範囲：km"  %></th>
+          <td><%= f.text_field :maximum_range %></td>
+        </tr>
+        <tr>
+          <th><%= f.label :matching_step, "再マッチング時の拡大範囲：km"  %></th>
+          <td><%= f.text_field :matching_step %></td>
+        </tr>
+        <tr>
+          <th><%= f.label :matching_interval, "再マッチングする時間の間隔 :秒"  %></th>
+          <td><%= f.text_field :matching_interval %></td>
+        </tr>
+        <tr>
+          <th><%= f.label :mail_title_template,"依頼メールのタイトル"%></th>
+          <td><%= f.text_field :mail_title_template %></td>
+        </tr>
+        <tr>
+          <th><%= f.label :mail_template,"依頼メールの文章"%></th>
+          <td><%= f.text_area :mail_template ,:size => "40x10"%></td>
+        </tr>
+    </table>
+  </div> <!-- end class="field" -->
+
+  <div class="actions">
+    <div class="buttonGroup">
+      <%= f.submit "変更" %>
+    </div>
+  </div>
+<% end %>
+</div>
+
+<script>
+  $(function(){
+    if( $("#global_setting_validated_time_interval").val() == 0 ){
+        $("#validated_time_interval_check").attr('checked','checked');
+        $("#global_setting_validated_time_interval").hide();
+    }
+  });
+
+  var value;
+  $("#validated_time_interval_check").change(function(){
+    if( $(this).attr('checked') ){
+      $("#global_setting_validated_time_interval").hide();
+      $("#global_setting_validated_time_interval").addClass("inactive");
+      value=$("#global_setting_validated_time_interval").val();
+      $("#global_setting_validated_time_interval").attr("value",0);
+    }else{
+      $("#global_setting_validated_time_interval").show();
+      $("#global_setting_validated_time_interval").removeClass("inactive");
+      $("#global_setting_validated_time_interval").attr("value",value);
+    }
+  });
+
+</script>

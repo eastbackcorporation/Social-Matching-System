@@ -32,10 +32,10 @@
           </td>
           <td id="links">
 	          <%= link_to "変更" ,[:edit,:sender,address] %> |
-	          <% if address.massages.size == 0%>
+	          <% if address.massages.select{|a| a.active_flg==false}.size == 0 %>
 	             <%= link_to "削除" ,[:sender,address],:method => :delete ,:confirm => "削除してもよろしいですか？" %>
 	          <% else %>
-              <a onclick="window.alert('関連する依頼があるため、削除することはできません');" >削除</a>
+              <a onclick="window.alert('現在実行中の関連する依頼があるため、削除することはできません');" >削除</a>
             <% end %>
 	        </td>
         </tr>

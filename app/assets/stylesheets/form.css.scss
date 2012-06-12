@@ -10,9 +10,10 @@ div#massage_form{
   clear:both;
   width:$total_width auto;
   border: 1px solid #D6E5E6;
-  background:#FCFDFD;
+  background:$content_color;
   padding:5px 5px 30px;
   margin:$content_margin;
+  border-radius: 10px;
 }
 
 table.form_list{
@@ -22,9 +23,10 @@ table.form_list{
   line-height: 1.4em;
   font-style: normal;
   font-size:15px;
-  border-collapse: separate;
+  border-collapse: collapse;
   border-spacing: 2px;
   margin: 1% auto;
+  background:#507AAA;
 
   caption {
     font-size:130%;
@@ -43,10 +45,11 @@ table.form_list{
   }
   th{
     width:$th_width;
-    color:#2676AC;
+    color:#2171A7;
     font-weight:bold;
     margin:auto;
-    background:rgba(198, 233, 247, 0.61);
+    //background:rgba(198, 233, 247, 0.61);
+    background: -webkit-gradient(linear, right top, left top, color-stop(1.00, rgba(198, 233, 247, 0.90)),color-stop(0.50, rgba(198, 233, 247, 0.90)), color-stop(0.00, rgba(198, 233, 247, 0.30)));
   }
   td{
     width:$td_width;
@@ -207,7 +210,7 @@ div.buttonGroup {
   input[type="submit"],input[type="button"] {
     width:127px;
     height:38px;
-    margin-top:30px;
+    margin-top:10px;
     cursor:pointer;
     @include blue_button;
     color:black;

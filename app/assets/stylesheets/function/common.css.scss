@@ -16,6 +16,10 @@ body {
   clear:both;
 }
 
+.inactive{
+  background: #999;
+}
+
 p, ol, ul, td {
   font-family: verdana, arial, helvetica, sans-serif;
   font-size: 13px;
@@ -36,10 +40,8 @@ div {
   .echo{
     width:$table_width;
     font-size:16px;
-    //border: 1px solid #C0C0C0;
-    margin:5px 30px auto;
-    padding:10px auto;
-    background: #ffffff;
+    border:1px solid rgba(192, 192, 192, 0.39);
+    margin:10px auto;
   }
 }
 
@@ -49,7 +51,7 @@ h2 {
   font-size:20px;
   color:#256c89;
   font-weight:bold;
-  padding:0px 0 15px 0;
+  padding:0px 0 5px 0;
   margin:5px;
   margin-left:20px;
   //border: 1px solid #C0C0C0;
@@ -83,7 +85,7 @@ h5{
   width:$total_width;
   //background-color:rgba(198, 233, 247, 0.10);
   //background-color:#507AAA;
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0.00,rgba(80, 122, 170, 1.00)), color-stop(0.70, rgba(80, 122, 170, 1.00)), color-stop(1.00, rgba(80, 122, 170, 0.60)));
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0.00,rgba(80, 122, 170, 1.00)), color-stop(0.70, rgba(80, 122, 170, 0.90)), color-stop(1.00, rgba(80, 122, 170, 0.80)));
   padding:0px 0 0px 0;
 }
 
@@ -93,19 +95,11 @@ h5{
   //background: -webkit-gradient(linear, left top, left bottom, color-stop(0.00,rgba(198, 233, 247, 0.50)),  color-stop(1.00,rgba(198, 233, 247, 0.50)));
 }
 
-
 .header_login {
   width:600px;
   margin:auto;
 }
 
-
-.top_header{
-  //background: -webkit-gradient(linear, left top, left bottom, color-stop(1.00, rgba(198, 233, 247, 0.80)), color-stop(0.00, rgba(198, 233, 247, 0.80)));
-  //background: -webkit-gradient(linear, left top, left bottom, color-stop(1.00, rgba(233, 233, 233, 0.80)), color-stop(0.00, rgba(233, 233, 233, 0.80)));
-  width:$total_width;
-  height:50px;
-}
 
 .left_header {
   //width:400px;
@@ -138,14 +132,22 @@ h5{
       //background:url(asset-path('common/logput.png', image)) no-repeat right;
       cursor:pointer;
       border:2px solid #FC6060;
-      //background-color:rgba(250, 119, 119, 0.81);
-      background: -webkit-gradient(linear, left top, left bottom, color-stop(1.00, rgba(255, 33, 55, 0.80)), color-stop(0.00, rgba(255, 33, 55, 1.00)));
+      background-color:rgba(250, 0, 0, 0.81);
     }
   }
   //a:link { color:$header_link_color ; }
   //a:visited { color:$header_link_color; }
   a:link { color:$header_font_color; }
   a:visited { color:$header_font_color; }
+
+  select {
+    border: 1px solid black;
+    font-size: 15px;
+    color: white;
+    background: #444;
+    margin:5px;
+    padding: 5px;
+  }
 }
 
 .logo {
@@ -191,6 +193,13 @@ h5{
     text-decoration: none;
     font-size: 1.2em;
   }
+  select {
+    border: 1px solid black;
+    font-size: 12px;
+    color: white;
+    background: #444;
+    padding: 5px;
+  }
 }
 
 .left_footer_login {
@@ -227,7 +236,7 @@ h5{
   border: 2px solid red;
   padding: 7px;
   padding-bottom: 0;
-  margin:5px 23px auto;
+  margin:5px 16px auto;
   margin-bottom: 20px;
   background-color: #f0f0f0;
 

@@ -45,7 +45,7 @@
    　<tbody>
       <tr>
         <th scope="row">実施日</th>
-        <td><%= Time.parse(@massage.active_datetime.to_s).strftime("%Y年%m月%d日 %H時%M分")  %> に実施</td>
+        <td><%= Time.parse(@massage.active_datetime.to_s).strftime("%Y年%m月%d日 %H時%M分")  %></td>
       </tr>
   		<tr>
     		<th scope="row">依頼の種類</th>
@@ -53,19 +53,24 @@
   		</tr>
 
       <tr>
-        <th rowspan="2">実施住所</th>
-        <td><strong>名前</strong> <%= @massage.address.name %></td>
+        <th rowspan="3">実施住所</th>
+        <td><!-- <strong>名前</strong> --><%= @massage.address.name %></td>
       </tr>
       <tr>
         <td>
-          <strong>住所 </strong>
+          <!-- <strong>住所 </strong> -->
           <span><%= @massage.address.postal_code %> </span>
           <span class="addressStr"><%= @massage.address.prefecture %><%= @massage.address.address1 %><%= @massage.address.address2 %></span>
           <input type="hidden" id="address_latitude" value="<%= @massage.latitude %>">
           <input type="hidden" id="address_longitude" value="<%= @massage.longitude  %>">
-          <br />地図を表示<input type="checkbox" id="show_map" value=0></input>
-          <div id="map" style="width: 300px; height: 300px"></div>
           </div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+         <strong>地図を表示</strong>
+         <input type="checkbox" id="show_map" value=0></input>
+         <div id="map" style="width: 300px; height: 300px"></div>
         </td>
       </tr>
   		<tr>
@@ -80,11 +85,11 @@
       </tr>
       <tr>
         <th scope="row">受付期限期限</th>
-        <td><%= Time.parse(@massage.validated_datetime.to_s).strftime("%Y年%m月%d日 %H時%M分") %>　まで受付</td>
+        <td><%= Time.parse(@massage.validated_datetime.to_s).strftime("%Y年%m月%d日 %H時%M分") %></td>
       </tr>
       <tr>
-        <th scope="row">登録日</th>
-        <td><%= Time.parse(@massage.created_at.to_s).strftime("%Y年%m月%d日 %H時%M分") %>　に登録</td>
+        <th scope="row">登録日時</th>
+        <td><%= Time.parse(@massage.created_at.to_s).strftime("%Y年%m月%d日 %H時%M分") %></td>
       </tr>
   		<% if @massage.end_flg %>
   		  <tr>

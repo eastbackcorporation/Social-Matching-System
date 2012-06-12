@@ -1,51 +1,24 @@
-<div class="center_content">
-
-  <%= render "admin/sidemenu" %>
+<div class="block">
+  <div class="menu">
+    <%= render "admin/sidemenu" %>
+  </div>
 
   <div class="index_content">
-
-    <%=raw jqgrid("位置情報一覧", "ReceiversLocations", "/admin/receivers_locations",
-      [
-        { :name => "id", :label => "id", :index => 'id', :width => "70", :hidden => true },
-        { :name => "user.login", :label => "ログイン名", :index => 'user_id', :align => "center", :width => 50 },
-        { :name => "latitude", :label => "緯度", :align => "center", :width => 50 },
-        { :name => "longitude", :label => "経度", :align => "center", :width => 50 },
-        { :name => "updated_at", :label => "更新日時",:align => "center", :width => 70 ,
-          :sorttype => 'date',
-          :formatter => 'date',
-          :align => "center",
-          :formatoptions => {
-            :srcformat => "UniversalSortableDateTime",
-            :newformat => 'Y/m/d G:i'
-          }},
-          { :name => "id",
-          :label => "地図",
-          :search => false,
-          :sortable => false,
-          :align => 'center',
-          :width => "30",
-          :customFormatter => 'makeLink'
-        }
-      ],
-      {
-        :autowidth => true,
-        :edit => false,
-        :add => false,
-        :view => false,
-        :delete => false,
-        :rowNum => 30,
-        :rowList => [10,20,30,50],
-        :height => 230,
-      }
-    ) %>
+    <h2>ユーザの位置情報一覧</h2>
+    <table id="index_massages">
+      <thead>
+        <tr><th>氏名</th><th>緯度</th><th>経度</th><th>更新日時</th><th>地図</th></tr>
+      </thead>
+      <% @receivers_locations.each do |rs| %>
+        <tr>
+          <td><%= rs.user.family_name+""+rs.user.given_name %></td>
+          <td><%= rs.latitude %></td>
+          <td><%= rs.longitude %></td>
+          <td><%=  Time.parse(rs.updated_at.to_s).strftime("%m月%d日 %H時%M分")%></td>
+          <td><%= link_to("地図",admin_receivers_location_path(rs.id)) %></td>
+        </tr>
+      <% end %>
     </table>
-  </div><!-- end of right content-->
+    <%= will_paginate(@receivers_locations,:previous_label => "前", :next_label => "次") %>
+  </div>
 </div>
-
-<script type="text/javascript">
-  function makeLink(cellvalue, options, rowObject){
-    var url = "/admin/receivers_locations/"
-    showUrl = url + cellvalue;
-    return "<a href='" + showUrl + "'>地図</a>";
-  }
-</script>

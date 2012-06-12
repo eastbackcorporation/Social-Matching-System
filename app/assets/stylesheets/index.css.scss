@@ -12,7 +12,10 @@
   border: 1px solid #EEE8E8;
   padding:10px 5px 30px;
   margin:$content_margin;
-  background-color:#FCFDFD;
+  background-color:$content_color;
+  border-radius: 10px;        /* CSS3草案 */
+  -webkit-border-radius: 10px;    /* Safari,Google Chrome用 */
+  -moz-border-radius: 10px;   /* Firefox用 */
   .ui-jqgrid tr.jqgrow td {
     font-size:16px;
     //font-family: Gergia,'arial narrow',sans-serif;
@@ -54,12 +57,12 @@
       border:1px solid #D6E5E6;
       font-size:16px;
       text-align:center;
-      padding:2px ;
+      padding:4px ;
       height:auto;
     }
 
     td#address_name{ width:120px; }
-    td#address_postal_code{ width:80px; }
+    td#address_postal_code{ width:85px; }
     td#address_prefecture{ width:75px; }
     td#address_address1{ width:auto; }
     td#address_address2{ width:auto; }
@@ -77,12 +80,12 @@
       }
     }
 
-    thead th {
+    thead th{
       color:$th_color;
       font-weight:bold;
       //background:rgba(198, 233, 247, 0.61);
       background: -webkit-gradient(linear, left top, left bottom, color-stop(1.00, rgba(148, 183, 197, 0.90)), color-stop(0.00, rgba(198, 233, 247, 0.90)));
-      //background: -webkit-gradient(linear, left top, left bottom, color-stop(0.00, rgba(47, 47, 47, 0.50)), color-stop(1.00, rgba(247, 247, 247, 0.90)));
+      //background: -webkit-gradient(linear, left top, left bottom, color-stop(1.00, #dddddd), color-stop(0.00, #fffafa));
     }
     tbody tr {
       background:$td_color;
