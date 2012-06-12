@@ -154,10 +154,10 @@ protected
   def get_receivers_locations
     #更新日時が@validated_time_interval以内のもののみ取得
     #ただし、@validated_time_intervalが負の時はすべて取得
-    if @validated_time_interval>=0
-      return ReceiversLocation.all_at( DateTime.now-Rational( @validated_time_interval,24*60) )
+    if @validated_time_interval==0
+      return ReceiversLocation.all.delete_if{|rs| rs.user.id == @massage.user.id }
     else
-      return ReceiversLocation.all
+      return ReceiversLocation.all_at( DateTime.now-Rational( @validated_time_interval,24*60) ).delete_if{|rs| rs.user.id == @massage.user.id }
     end
   end
 
